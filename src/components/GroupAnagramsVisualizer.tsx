@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 type Method = 'sort' | 'count'
 type Phase = 'select' | 'transform' | 'key' | 'lookup' | 'add' | 'done'
 type Group = Record<string, string[]>
-type Counts = Array<[string, number]>
+type Counts = number[]
 
 interface Step { wordIndex: number; word: string; key: string; counts: Counts; groups: Group; phase: Phase; exists: boolean; message: string; line: number }
 
@@ -44,10 +44,17 @@ const countCode = [
 const phaseNames: Record<Phase, string> = { select: '取出字符串', transform: '生成标记', key: '得到 key', lookup: '查询分组', add: '放入分组', done: '得到结果' }
 
 function copyGroups(groups: Group): Group { return Object.fromEntries(Object.entries(groups).map(([key, values]) => [key, [...values]])) }
-function countLetters(word: string): Counts { return [...new Set(word)].sort().map((letter) => [letter, [...word].filter((item) => item === letter).length]) }
+function countLetters(word: string): Counts {
+  const counts = Array<number>(26).fill(0)
+  for (const letter of word) counts[letter.charCodeAt(0) - 97]++
+  return counts
+}
+function nonzeroCounts(counts: Counts): Array<[string, number]> {
+  return counts.flatMap((count, index) => count === 0 ? [] : [[String.fromCharCode(97 + index), count]])
+}
 function makeKey(word: string, method: Method) {
   const counts = countLetters(word)
-  return { counts, key: method === 'sort' ? [...word].sort().join('') : counts.map(([letter, count]) => `${letter}${count}`).join('') }
+  return { counts, key: method === 'sort' ? [...word].sort().join('') : nonzeroCounts(counts).map(([letter, count]) => `${letter}${count}`).join('') }
 }
 function makeSteps(method: Method): Step[] {
   const groups: Group = {}; const steps: Step[] = []
@@ -60,7 +67,7 @@ function makeSteps(method: Method): Step[] {
     if (!groups[key]) groups[key] = []; groups[key].push(word)
     steps.push({ wordIndex, word, key, counts, groups: copyGroups(groups), exists, phase: 'add', line: method === 'sort' ? 6 : 18, message: `把原字符串 “${word}” 放进 key 为 “${key}” 的分组，再写回哈希表` })
   })
-  steps.push({ wordIndex: words.length - 1, word: '', key: '', counts: [], groups: copyGroups(groups), exists: false, phase: 'done', line: method === 'sort' ? 7 : 21, message: '遍历完成：哈希表的每个桶，就是一组字母异位词' })
+  steps.push({ wordIndex: words.length - 1, word: '', key: '', counts: Array<number>(26).fill(0), groups: copyGroups(groups), exists: false, phase: 'done', line: method === 'sort' ? 7 : 21, message: '遍历完成：哈希表的每个桶，就是一组字母异位词' })
   return steps
 }
 
@@ -98,9 +105,13 @@ export function GroupAnagramsVisualizer() {
           <div className={`word-transform ${method === 'count' ? 'count-transform' : ''}`}>
             <div className="word-card"><small>当前字符串</small><b>“{step.word}”</b></div>
             <span className={step.phase !== 'select' ? 'active' : ''}>{method === 'sort' ? '排序 ↓' : '统计 ↓'}</span>
-            {method === 'count' && <div className={`counts-card ${step.phase !== 'select' ? 'visible' : ''}`}><small>非零计数</small><b>{step.phase === 'select' ? '?' : step.counts.map(([letter, count]) => <i key={letter}>{letter}:{count}</i>)}</b></div>}
+            {method === 'count' && <div className={`counts-card ${step.phase !== 'select' ? 'visible' : ''}`}><small>非零计数</small><b>{step.phase === 'select' ? '?' : nonzeroCounts(step.counts).map(([letter, count]) => <i key={letter}>{letter}:{count}</i>)}</b></div>}
             <div className={`key-card ${step.phase === 'key' || step.phase === 'lookup' || step.phase === 'add' ? 'visible' : ''}`}><small>哈希表 key</small><b>“{step.phase === 'select' || step.phase === 'transform' ? '?' : step.key}”</b></div>
           </div>
+          {method === 'count' && <div className={`count-array ${step.phase === 'select' ? '' : 'visible'}`}>
+            <header><span>counts[26]</span><small>下标 = 字母 − 'a'</small></header>
+            <div>{step.counts.map((count, index) => <span className={count > 0 ? 'nonzero' : ''} key={index}><small>{index}</small><b>{String.fromCharCode(97 + index)}</b><i>{count}</i></span>)}</div>
+          </div>}
           <div className="group-area"><header><span>哈希表：key → 分组</span><small>{step.phase === 'lookup' ? '正在查询' : step.phase === 'add' ? '已写入' : '等待操作'}</small></header><GroupBuckets groups={step.groups} currentKey={step.key} phase={step.phase} /></div>
           <div className="anagram-track">{(['select', 'transform', 'key', 'lookup', 'add'] as const).map((phase, index) => <span className={step.phase === phase ? 'active' : ''} key={phase}><b>{index + 1}</b>{phaseNames[phase]}</span>)}</div>
         </>}
