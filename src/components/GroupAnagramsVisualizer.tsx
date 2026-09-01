@@ -15,10 +15,30 @@ const sortCode = [
   '  group.add(str);', '  map.put(key, group);', '}',
 ]
 const countCode = [
-  'Map<String, List<String>> map = new HashMap<>();', 'for (String str : strs) {', '  int[] counts = new int[26];',
-  '  for (char ch : str.toCharArray()) counts[ch - \'a\']++;', '  StringBuffer sb = new StringBuffer();',
-  '  // 拼接非零的字母和次数', '  String key = sb.toString();', '  List<String> group = map.getOrDefault(key, new ArrayList<>());',
-  '  group.add(str);', '  map.put(key, group);', '}',
+  'class Solution {',
+  '  public List<List<String>> groupAnagrams(String[] strs) {',
+  '    Map<String, List<String>> map = new HashMap<String, List<String>>();',
+  '    for (String str : strs) {',
+  '      int[] counts = new int[26];',
+  '      int length = str.length();',
+  '      for (int i = 0; i < length; i++) {',
+  '        counts[str.charAt(i) - \'a\']++;',
+  '      }',
+  '      StringBuffer sb = new StringBuffer();',
+  '      for (int i = 0; i < 26; i++) {',
+  '        if (counts[i] != 0) {',
+  '          sb.append((char) (\'a\' + i));',
+  '          sb.append(counts[i]);',
+  '        }',
+  '      }',
+  '      String key = sb.toString();',
+  '      List<String> list = map.getOrDefault(key, new ArrayList<String>());',
+  '      list.add(str);',
+  '      map.put(key, list);',
+  '    }',
+  '    return new ArrayList<List<String>>(map.values());',
+  '  }',
+  '}',
 ]
 
 const phaseNames: Record<Phase, string> = { select: '取出字符串', transform: '生成标记', key: '得到 key', lookup: '查询分组', add: '放入分组', done: '得到结果' }
@@ -33,14 +53,14 @@ function makeSteps(method: Method): Step[] {
   const groups: Group = {}; const steps: Step[] = []
   words.forEach((word, wordIndex) => {
     const { key, counts } = makeKey(word, method); const before = copyGroups(groups); const exists = Boolean(groups[key])
-    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'select', line: 1, message: `取出第 ${wordIndex + 1} 个字符串 “${word}”` })
-    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'transform', line: method === 'sort' ? 3 : 3, message: method === 'sort' ? `把 “${word}” 按字母排序` : `统计 “${word}” 中每个字母出现的次数` })
-    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'key', line: method === 'sort' ? 4 : 6, message: method === 'sort' ? `排序结果 “${key}” 作为哈希表的 key` : `按字母顺序拼接次数，得到 key = “${key}”` })
-    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'lookup', line: method === 'sort' ? 5 : 7, message: exists ? `找到已有 key “${key}” 的分组` : `没有 key “${key}” 的分组，准备新建桶` })
+    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'select', line: method === 'sort' ? 1 : 3, message: `取出第 ${wordIndex + 1} 个字符串 “${word}”` })
+    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'transform', line: method === 'sort' ? 3 : 7, message: method === 'sort' ? `把 “${word}” 按字母排序` : `在长度为 26 的 counts 数组中，累计 “${word}” 每个字母的出现次数` })
+    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'key', line: method === 'sort' ? 4 : 12, message: method === 'sort' ? `排序结果 “${key}” 作为哈希表的 key` : `只拼接非零的字母和次数，得到 key = “${key}”` })
+    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'lookup', line: method === 'sort' ? 5 : 17, message: exists ? `找到已有 key “${key}” 的分组` : `没有 key “${key}” 的分组，准备新建桶` })
     if (!groups[key]) groups[key] = []; groups[key].push(word)
-    steps.push({ wordIndex, word, key, counts, groups: copyGroups(groups), exists, phase: 'add', line: method === 'sort' ? 6 : 8, message: `把原字符串 “${word}” 放进 key 为 “${key}” 的分组` })
+    steps.push({ wordIndex, word, key, counts, groups: copyGroups(groups), exists, phase: 'add', line: method === 'sort' ? 6 : 18, message: `把原字符串 “${word}” 放进 key 为 “${key}” 的分组，再写回哈希表` })
   })
-  steps.push({ wordIndex: words.length - 1, word: '', key: '', counts: [], groups: copyGroups(groups), exists: false, phase: 'done', line: method === 'sort' ? 7 : 9, message: '遍历完成：哈希表的每个桶，就是一组字母异位词' })
+  steps.push({ wordIndex: words.length - 1, word: '', key: '', counts: [], groups: copyGroups(groups), exists: false, phase: 'done', line: method === 'sort' ? 7 : 21, message: '遍历完成：哈希表的每个桶，就是一组字母异位词' })
   return steps
 }
 
