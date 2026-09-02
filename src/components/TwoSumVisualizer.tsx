@@ -194,7 +194,7 @@ export function TwoSumVisualizer() {
 
         {showCode && <div className="live-code">
           <header><span>Solution.java</span><i>同步高亮</i></header>
-          <pre><code>{code.map((line, index) => <span className={step.line === index ? 'active-line' : ''} key={line + index}><b>{String(index + 1).padStart(2, '0')}</b>{line}</span>)}</code></pre>
+          <pre><code>{code.map((line, index) => <span className={step.line === index ? 'active-line' : ''} key={line + index}><b>{String(index + 1).padStart(2, '0')}</b><i className="code-text">{line}</i></span>)}</code></pre>
         </div>}
       </div>
 

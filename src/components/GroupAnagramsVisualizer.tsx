@@ -117,7 +117,7 @@ export function GroupAnagramsVisualizer() {
         </>}
         <div className={`step-message ${step.phase === 'done' ? 'success' : ''}`} aria-live="polite"><span>{step.phase === 'done' ? <i className="check-symbol">✓</i> : String(stepIndex + 1).padStart(2, '0')}</span><p>{step.message}</p></div>
       </div>
-      {showCode && <div className="live-code"><header><span>Solution.java</span><i>同步高亮</i></header><pre><code>{code.map((line, index) => <span className={step.line === index ? 'active-line' : ''} key={line}><b>{String(index + 1).padStart(2, '0')}</b>{line}</span>)}</code></pre></div>}
+      {showCode && <div className="live-code"><header><span>Solution.java</span><i>同步高亮</i></header><pre><code>{code.map((line, index) => <span className={step.line === index ? 'active-line' : ''} key={line}><b>{String(index + 1).padStart(2, '0')}</b><i className="code-text">{line}</i></span>)}</code></pre></div>}
     </div>
     <div className="player-controls">
       <button className="round-button" onClick={() => { setStepIndex(0); setPlaying(false) }} aria-label="重新开始"><RotateCcw size={16} /></button>
