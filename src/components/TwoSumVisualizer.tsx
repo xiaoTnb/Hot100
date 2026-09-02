@@ -15,18 +15,33 @@ const examples: Example[] = [
   { nums: [3, 3], target: 6, answer: [0, 1] },
 ]
 const bruteCode = [
-  'for (int i = 0; i < nums.length; i++) {',
-  '  for (int j = i + 1; j < nums.length; j++) {',
-  '    if (nums[i] + nums[j] == target) {',
-  '      return new int[]{i, j};', '    }', '  }', '}',
+  'class Solution {',
+  '  public int[] twoSum(int[] nums, int target) {',
+  '    int n = nums.length;',
+  '    for (int i = 0; i < n; ++i) {',
+  '      for (int j = i + 1; j < n; ++j) {',
+  '        if (nums[i] + nums[j] == target) {',
+  '          return new int[]{i, j};',
+  '        }',
+  '      }',
+  '    }',
+  '    return new int[0];',
+  '  }',
+  '}',
 ]
 const hashCode = [
-  'Map<Integer, Integer> map = new HashMap<>();',
-  'for (int i = 0; i < nums.length; i++) {',
-  '  int need = target - nums[i];',
-  '  if (map.containsKey(need)) {',
-  '    return new int[]{map.get(need), i};',
-  '  }', '  map.put(nums[i], i);', '}',
+  'class Solution {',
+  '  public int[] twoSum(int[] nums, int target) {',
+  '    Map<Integer, Integer> hashtable = new HashMap<Integer, Integer>();',
+  '    for (int i = 0; i < nums.length; ++i) {',
+  '      if (hashtable.containsKey(target - nums[i])) {',
+  '        return new int[]{hashtable.get(target - nums[i]), i};',
+  '      }',
+  '      hashtable.put(nums[i], i);',
+  '    }',
+  '    return new int[0];',
+  '  }',
+  '}',
 ]
 
 function makeBruteSteps(example: Example): AnimationStep[] {
@@ -36,11 +51,11 @@ function makeBruteSteps(example: Example): AnimationStep[] {
       const sum = example.nums[i] + example.nums[j]
       const found = sum === example.target
       steps.push({
-        i, j, sum, found: false, entries: [], line: 1, phase: 'select',
+        i, j, sum, found: false, entries: [], line: 4, phase: 'select',
         message: `固定 i = ${i}，让 j = ${j}，读取 ${example.nums[i]} 和 ${example.nums[j]}`,
       })
       steps.push({
-        i, j, sum, found, entries: [], line: found ? 3 : 2, phase: found ? 'found' : 'lookup',
+        i, j, sum, found, entries: [], line: found ? 6 : 5, phase: found ? 'found' : 'lookup',
         message: found
           ? `${example.nums[i]} + ${example.nums[j]} = ${example.target}，找到答案 [${i}, ${j}]`
           : `${example.nums[i]} + ${example.nums[j]} = ${sum}，不等于 ${example.target}，继续比较`,
@@ -59,29 +74,29 @@ function makeHashSteps(example: Example): AnimationStep[] {
     const need = example.target - value
     const foundIndex = map.get(need)
     steps.push({
-      i, need, entries: [...map.entries()], found: false, line: 1, phase: 'select',
+      i, need, entries: [...map.entries()], found: false, line: 3, phase: 'select',
       message: `遍历到下标 ${i}，取出当前数字 ${value}`,
     })
     steps.push({
-      i, need, entries: [...map.entries()], found: false, line: 2, phase: 'calculate',
+      i, need, entries: [...map.entries()], found: false, line: 4, phase: 'calculate',
       message: `目标是 ${example.target}，当前有 ${value}，先计算还缺少什么：${example.target} − ${value} = ${need}`,
     })
     steps.push({
-      i, need, entries: [...map.entries()], found: false, j: foundIndex, line: 3, phase: 'lookup', matched: foundIndex !== undefined,
+      i, need, entries: [...map.entries()], found: false, j: foundIndex, line: 4, phase: 'lookup', matched: foundIndex !== undefined,
       message: foundIndex !== undefined
         ? `带着补数 ${need} 查询哈希表，找到了它对应的下标 ${foundIndex}`
         : `带着补数 ${need} 查询哈希表，当前没有找到`,
     })
     if (foundIndex !== undefined) {
       steps.push({
-        i, j: foundIndex, need, entries: [...map.entries()], found: true, line: 4, phase: 'found', matched: true,
+        i, j: foundIndex, need, entries: [...map.entries()], found: true, line: 5, phase: 'found', matched: true,
         message: `补数 ${need} 在下标 ${foundIndex}，所以 nums[${foundIndex}] + nums[${i}] = ${example.target}，返回 [${foundIndex}, ${i}]`,
       })
       return steps
     }
     map.set(value, i)
     steps.push({
-      i, need, entries: [...map.entries()], found: false, line: 6, phase: 'store',
+      i, need, entries: [...map.entries()], found: false, line: 7, phase: 'store',
       message: `存入 ${value} → ${i}，继续查看下一个数字`,
     })
   }
