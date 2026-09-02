@@ -10,9 +10,20 @@ interface Step { wordIndex: number; word: string; key: string; counts: Counts; g
 
 const words = ['eat', 'tea', 'tan', 'ate', 'nat', 'bat']
 const sortCode = [
-  'Map<String, List<String>> map = new HashMap<>();', 'for (String str : strs) {', '  char[] chars = str.toCharArray();',
-  '  Arrays.sort(chars);', '  String key = new String(chars);', '  List<String> group = map.getOrDefault(key, new ArrayList<>());',
-  '  group.add(str);', '  map.put(key, group);', '}',
+  'class Solution {',
+  '  public List<List<String>> groupAnagrams(String[] strs) {',
+  '    Map<String, List<String>> map = new HashMap<String, List<String>>();',
+  '    for (String str : strs) {',
+  '      char[] array = str.toCharArray();',
+  '      Arrays.sort(array);',
+  '      String key = new String(array);',
+  '      List<String> list = map.getOrDefault(key, new ArrayList<String>());',
+  '      list.add(str);',
+  '      map.put(key, list);',
+  '    }',
+  '    return new ArrayList<List<String>>(map.values());',
+  '  }',
+  '}',
 ]
 const countCode = [
   'class Solution {',
@@ -60,14 +71,14 @@ function makeSteps(method: Method): Step[] {
   const groups: Group = {}; const steps: Step[] = []
   words.forEach((word, wordIndex) => {
     const { key, counts } = makeKey(word, method); const before = copyGroups(groups); const exists = Boolean(groups[key])
-    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'select', line: method === 'sort' ? 1 : 3, message: `取出第 ${wordIndex + 1} 个字符串 “${word}”` })
-    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'transform', line: method === 'sort' ? 3 : 7, message: method === 'sort' ? `把 “${word}” 按字母排序` : `在长度为 26 的 counts 数组中，累计 “${word}” 每个字母的出现次数` })
-    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'key', line: method === 'sort' ? 4 : 12, message: method === 'sort' ? `排序结果 “${key}” 作为哈希表的 key` : `只拼接非零的字母和次数，得到 key = “${key}”` })
-    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'lookup', line: method === 'sort' ? 5 : 17, message: exists ? `找到已有 key “${key}” 的分组` : `没有 key “${key}” 的分组，准备新建桶` })
+    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'select', line: method === 'sort' ? 3 : 3, message: `取出第 ${wordIndex + 1} 个字符串 “${word}”` })
+    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'transform', line: method === 'sort' ? 5 : 7, message: method === 'sort' ? `把 “${word}” 按字母排序` : `在长度为 26 的 counts 数组中，累计 “${word}” 每个字母的出现次数` })
+    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'key', line: method === 'sort' ? 6 : 12, message: method === 'sort' ? `排序结果 “${key}” 作为哈希表的 key` : `只拼接非零的字母和次数，得到 key = “${key}”` })
+    steps.push({ wordIndex, word, key, counts, groups: before, exists, phase: 'lookup', line: method === 'sort' ? 7 : 17, message: exists ? `找到已有 key “${key}” 的分组` : `没有 key “${key}” 的分组，准备新建桶` })
     if (!groups[key]) groups[key] = []; groups[key].push(word)
-    steps.push({ wordIndex, word, key, counts, groups: copyGroups(groups), exists, phase: 'add', line: method === 'sort' ? 6 : 18, message: `把原字符串 “${word}” 放进 key 为 “${key}” 的分组，再写回哈希表` })
+    steps.push({ wordIndex, word, key, counts, groups: copyGroups(groups), exists, phase: 'add', line: method === 'sort' ? 8 : 18, message: `把原字符串 “${word}” 放进 key 为 “${key}” 的分组，再写回哈希表` })
   })
-  steps.push({ wordIndex: words.length - 1, word: '', key: '', counts: Array<number>(26).fill(0), groups: copyGroups(groups), exists: false, phase: 'done', line: method === 'sort' ? 7 : 21, message: '遍历完成：哈希表的每个桶，就是一组字母异位词' })
+  steps.push({ wordIndex: words.length - 1, word: '', key: '', counts: Array<number>(26).fill(0), groups: copyGroups(groups), exists: false, phase: 'done', line: method === 'sort' ? 11 : 21, message: '遍历完成：哈希表的每个桶，就是一组字母异位词' })
   return steps
 }
 
