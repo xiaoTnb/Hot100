@@ -1,0 +1,25 @@
+* { box-sizing: border-box; }
+
+html,
+body,
+#root { height: 100%; }
+
+html { scroll-behavior: smooth; }
+body { min-width: 320px; margin: 0; overflow: hidden; background: var(--paper); }
+button,
+a { color: inherit; font: inherit; }
+button { cursor: pointer; }
+a { text-decoration: none; }
+code,
+pre { font-family: var(--mono); }
+button:focus-visible,
+a:focus-visible { outline: 3px solid rgba(39, 118, 210, 0.25); outline-offset: 3px; }
+
+.shell { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

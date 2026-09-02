@@ -1,0 +1,77 @@
+.wordCount { margin-left: auto; color: var(--muted); font: 10px var(--mono); }
+.canvas { padding-bottom: 26px; }
+
+.stringInput { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.stringInput > span { margin-right: 4px; color: var(--muted); font: 11px var(--mono); }
+.stringInput b { padding: 7px 9px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); font: 600 11px var(--mono); transition: all 300ms; }
+.stringInput b[data-state='active'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); box-shadow: 0 0 0 3px rgba(39, 118, 210, 0.1); }
+.stringInput b[data-state='used'] { color: #9ca6a2; background: var(--soft); }
+
+.wordTransform { min-height: 130px; margin-top: 12px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center; }
+.wordTransform[data-method='count'] { grid-template-columns: 1fr auto 1.2fr 1fr; }
+.wordTransform > span { color: #a2ada8; font-size: 11px; }
+.wordTransform > span[data-active='true'] { color: var(--blue); font-weight: 700; }
+
+.wordCard,
+.keyCard { padding: 17px; border: 1px solid var(--line); background: var(--surface); text-align: center; }
+.wordCard small,
+.keyCard small { display: block; color: var(--muted); font-size: 10px; }
+.wordCard b,
+.keyCard b { display: block; margin-top: 8px; font: 700 22px var(--mono); }
+.keyCard { border-style: dashed; opacity: 0.45; transition: all 350ms; }
+.keyCard[data-visible='true'] { border-color: var(--green); border-style: solid; opacity: 1; background: var(--green-soft); color: var(--green); }
+
+.countsCard { min-height: 83px; padding: 13px; border: 1px dashed var(--line); background: var(--surface); text-align: center; opacity: 0.45; transition: all 350ms; }
+.countsCard[data-visible='true'] { border-color: var(--orange); border-style: solid; opacity: 1; background: var(--orange-soft); }
+.countsCard small { display: block; color: var(--muted); font-size: 10px; }
+.countsCard b { margin-top: 8px; display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; font: 700 11px var(--mono); }
+.countsCard i { padding: 4px 5px; border-radius: 2px; background: rgba(255, 255, 255, 0.7); color: #b55d19; font-style: normal; }
+
+.groupArea { border: 1px solid var(--line); background: var(--surface); }
+.groupArea > header { height: 38px; padding: 0 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); font-size: 11px; font-weight: 700; }
+.groupArea > header small { color: var(--muted); font: 9px var(--mono); }
+
+.groupBuckets { min-height: 100px; padding: 12px; display: flex; gap: 9px; flex-wrap: wrap; align-items: flex-start; }
+.groupBuckets > em { margin: auto; color: #9ca6a2; font-size: 11px; font-style: normal; }
+.groupBucket { min-width: 116px; padding: 9px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); transition: all 300ms; }
+.groupBucket[data-current='true'] { border-color: var(--blue); background: var(--blue-soft); box-shadow: 0 0 0 3px rgba(39, 118, 210, 0.1); }
+.groupBucket > b { display: block; color: var(--blue); font: 700 10px var(--mono); }
+.groupBucket > span { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+.groupBucket i { padding: 3px 5px; border-radius: 2px; background: var(--soft); font: 10px var(--mono); font-style: normal; }
+
+.phaseTrack { display: flex; gap: 7px; margin-top: 13px; }
+.phaseTrack span { display: flex; align-items: center; gap: 4px; color: #8e9995; font-size: 9px; }
+.phaseTrack span:not(:last-child)::after { content: ''; width: 20px; height: 1px; background: var(--line); }
+.phaseTrack b { width: 17px; height: 17px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font: 9px var(--mono); }
+.phaseTrack span[data-active='true'] { color: var(--blue); font-weight: 700; }
+.phaseTrack span[data-active='true'] b { border-color: var(--blue); background: var(--blue); color: #fff; }
+
+.resultGroups { min-height: 285px; padding: 40px 16px 20px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--green); background: var(--green-soft); }
+.resultGroups > small { margin-bottom: 14px; color: var(--green); font: 700 10px var(--mono); }
+
+.countArray { margin-top: 13px; border: 1px solid var(--line); background: var(--surface); opacity: 0.48; transition: opacity 300ms; }
+.countArray[data-visible='true'] { opacity: 1; }
+.countArray header { height: 34px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.countArray header span { color: var(--orange); font: 700 10px var(--mono); }
+.countArray header small { color: var(--muted); font: 9px var(--mono); }
+.countArray > div { padding: 8px; display: grid; grid-template-columns: repeat(13, minmax(0, 1fr)); gap: 4px; }
+.countArray > div > span { position: relative; min-height: 43px; padding: 3px 5px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 16px 1fr; align-items: center; border: 1px solid var(--line); background: var(--soft); font-family: var(--mono); }
+.countArray > div > span small { grid-column: 1; color: #9aa5a0; font-size: 8px; }
+.countArray > div > span b { grid-column: 2; justify-self: end; color: #6d7974; font-size: 10px; }
+.countArray > div > span i { grid-column: 1 / -1; justify-self: center; color: #aeb8b4; font: 700 14px var(--mono); font-style: normal; }
+.countArray > div > span[data-nonzero='true'] { border-color: var(--orange); background: var(--orange-soft); box-shadow: 0 0 0 2px rgba(239, 125, 60, 0.13); animation: count-pop 450ms ease; }
+.countArray > div > span[data-nonzero='true'] b,
+.countArray > div > span[data-nonzero='true'] i { color: #b55d19; }
+
+@keyframes count-pop { from { transform: scale(0.9); opacity: 0.35; } }
+
+@media (max-width: 620px) {
+  .wordCount { margin-left: 0; }
+  .wordTransform,
+  .wordTransform[data-method='count'] { grid-template-columns: 1fr; gap: 9px; padding-block: 14px; }
+  .wordTransform > span { text-align: center; }
+  .phaseTrack { flex-wrap: wrap; gap: 7px 10px; }
+  .phaseTrack span:not(:last-child)::after { display: none; }
+  .countArray > div { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .countArray header small { display: none; }
+}

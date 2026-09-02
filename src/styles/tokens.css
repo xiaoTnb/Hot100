@@ -1,0 +1,22 @@
+:root {
+  --paper: #f6f8f7;
+  --surface: #fff;
+  --ink: #17211e;
+  --muted: #69746f;
+  --line: #dce3e0;
+  --soft: #edf2f0;
+  --blue: #2776d2;
+  --blue-soft: #e7f1fc;
+  --orange: #ef7d3c;
+  --orange-soft: #fff0e6;
+  --green: #17845b;
+  --green-soft: #e4f5ed;
+  --display: "STSong", "Songti SC", Georgia, serif;
+  --body: "Microsoft YaHei UI", "PingFang SC", system-ui, sans-serif;
+  --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  font-family: var(--body);
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}

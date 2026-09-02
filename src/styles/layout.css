@@ -1,0 +1,121 @@
+#top,
+#top main { height: 100dvh; min-height: 0; overflow: hidden; }
+
+#top main {
+  width: min(1480px, 100%);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+}
+
+.problem-intro.shell {
+  position: relative;
+  width: auto;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 30px 26px;
+  display: flex;
+  overflow: auto;
+  border-right: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.problem-panel-toggle {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.problem-panel-toggle:hover { border-color: var(--blue); color: var(--blue); }
+.problem-panel-toggle:active { transform: translateY(1px); }
+
+.problem-overview {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+}
+
+.problem-title-block { display: block; min-width: 0; }
+.problem-copy { min-width: 0; max-width: 760px; padding-right: 38px; }
+.problem-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.problem-tags span { padding: 4px 7px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted); font: 700 9px var(--mono); }
+.problem-tags span:first-child { border-color: transparent; color: var(--green); background: var(--green-soft); }
+.problem-tags span.medium { color: #b55d19; background: var(--orange-soft); }
+.problem-tags span.hard { color: #b42318; background: #feeceb; }
+.problem-copy h1 { margin: 14px 0 0; font: 600 46px/1.08 var(--display); letter-spacing: -0.045em; }
+
+.problem-brief { padding: 22px 0 0; border-top: 1px solid var(--line); }
+.problem-lead { margin: 0; font-size: 16px; line-height: 1.8; }
+.problem-lead code { padding: 2px 5px; border-radius: 3px; background: var(--soft); color: var(--blue); font-size: 0.88em; }
+.problem-note { margin: 12px 0 0; color: var(--muted); font-size: 13px; line-height: 1.75; }
+
+.example-line { min-width: 0; min-height: 84px; margin: 0; padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 7px; align-items: center; align-content: center; border-left: 3px solid var(--blue); background: var(--surface); }
+.example-line > span { width: 100%; margin: 0; color: var(--muted); font: 700 10px var(--mono); }
+.example-values { min-width: 0; display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.example-line code { padding: 4px 7px; border-radius: 3px; background: var(--soft); font-size: 11px; }
+.example-line strong { color: var(--green); font: 700 11px var(--mono); }
+
+.problem-step-nav { margin-top: auto; padding-top: 4px; display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 7px; }
+.problem-step-button { width: 100%; min-width: 0; height: 46px; padding: 0 12px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--ink); border-radius: 3px; background: var(--ink); color: #fff; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.problem-step-button:hover:not(:disabled) { border-color: var(--blue); background: var(--blue); }
+.problem-step-button:active:not(:disabled) { transform: translateY(1px); }
+.problem-step-button:disabled { border-color: var(--line); background: var(--soft); color: var(--muted); cursor: not-allowed; opacity: 0.65; }
+.problem-list-button { width: 100%; min-width: 0; height: 46px; padding: 0 9px; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--blue); border-radius: 3px; background: var(--blue-soft); color: var(--blue); font-size: 10px; font-weight: 700; white-space: nowrap; }
+.problem-list-button:hover { background: var(--blue); color: #fff; }
+.problem-list-button:active { transform: translateY(1px); }
+
+.collapsed-problem-label { display: none; }
+.problem-panel-collapsed { grid-template-columns: 56px minmax(0, 1fr) !important; }
+.problem-panel-collapsed .problem-intro.shell { padding: 12px 10px; overflow: hidden; }
+.problem-panel-collapsed .problem-panel-toggle { top: 12px; right: 10px; }
+.problem-panel-collapsed .problem-overview { display: none; }
+.problem-panel-collapsed .collapsed-problem-label { position: absolute; top: 62px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--muted); }
+.collapsed-problem-label b { color: var(--ink); font: 700 12px var(--mono); }
+.collapsed-problem-label i { font-size: 11px; font-style: normal; letter-spacing: 0.08em; writing-mode: vertical-rl; }
+
+.visualizer-section { min-width: 0; min-height: 0; padding: 12px; border: 0; background: var(--surface); }
+.visualizer-section > .shell { width: 100%; height: 100%; min-height: 0; margin: 0; }
+.visualizer-loading { height: 100%; min-height: 240px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 12px; }
+
+@media (max-width: 840px) {
+  #top main { width: 100%; display: flex; flex-direction: column; }
+  .problem-intro.shell { width: min(100% - 30px, 1120px); height: auto; margin-inline: auto; padding: 10px 0; overflow: visible; border-right: 0; }
+  .problem-panel-toggle { top: 10px; right: 0; }
+  .problem-overview { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px 20px; align-items: center; }
+  .problem-overview .problem-title-block { grid-column: 1 / -1; }
+  .problem-copy h1 { margin-top: 7px; font-size: 32px; }
+  .problem-brief { padding: 0; border-top: 0; }
+  .problem-lead { font-size: 14px; line-height: 1.65; }
+  .problem-note { display: none; }
+  .example-line { min-height: 62px; }
+  .problem-step-nav { grid-column: 1 / -1; margin-top: 0; padding-top: 0; }
+  .problem-step-button,
+  .problem-list-button { height: 42px; font-size: 10px; }
+  .visualizer-section { flex: 1; padding: 8px 15px; }
+  .problem-panel-collapsed .problem-intro.shell { width: 100%; height: 50px; min-height: 50px; padding: 8px 15px; border-bottom: 1px solid var(--line); }
+  .problem-panel-collapsed .problem-panel-toggle { top: 8px; right: 15px; }
+  .problem-panel-collapsed .collapsed-problem-label { position: static; width: auto; height: 34px; padding-right: 50px; flex-direction: row; justify-content: flex-start; gap: 9px; }
+  .problem-panel-collapsed .collapsed-problem-label i { font-size: 13px; letter-spacing: 0; writing-mode: horizontal-tb; }
+}
+
+@media (max-width: 620px) {
+  .shell { width: min(100% - 30px, 1120px); }
+  .problem-overview { grid-template-columns: 1fr; gap: 9px; }
+  .problem-overview .problem-title-block { grid-column: auto; }
+  .problem-copy h1 { font-size: 29px; }
+  .example-line { overflow: hidden; }
+  .example-values { flex-wrap: nowrap; overflow-x: auto; }
+  .visualizer-section { padding-block: 8px; }
+}

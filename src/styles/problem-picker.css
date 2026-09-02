@@ -1,0 +1,31 @@
+.problem-list-overlay { position: fixed; z-index: 20; inset: 0; padding: 20px; display: grid; place-items: center; background: rgba(23, 33, 30, 0.48); backdrop-filter: blur(3px); }
+.problem-list-dialog { width: min(520px, 100%); max-height: min(680px, calc(100dvh - 40px)); display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); box-shadow: 18px 18px 0 rgba(23, 33, 30, 0.14); }
+.problem-list-dialog > header { min-height: 78px; padding: 17px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.problem-list-dialog h2 { margin: 0; font: 600 25px/1.15 var(--display); }
+.problem-list-dialog header p { margin: 5px 0 0; color: var(--muted); font: 10px var(--mono); }
+.problem-list-dialog header button { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--muted); }
+.problem-list-dialog header button:hover { border-color: var(--blue); color: var(--blue); }
+.problem-search { height: 48px; margin: 16px 18px 10px; padding: 0 13px; display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); border-radius: 3px; background: var(--paper); color: var(--muted); }
+.problem-search:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(39, 118, 210, 0.12); }
+.problem-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 13px; }
+.problem-search input::placeholder { color: #7c8782; }
+.problem-list-results { min-height: 170px; padding: 0 18px 18px; overflow: auto; }
+.problem-list-results > button { width: 100%; min-height: 64px; padding: 10px 12px; display: grid; grid-template-columns: 42px 1fr auto; gap: 10px; align-items: center; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; }
+.problem-list-results > button:hover { background: var(--soft); }
+.problem-list-results > button.active { background: var(--blue-soft); box-shadow: inset 3px 0 var(--blue); }
+.problem-list-results > button > b { color: var(--blue); font: 700 12px var(--mono); }
+.problem-list-results > button span { min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.problem-list-results > button strong { font-size: 14px; }
+.problem-list-results > button small { color: var(--muted); font-size: 10px; }
+.problem-list-results > button > svg { color: var(--muted); }
+.problem-list-empty { min-height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); }
+.problem-list-empty p { margin: 10px 0 14px; font-size: 13px; }
+.problem-list-empty button { padding: 7px 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--blue); font-size: 11px; }
+
+@media (max-width: 620px) {
+  .problem-list-overlay { padding: 12px; }
+  .problem-list-dialog { max-height: calc(100dvh - 24px); }
+  .problem-list-dialog > header { min-height: 68px; padding: 14px; }
+  .problem-search { margin: 12px 14px 8px; }
+  .problem-list-results { padding-inline: 14px; }
+}
