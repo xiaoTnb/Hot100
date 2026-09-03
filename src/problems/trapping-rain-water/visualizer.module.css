@@ -13,12 +13,14 @@
 .column[data-role='left'] > div i { background: var(--blue); }
 .column[data-role='right'] > div i { background: var(--orange); }
 .column[data-role='meet'] > div i { background: var(--green); }
+.column[data-role='bottom'] > div i { background: var(--green); }
 .column[data-basin='true'] > div { background: rgba(39,118,210,.05); }
 .pointer { position: absolute; z-index: 3; top: -27px; right: 0; left: 0; display: flex; justify-content: center; }
 .pointer b { width: 21px; height: 21px; display: grid; place-items: center; border-radius: 50%; background: var(--ink); color: #fff; font: 700 8px var(--mono); }
 .column[data-role='left'] .pointer b { background: var(--blue); }
 .column[data-role='right'] .pointer b, .column[data-role='current'] .pointer b { background: var(--orange); }
 .column[data-role='meet'] .pointer b { width: auto; padding-inline: 7px; border-radius: 11px; background: var(--green); white-space: nowrap; }
+.column[data-role='bottom'] .pointer b { width: auto; padding-inline: 6px; border-radius: 11px; background: var(--green); }
 .dpPanel { margin-top: 13px; display: grid; gap: 6px; }
 .auxRow { display: grid; grid-template-columns: 66px repeat(12, 1fr); gap: 3px; }
 .auxRow > b { padding: 7px 5px; display: grid; place-items: center; background: var(--ink); color: #fff; font: 8px var(--mono); }
@@ -41,12 +43,25 @@
 .pointerPanel b { font: 700 20px var(--mono); }
 .pointerPanel p { margin: 0; align-self: center; color: var(--ink); font-size: 10px; line-height: 1.5; text-align: center; }
 .pointerPanel p span { color: var(--muted); }
-.formula { margin-top: 11px; display: grid; grid-template-columns: 100px 1fr 100px; gap: 8px; }
-.formula > div { padding: 8px 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--line); background: var(--surface); }
-.formula small { color: var(--muted); font-size: 8px; }
-.formula b { font: 700 18px var(--mono); }
-.formula > span { padding: 9px; display: grid; place-items: center; background: var(--soft); color: var(--muted); font: 9px var(--mono); text-align: center; }
-.formula div[data-total='true'] { border-color: var(--green); background: var(--green-soft); color: var(--green); }
+.calculationEmpty { margin-top: 11px; padding: 11px 13px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px dashed var(--line); background: var(--surface); }
+.calculationEmpty span { color: var(--muted); font-size: 9px; }
+.calculationEmpty b { color: var(--blue); font: 700 10px var(--mono); white-space: nowrap; }
+.calculationPanel { margin-top: 11px; border: 1px solid var(--line); background: var(--surface); }
+.sources { display: grid; grid-template-columns: repeat(3, 1fr); }
+.sources span { padding: 9px 11px; border-bottom: 1px solid var(--line); }
+.sources span:not(:last-child) { border-right: 1px solid var(--line); }
+.sources small { display: block; margin-bottom: 4px; color: var(--muted); font-size: 8px; }
+.sources b { font: 700 10px var(--mono); }
+.sources span[data-source='left'] b { color: var(--blue); }
+.sources span[data-source='right'] b { color: #b55d19; }
+.sources span[data-source='bottom'] b { color: var(--green); }
+.sources span[data-muted='true'] { opacity: .42; }
+.equationLine { padding: 10px 11px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font: 9px var(--mono); }
+.equationLine span { padding: 6px 8px; background: var(--soft); color: var(--muted); }
+.equationLine span b { color: var(--ink); }
+.equationLine i { color: var(--muted); font-style: normal; }
+.equationLine strong { padding: 6px 8px; background: var(--blue-soft); color: var(--blue); }
+.equationLine em { margin-left: auto; padding: 6px 8px; background: var(--green-soft); color: var(--green); font-weight: 700; font-style: normal; }
 @media (max-width: 620px) {
   .chart { height: 205px; gap: 2px; }
   .column > div i, .column > div b { right: 8%; left: 8%; }
@@ -54,6 +69,7 @@
   .auxRow span { padding-inline: 0; font-size: 7px; }
   .pointerPanel { grid-template-columns: 1fr 1fr; }
   .pointerPanel p { grid-column: 1 / -1; grid-row: 2; }
-  .formula { grid-template-columns: 1fr 1fr; }
-  .formula > span { grid-column: 1 / -1; grid-row: 2; }
+  .sources { grid-template-columns: 1fr; }
+  .sources span:not(:last-child) { border-right: 0; }
+  .equationLine em { margin-left: 0; }
 }
