@@ -1,58 +1,128 @@
 import type { CodeLine, PlayerMethod } from '../../components/player/types'
 
-export type SubstringPhase = 'ready' | 'remove' | 'expand' | 'blocked' | 'update' | 'done'
-export interface SubstringStep { i: number; rk: number; occ: string[]; duplicateIndex: number; ans: number; phase: SubstringPhase; lineId: string; message: string }
+export type SubstringMethod = 'count' | 'boolean'
+export type SubstringPhase = 'ready' | 'add' | 'duplicate' | 'remove' | 'update' | 'done'
+export interface SubstringStep {
+  left: number
+  right: number
+  windowRight: number
+  tracker: number[]
+  activeCode: number
+  ans: number
+  phase: SubstringPhase
+  lineId: string
+  message: string
+}
 
 export const substringInput = 'abcabcbb'
-export const substringMethods: PlayerMethod[] = [{ id: 'window', label: '滑动窗口', complexity: 'O(N)' }]
-export const substringCode: CodeLine[] = [
-  { id: 'class', text: 'class Solution {' },
-  { id: 'method', text: '  public int lengthOfLongestSubstring(String s) {' },
-  { id: 'set', text: '    Set<Character> occ = new HashSet<Character>();' },
-  { id: 'n', text: '    int n = s.length();' },
-  { id: 'init', text: '    int rk = -1, ans = 0;' },
-  { id: 'loop', text: '    for (int i = 0; i < n; ++i) {' },
-  { id: 'if', text: '      if (i != 0) {' },
-  { id: 'remove', text: '        occ.remove(s.charAt(i - 1));' },
-  { id: 'if-close', text: '      }' },
-  { id: 'while', text: '      while (rk + 1 < n && !occ.contains(s.charAt(rk + 1))) {' },
-  { id: 'add', text: '        occ.add(s.charAt(rk + 1));' },
-  { id: 'right', text: '        ++rk;' },
-  { id: 'while-close', text: '      }' },
-  { id: 'answer', text: '      ans = Math.max(ans, rk - i + 1);' },
-  { id: 'loop-close', text: '    }' },
-  { id: 'return', text: '    return ans;' },
-  { id: 'method-close', text: '  }' },
-  { id: 'class-close', text: '}' },
+export const substringMethods: PlayerMethod[] = [
+  { id: 'count', label: '整型数组 cnt', complexity: 'O(N) · O(128)' },
+  { id: 'boolean', label: '布尔数组 has', complexity: 'O(N) · O(128)' },
 ]
 
-export function makeSubstringSteps(): SubstringStep[] {
-  const occ = new Set<string>()
-  const steps: SubstringStep[] = [{ i: 0, rk: -1, occ: [], duplicateIndex: -1, ans: 0, phase: 'ready', lineId: 'init', message: '初始化：窗口为空，右指针 rk = -1，最长长度 ans = 0' }]
-  let rk = -1, ans = 0
-  for (let i = 0; i < substringInput.length; i++) {
-    if (i !== 0) {
-      const removed = substringInput[i - 1]
-      occ.delete(removed)
-      steps.push({ i, rk, occ: [...occ], duplicateIndex: -1, ans, phase: 'remove', lineId: 'remove', message: `左边界从 ${i - 1} 移到 ${i}，移除字符 “${removed}”；窗口可以继续向右尝试` })
+const countCode: CodeLine[] = [
+  { id: 'count-class', text: 'class Solution {' },
+  { id: 'count-method', text: '  public int lengthOfLongestSubstring(String S) {' },
+  { id: 'count-chars', text: '    char[] s = S.toCharArray();' },
+  { id: 'count-n', text: '    int n = s.length;' },
+  { id: 'count-ans', text: '    int ans = 0;' },
+  { id: 'count-left', text: '    int left = 0;' },
+  { id: 'count-array', text: '    int[] cnt = new int[128];' },
+  { id: 'count-loop', text: '    for (int right = 0; right < n; right++) {' },
+  { id: 'count-char', text: '      char c = s[right];' },
+  { id: 'count-add', text: '      cnt[c]++;' },
+  { id: 'count-while', text: '      while (cnt[c] > 1) {' },
+  { id: 'count-remove', text: '        cnt[s[left]]--;' },
+  { id: 'count-move', text: '        left++;' },
+  { id: 'count-while-close', text: '      }' },
+  { id: 'count-update', text: '      ans = Math.max(ans, right - left + 1);' },
+  { id: 'count-loop-close', text: '    }' },
+  { id: 'count-return', text: '    return ans;' },
+  { id: 'count-method-close', text: '  }' },
+  { id: 'count-class-close', text: '}' },
+]
+
+const booleanCode: CodeLine[] = [
+  { id: 'boolean-class', text: 'class Solution {' },
+  { id: 'boolean-method', text: '  public int lengthOfLongestSubstring(String S) {' },
+  { id: 'boolean-chars', text: '    char[] s = S.toCharArray();' },
+  { id: 'boolean-n', text: '    int n = s.length;' },
+  { id: 'boolean-ans', text: '    int ans = 0;' },
+  { id: 'boolean-left', text: '    int left = 0;' },
+  { id: 'boolean-array', text: '    boolean[] has = new boolean[128];' },
+  { id: 'boolean-loop', text: '    for (int right = 0; right < n; right++) {' },
+  { id: 'boolean-char', text: '      char c = s[right];' },
+  { id: 'boolean-while', text: '      while (has[c]) {' },
+  { id: 'boolean-remove', text: '        has[s[left]] = false;' },
+  { id: 'boolean-move', text: '        left++;' },
+  { id: 'boolean-while-close', text: '      }' },
+  { id: 'boolean-add', text: '      has[c] = true;' },
+  { id: 'boolean-update', text: '      ans = Math.max(ans, right - left + 1);' },
+  { id: 'boolean-loop-close', text: '    }' },
+  { id: 'boolean-return', text: '    return ans;' },
+  { id: 'boolean-method-close', text: '  }' },
+  { id: 'boolean-class-close', text: '}' },
+]
+
+export const getSubstringCode = (method: SubstringMethod) => method === 'count' ? countCode : booleanCode
+const blank = () => Array<number>(128).fill(0)
+
+function makeCountSteps(): SubstringStep[] {
+  const cnt = blank()
+  const steps: SubstringStep[] = []
+  let left = 0
+  let ans = 0
+  steps.push({ left, right: -1, windowRight: -1, tracker: [...cnt], activeCode: -1, ans, phase: 'ready', lineId: 'count-array', message: '创建长度为 128 的 cnt 数组，用 ASCII 码作下标；窗口初始为空' })
+  for (let right = 0; right < substringInput.length; right++) {
+    const code = substringInput.charCodeAt(right)
+    const char = substringInput[right]
+    cnt[code]++
+    steps.push({ left, right, windowRight: right, tracker: [...cnt], activeCode: code, ans, phase: 'add', lineId: 'count-add', message: `right = ${right}：加入 “${char}”，cnt['${char}'] 变为 ${cnt[code]}` })
+    while (cnt[code] > 1) {
+      steps.push({ left, right, windowRight: right, tracker: [...cnt], activeCode: code, ans, phase: 'duplicate', lineId: 'count-while', message: `cnt['${char}'] = ${cnt[code]} > 1，窗口出现重复；从 left 开始缩小` })
+      const removed = substringInput[left]
+      const removedCode = substringInput.charCodeAt(left)
+      cnt[removedCode]--
+      steps.push({ left, right, windowRight: right, tracker: [...cnt], activeCode: removedCode, ans, phase: 'remove', lineId: 'count-remove', message: `移除 s[${left}] = “${removed}”，cnt['${removed}'] 减为 ${cnt[removedCode]}` })
+      left++
+      steps.push({ left, right, windowRight: right, tracker: [...cnt], activeCode: removedCode, ans, phase: 'remove', lineId: 'count-move', message: `left++，左边界移动到下标 ${left}${cnt[code] > 1 ? '；仍有重复，继续缩小' : '；重复已经消除'}` })
     }
-    while (rk + 1 < substringInput.length && !occ.has(substringInput[rk + 1])) {
-      const nextIndex = rk + 1
-      const next = substringInput[nextIndex]
-      occ.add(next)
-      rk++
-      steps.push({ i, rk, occ: [...occ], duplicateIndex: -1, ans, phase: 'expand', lineId: 'right', message: `下一个字符 s[${nextIndex}] = “${next}” 不在 Set 中：加入窗口，rk 右移到 ${rk}` })
-    }
-    if (rk + 1 < substringInput.length) {
-      const nextIndex = rk + 1
-      const duplicate = substringInput[nextIndex]
-      steps.push({ i, rk, occ: [...occ], duplicateIndex: nextIndex, ans, phase: 'blocked', lineId: 'while', message: `s[${nextIndex}] = “${duplicate}” 已在 Set 中；继续加入会重复，所以停止扩张右边界` })
-    }
-    const length = rk - i + 1
+    const length = right - left + 1
     const previous = ans
     ans = Math.max(ans, length)
-    steps.push({ i, rk, occ: [...occ], duplicateIndex: -1, ans, phase: 'update', lineId: 'answer', message: ans > previous ? `当前无重复子串 “${substringInput.slice(i, rk + 1)}” 长度为 ${length}，ans 更新为 ${ans}` : `当前子串 “${substringInput.slice(i, rk + 1)}” 长度为 ${length}，没有超过 ans = ${ans}` })
+    steps.push({ left, right, windowRight: right, tracker: [...cnt], activeCode: code, ans, phase: 'update', lineId: 'count-update', message: previous < ans ? `窗口 “${substringInput.slice(left, right + 1)}” 无重复，长度 ${length}，ans 更新为 ${ans}` : `窗口 “${substringInput.slice(left, right + 1)}” 长度 ${length}，ans 保持 ${ans}` })
   }
-  steps.push({ i: substringInput.length, rk, occ: [], duplicateIndex: -1, ans, phase: 'done', lineId: 'return', message: `左右指针各自只向右移动，遍历结束，返回最长长度 ${ans}` })
+  steps.push({ left, right: substringInput.length - 1, windowRight: substringInput.length - 1, tracker: [...cnt], activeCode: -1, ans, phase: 'done', lineId: 'count-return', message: `遍历结束，返回最长无重复子串长度 ${ans}` })
   return steps
 }
+
+function makeBooleanSteps(): SubstringStep[] {
+  const has = blank()
+  const steps: SubstringStep[] = []
+  let left = 0
+  let ans = 0
+  steps.push({ left, right: -1, windowRight: -1, tracker: [...has], activeCode: -1, ans, phase: 'ready', lineId: 'boolean-array', message: '创建长度为 128 的 has 数组；true 表示字符已经在当前窗口中' })
+  for (let right = 0; right < substringInput.length; right++) {
+    const code = substringInput.charCodeAt(right)
+    const char = substringInput[right]
+    while (has[code] === 1) {
+      steps.push({ left, right, windowRight: right - 1, tracker: [...has], activeCode: code, ans, phase: 'duplicate', lineId: 'boolean-while', message: `right = ${right}，准备加入 “${char}”；has['${char}'] 已是 true，必须先移出窗口内原来的 “${char}”` })
+      const removed = substringInput[left]
+      const removedCode = substringInput.charCodeAt(left)
+      has[removedCode] = 0
+      steps.push({ left, right, windowRight: right - 1, tracker: [...has], activeCode: removedCode, ans, phase: 'remove', lineId: 'boolean-remove', message: `移除 s[${left}] = “${removed}”，has['${removed}'] 设为 false` })
+      left++
+      steps.push({ left, right, windowRight: right - 1, tracker: [...has], activeCode: removedCode, ans, phase: 'remove', lineId: 'boolean-move', message: `left++，左边界移动到下标 ${left}${has[code] === 1 ? '；目标字符仍在窗口中，继续移除' : ''}` })
+    }
+    has[code] = 1
+    steps.push({ left, right, windowRight: right, tracker: [...has], activeCode: code, ans, phase: 'add', lineId: 'boolean-add', message: `窗口中已没有 “${char}”，将 has['${char}'] 设为 true，再把它加入窗口` })
+    const length = right - left + 1
+    const previous = ans
+    ans = Math.max(ans, length)
+    steps.push({ left, right, windowRight: right, tracker: [...has], activeCode: code, ans, phase: 'update', lineId: 'boolean-update', message: previous < ans ? `窗口 “${substringInput.slice(left, right + 1)}” 长度 ${length}，ans 更新为 ${ans}` : `窗口 “${substringInput.slice(left, right + 1)}” 长度 ${length}，ans 保持 ${ans}` })
+  }
+  steps.push({ left, right: substringInput.length - 1, windowRight: substringInput.length - 1, tracker: [...has], activeCode: -1, ans, phase: 'done', lineId: 'boolean-return', message: `遍历结束，返回最长无重复子串长度 ${ans}` })
+  return steps
+}
+
+export const makeSubstringSteps = (method: SubstringMethod) => method === 'count' ? makeCountSteps() : makeBooleanSteps()

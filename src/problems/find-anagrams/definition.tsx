@@ -11,7 +11,7 @@ export const findAnagramsProblem = {
   tags: ['哈希表', '字符串', '滑动窗口'],
   url: 'https://leetcode.cn/problems/find-all-anagrams-in-a-string/',
   lead: <>在字符串 <code>s</code> 中找到所有字符串 <code>p</code> 的异位词子串，返回这些子串的起始下标。</>,
-  note: '窗口长度固定为 p.length。方法一比较两张 26 位计数表；方法二维护“窗口计数减 p 计数”的差值和 differ。',
+  note: '定长滑窗逐个比较长度为 p.length 的窗口；不定长滑窗把 cnt 当作字母配额，某个配额变负时持续右移 left。',
   example: <><code>s = "cbaebabacd"，p = "abc"</code><strong>→ [0, 6]</strong></>,
   Visualizer: lazy(() => import('./FindAnagramsVisualizer').then((module) => ({ default: module.FindAnagramsVisualizer }))),
 } satisfies ProblemDefinition

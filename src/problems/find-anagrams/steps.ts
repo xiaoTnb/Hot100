@@ -1,140 +1,147 @@
 import type { CodeLine, PlayerMethod } from '../../components/player/types'
 
-export type AnagramMethod = 'counts' | 'differ'
-export type AnagramPhase = 'init' | 'remove' | 'add' | 'compare' | 'done'
-export interface AnagramStep { start: number; phase: AnagramPhase; sCount: number[]; pCount: number[]; count: number[]; differ: number; outgoing: number; incoming: number; answers: number[]; lineId: string; message: string }
+export type AnagramMethod = 'fixed' | 'variable'
+export type AnagramPhase = 'init' | 'add' | 'grow' | 'compare' | 'remove' | 'excess' | 'shrink' | 'done'
+export interface AnagramStep {
+  left: number
+  right: number
+  phase: AnagramPhase
+  cntP: number[]
+  cntS: number[]
+  cnt: number[]
+  activeIndex: number
+  answers: number[]
+  lineId: string
+  message: string
+}
 
 export const sourceText = 'cbaebabacd'
 export const patternText = 'abc'
 export const anagramMethods: PlayerMethod[] = [
-  { id: 'counts', label: '双计数数组', complexity: 'O((N-M)×26)' },
-  { id: 'differ', label: 'differ 优化', complexity: 'O(N+M+26)' },
+  { id: 'fixed', label: '定长滑窗', complexity: 'O(26N + M)' },
+  { id: 'variable', label: '不定长滑窗', complexity: 'O(N + M)' },
 ]
 
-const countsCode: CodeLine[] = [
-  { id: 'c-class', text: 'class Solution {' },
-  { id: 'c-method', text: '  public List<Integer> findAnagrams(String s, String p) {' },
-  { id: 'c-lens', text: '    int sLen = s.length(), pLen = p.length();' },
-  { id: 'c-short', text: '    if (sLen < pLen) {' },
-  { id: 'c-empty', text: '      return new ArrayList<Integer>();' },
-  { id: 'c-short-close', text: '    }' },
-  { id: 'c-answer', text: '    List<Integer> ans = new ArrayList<Integer>();' },
-  { id: 'c-arrays', text: '    int[] sCount = new int[26];' },
-  { id: 'c-p-array', text: '    int[] pCount = new int[26];' },
-  { id: 'c-init-loop', text: '    for (int i = 0; i < pLen; ++i) {' },
-  { id: 'c-init-s', text: "      ++sCount[s.charAt(i) - 'a'];" },
-  { id: 'c-init-p', text: "      ++pCount[p.charAt(i) - 'a'];" },
-  { id: 'c-init-close', text: '    }' },
-  { id: 'c-first-equal', text: '    if (Arrays.equals(sCount, pCount)) {' },
-  { id: 'c-first-add', text: '      ans.add(0);' },
-  { id: 'c-first-close', text: '    }' },
-  { id: 'c-loop', text: '    for (int i = 0; i < sLen - pLen; ++i) {' },
-  { id: 'c-remove', text: "      --sCount[s.charAt(i) - 'a'];" },
-  { id: 'c-add', text: "      ++sCount[s.charAt(i + pLen) - 'a'];" },
-  { id: 'c-equal', text: '      if (Arrays.equals(sCount, pCount)) {' },
-  { id: 'c-answer-add', text: '        ans.add(i + 1);' },
-  { id: 'c-equal-close', text: '      }' },
-  { id: 'c-loop-close', text: '    }' },
-  { id: 'c-return', text: '    return ans;' },
-  { id: 'c-method-close', text: '  }' },
-  { id: 'c-class-close', text: '}' },
+const fixedCode: CodeLine[] = [
+  { id: 'f-class', text: 'class Solution {' },
+  { id: 'f-method', text: '  public List<Integer> findAnagrams(String s, String p) {' },
+  { id: 'f-p-array', text: '    int[] cntP = new int[26];' },
+  { id: 'f-p-loop', text: '    for (char c : p.toCharArray()) {' },
+  { id: 'f-p-add', text: "      cntP[c - 'a']++;" },
+  { id: 'f-p-close', text: '    }' },
+  { id: 'f-answer', text: '    List<Integer> ans = new ArrayList<>();' },
+  { id: 'f-s-array', text: '    int[] cntS = new int[26];' },
+  { id: 'f-loop', text: '    for (int right = 0; right < s.length(); right++) {' },
+  { id: 'f-add', text: "      cntS[s.charAt(right) - 'a']++;" },
+  { id: 'f-left', text: '      int left = right - p.length() + 1;' },
+  { id: 'f-short', text: '      if (left < 0) {' },
+  { id: 'f-continue', text: '        continue;' },
+  { id: 'f-short-close', text: '      }' },
+  { id: 'f-equal', text: '      if (Arrays.equals(cntS, cntP)) {' },
+  { id: 'f-answer-add', text: '        ans.add(left);' },
+  { id: 'f-equal-close', text: '      }' },
+  { id: 'f-remove', text: "      cntS[s.charAt(left) - 'a']--;" },
+  { id: 'f-loop-close', text: '    }' },
+  { id: 'f-return', text: '    return ans;' },
+  { id: 'f-method-close', text: '  }' },
+  { id: 'f-class-close', text: '}' },
 ]
 
-const differCode: CodeLine[] = [
-  { id: 'd-class', text: 'class Solution {' },
-  { id: 'd-method', text: '  public List<Integer> findAnagrams(String s, String p) {' },
-  { id: 'd-lens', text: '    int sLen = s.length(), pLen = p.length();' },
-  { id: 'd-short', text: '    if (sLen < pLen) {' },
-  { id: 'd-empty', text: '      return new ArrayList<Integer>();' },
-  { id: 'd-short-close', text: '    }' },
-  { id: 'd-answer', text: '    List<Integer> ans = new ArrayList<Integer>();' },
-  { id: 'd-array', text: '    int[] count = new int[26];' },
-  { id: 'd-init-loop', text: '    for (int i = 0; i < pLen; ++i) {' },
-  { id: 'd-init-s', text: "      ++count[s.charAt(i) - 'a'];" },
-  { id: 'd-init-p', text: "      --count[p.charAt(i) - 'a'];" },
-  { id: 'd-init-close', text: '    }' },
-  { id: 'd-differ', text: '    int differ = 0;' },
-  { id: 'd-differ-loop', text: '    for (int j = 0; j < 26; ++j) {' },
-  { id: 'd-nonzero', text: '      if (count[j] != 0) {' },
-  { id: 'd-differ-add', text: '        ++differ;' },
-  { id: 'd-nonzero-close', text: '      }' },
-  { id: 'd-differ-close', text: '    }' },
-  { id: 'd-first', text: '    if (differ == 0) {' },
-  { id: 'd-first-add', text: '      ans.add(0);' },
-  { id: 'd-first-close', text: '    }' },
-  { id: 'd-loop', text: '    for (int i = 0; i < sLen - pLen; ++i) {' },
-  { id: 'd-remove-one', text: "      if (count[s.charAt(i) - 'a'] == 1) {" },
-  { id: 'd-remove-same', text: '        --differ;' },
-  { id: 'd-remove-zero', text: "      } else if (count[s.charAt(i) - 'a'] == 0) {" },
-  { id: 'd-remove-diff', text: '        ++differ;' },
-  { id: 'd-remove-close', text: '      }' },
-  { id: 'd-remove', text: "      --count[s.charAt(i) - 'a'];" },
-  { id: 'd-add-minus', text: "      if (count[s.charAt(i + pLen) - 'a'] == -1) {" },
-  { id: 'd-add-same', text: '        --differ;' },
-  { id: 'd-add-zero', text: "      } else if (count[s.charAt(i + pLen) - 'a'] == 0) {" },
-  { id: 'd-add-diff', text: '        ++differ;' },
-  { id: 'd-add-close', text: '      }' },
-  { id: 'd-add', text: "      ++count[s.charAt(i + pLen) - 'a'];" },
-  { id: 'd-equal', text: '      if (differ == 0) {' },
-  { id: 'd-answer-add', text: '        ans.add(i + 1);' },
-  { id: 'd-equal-close', text: '      }' },
-  { id: 'd-loop-close', text: '    }' },
-  { id: 'd-return', text: '    return ans;' },
-  { id: 'd-method-close', text: '  }' },
-  { id: 'd-class-close', text: '}' },
+const variableCode: CodeLine[] = [
+  { id: 'v-class', text: 'class Solution {' },
+  { id: 'v-method', text: '  public List<Integer> findAnagrams(String s, String p) {' },
+  { id: 'v-array', text: '    int[] cnt = new int[26];' },
+  { id: 'v-p-loop', text: '    for (char c : p.toCharArray()) {' },
+  { id: 'v-p-add', text: "      cnt[c - 'a']++;" },
+  { id: 'v-p-close', text: '    }' },
+  { id: 'v-answer', text: '    List<Integer> ans = new ArrayList<>();' },
+  { id: 'v-left', text: '    int left = 0;' },
+  { id: 'v-loop', text: '    for (int right = 0; right < s.length(); right++) {' },
+  { id: 'v-char', text: "      int c = s.charAt(right) - 'a';" },
+  { id: 'v-add', text: '      cnt[c]--;' },
+  { id: 'v-while', text: '      while (cnt[c] < 0) {' },
+  { id: 'v-remove', text: "        cnt[s.charAt(left) - 'a']++;" },
+  { id: 'v-move', text: '        left++;' },
+  { id: 'v-while-close', text: '      }' },
+  { id: 'v-length', text: '      if (right - left + 1 == p.length()) {' },
+  { id: 'v-answer-add', text: '        ans.add(left);' },
+  { id: 'v-length-close', text: '      }' },
+  { id: 'v-loop-close', text: '    }' },
+  { id: 'v-return', text: '    return ans;' },
+  { id: 'v-method-close', text: '  }' },
+  { id: 'v-class-close', text: '}' },
 ]
 
-export const getAnagramCode = (method: AnagramMethod) => method === 'counts' ? countsCode : differCode
+export const getAnagramCode = (method: AnagramMethod) => method === 'fixed' ? fixedCode : variableCode
 const blank = () => Array<number>(26).fill(0)
-const copy = (values: number[]) => [...values]
+const snapshot = (values: number[]) => [...values]
 
-function baseStep(values: Partial<AnagramStep>): AnagramStep {
-  return { start: 0, phase: 'init', sCount: blank(), pCount: blank(), count: blank(), differ: 0, outgoing: -1, incoming: -1, answers: [], lineId: '', message: '', ...values }
+function makeStep(values: Partial<AnagramStep>): AnagramStep {
+  return { left: 0, right: -1, phase: 'init', cntP: blank(), cntS: blank(), cnt: blank(), activeIndex: -1, answers: [], lineId: '', message: '', ...values }
 }
 
-function makeCountsSteps(): AnagramStep[] {
-  const sCount = blank(), pCount = blank(), answers: number[] = [], steps: AnagramStep[] = []
-  for (let i = 0; i < patternText.length; i++) { sCount[sourceText.charCodeAt(i) - 97]++; pCount[patternText.charCodeAt(i) - 97]++ }
-  steps.push(baseStep({ sCount: copy(sCount), pCount: copy(pCount), lineId: 'c-init-p', message: `初始化长度为 ${patternText.length} 的窗口 “${sourceText.slice(0, patternText.length)}”，并统计它与 p 的 26 位字母次数` }))
-  const firstMatch = sCount.every((value, index) => value === pCount[index])
-  if (firstMatch) answers.push(0)
-  steps.push(baseStep({ phase: 'compare', sCount: copy(sCount), pCount: copy(pCount), answers: [...answers], lineId: firstMatch ? 'c-first-add' : 'c-first-equal', message: firstMatch ? '两张计数表完全相同，窗口 “cba” 是异位词，记录起点 0' : '两张计数表不同，不记录' }))
-  for (let i = 0; i < sourceText.length - patternText.length; i++) {
-    const outgoing = i, incoming = i + patternText.length, start = i + 1
-    sCount[sourceText.charCodeAt(outgoing) - 97]--
-    steps.push(baseStep({ start, phase: 'remove', sCount: copy(sCount), pCount: copy(pCount), outgoing, incoming, answers: [...answers], lineId: 'c-remove', message: `窗口右移：先移出 s[${outgoing}] = “${sourceText[outgoing]}”，它的计数减 1` }))
-    sCount[sourceText.charCodeAt(incoming) - 97]++
-    steps.push(baseStep({ start, phase: 'add', sCount: copy(sCount), pCount: copy(pCount), outgoing, incoming, answers: [...answers], lineId: 'c-add', message: `再移入 s[${incoming}] = “${sourceText[incoming]}”，得到新窗口 “${sourceText.slice(start, start + patternText.length)}”` }))
-    const match = sCount.every((value, index) => value === pCount[index])
-    if (match) answers.push(start)
-    steps.push(baseStep({ start, phase: 'compare', sCount: copy(sCount), pCount: copy(pCount), outgoing, incoming, answers: [...answers], lineId: match ? 'c-answer-add' : 'c-equal', message: match ? `26 个位置全部相同：记录窗口起点 ${start}` : '计数表仍有不同，这个窗口不是 p 的异位词' }))
+function makeFixedSteps(): AnagramStep[] {
+  const cntP = blank()
+  const cntS = blank()
+  const answers: number[] = []
+  const steps: AnagramStep[] = []
+  for (const char of patternText) {
+    const index = char.charCodeAt(0) - 97
+    cntP[index]++
+    steps.push(makeStep({ cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: index, lineId: 'f-p-add', message: `统计 p：字母 “${char}” 的目标次数变为 ${cntP[index]}` }))
   }
-  steps.push(baseStep({ start: sourceText.length - patternText.length, phase: 'done', sCount: copy(sCount), pCount: copy(pCount), answers, lineId: 'c-return', message: '所有固定长度窗口检查完成，返回 [0, 6]' }))
+  for (let right = 0; right < sourceText.length; right++) {
+    const incoming = sourceText[right]
+    const incomingIndex = incoming.charCodeAt(0) - 97
+    cntS[incomingIndex]++
+    const left = right - patternText.length + 1
+    steps.push(makeStep({ left: Math.max(0, left), right, phase: 'add', cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: incomingIndex, answers: [...answers], lineId: 'f-add', message: `right = ${right}：字母 “${incoming}” 进入，cntS['${incoming}'] 变为 ${cntS[incomingIndex]}` }))
+    if (left < 0) {
+      steps.push(makeStep({ left: 0, right, phase: 'grow', cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: incomingIndex, answers: [...answers], lineId: 'f-continue', message: `left = ${right} - ${patternText.length} + 1 = ${left}，窗口长度还不足 ${patternText.length}，继续加入字符` }))
+      continue
+    }
+    const match = cntS.every((value, index) => value === cntP[index])
+    if (match) answers.push(left)
+    steps.push(makeStep({ left, right, phase: 'compare', cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: -1, answers: [...answers], lineId: match ? 'f-answer-add' : 'f-equal', message: match ? `窗口 “${sourceText.slice(left, right + 1)}” 的 26 个计数都与 p 相同，记录起点 ${left}` : `窗口 “${sourceText.slice(left, right + 1)}” 已满，但计数表不同，不记录` }))
+    const outgoing = sourceText[left]
+    const outgoingIndex = outgoing.charCodeAt(0) - 97
+    cntS[outgoingIndex]--
+    steps.push(makeStep({ left: left + 1, right, phase: 'remove', cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: outgoingIndex, answers: [...answers], lineId: 'f-remove', message: `本轮比较结束，移出左端 s[${left}] = “${outgoing}”，为下一轮固定长度窗口腾出位置` }))
+  }
+  steps.push(makeStep({ left: sourceText.length, right: sourceText.length - 1, phase: 'done', cntP: snapshot(cntP), cntS: snapshot(cntS), answers: [...answers], lineId: 'f-return', message: '所有长度为 3 的窗口检查完成，返回 [0, 6]' }))
   return steps
 }
 
-function makeDifferSteps(): AnagramStep[] {
-  const count = blank(), answers: number[] = [], steps: AnagramStep[] = []
-  for (let i = 0; i < patternText.length; i++) { count[sourceText.charCodeAt(i) - 97]++; count[patternText.charCodeAt(i) - 97]-- }
-  let differ = count.filter((value) => value !== 0).length
-  steps.push(baseStep({ count: copy(count), differ, lineId: 'd-differ-add', message: `count = 窗口计数 − p 计数；非零字母种类数 differ = ${differ}` }))
-  if (differ === 0) answers.push(0)
-  steps.push(baseStep({ phase: 'compare', count: copy(count), differ, answers: [...answers], lineId: 'd-first-add', message: 'differ = 0，表示 26 个差值全为 0，记录起点 0' }))
-  for (let i = 0; i < sourceText.length - patternText.length; i++) {
-    const outgoing = i, incoming = i + patternText.length, start = i + 1
-    const outIndex = sourceText.charCodeAt(outgoing) - 97, outBefore = count[outIndex], differBeforeRemove = differ
-    if (count[outIndex] === 1) differ--; else if (count[outIndex] === 0) differ++
-    count[outIndex]--
-    steps.push(baseStep({ start, phase: 'remove', count: copy(count), differ, outgoing, incoming, answers: [...answers], lineId: 'd-remove', message: `移出 “${sourceText[outgoing]}”：差值 ${outBefore} → ${count[outIndex]}，differ ${differBeforeRemove} → ${differ}` }))
-    const inIndex = sourceText.charCodeAt(incoming) - 97, inBefore = count[inIndex], differBeforeAdd = differ
-    if (count[inIndex] === -1) differ--; else if (count[inIndex] === 0) differ++
-    count[inIndex]++
-    steps.push(baseStep({ start, phase: 'add', count: copy(count), differ, outgoing, incoming, answers: [...answers], lineId: 'd-add', message: `移入 “${sourceText[incoming]}”：差值 ${inBefore} → ${count[inIndex]}，differ ${differBeforeAdd} → ${differ}` }))
-    if (differ === 0) answers.push(start)
-    steps.push(baseStep({ start, phase: 'compare', count: copy(count), differ, outgoing, incoming, answers: [...answers], lineId: differ === 0 ? 'd-answer-add' : 'd-equal', message: differ === 0 ? `differ = 0，只需 O(1) 判断即可记录起点 ${start}` : `differ = ${differ}，仍有 ${differ} 种字母数量不同` }))
+function makeVariableSteps(): AnagramStep[] {
+  const cnt = blank()
+  const answers: number[] = []
+  const steps: AnagramStep[] = []
+  for (const char of patternText) {
+    const index = char.charCodeAt(0) - 97
+    cnt[index]++
+    steps.push(makeStep({ cnt: snapshot(cnt), activeIndex: index, lineId: 'v-p-add', message: `给 p 的字母分配配额：“${char}” 还可进入窗口 ${cnt[index]} 次` }))
   }
-  steps.push(baseStep({ start: sourceText.length - patternText.length, phase: 'done', count: copy(count), differ, answers, lineId: 'd-return', message: '滑动完成，返回所有匹配起点 [0, 6]' }))
+  let left = 0
+  for (let right = 0; right < sourceText.length; right++) {
+    const incoming = sourceText[right]
+    const c = incoming.charCodeAt(0) - 97
+    cnt[c]--
+    steps.push(makeStep({ left, right, phase: 'add', cnt: snapshot(cnt), activeIndex: c, answers: [...answers], lineId: 'v-add', message: `right = ${right}：“${incoming}” 进入窗口，消耗一次配额，cnt['${incoming}'] 变为 ${cnt[c]}` }))
+    while (cnt[c] < 0) {
+      steps.push(makeStep({ left, right, phase: 'excess', cnt: snapshot(cnt), activeIndex: c, answers: [...answers], lineId: 'v-while', message: `cnt['${incoming}'] = ${cnt[c]} < 0，说明刚进入的 “${incoming}” 超量；移动 left 直到它不再超量` }))
+      const outgoing = sourceText[left]
+      const outgoingIndex = outgoing.charCodeAt(0) - 97
+      cnt[outgoingIndex]++
+      steps.push(makeStep({ left, right, phase: 'shrink', cnt: snapshot(cnt), activeIndex: outgoingIndex, answers: [...answers], lineId: 'v-remove', message: `移出 s[${left}] = “${outgoing}”，归还一次 “${outgoing}” 的配额` }))
+      left++
+      steps.push(makeStep({ left, right, phase: 'shrink', cnt: snapshot(cnt), activeIndex: outgoingIndex, answers: [...answers], lineId: 'v-move', message: `left++，窗口左边界移动到下标 ${left}${cnt[c] < 0 ? '；“' + incoming + '” 仍然超量，继续收缩' : '；窗口重新合法'}` }))
+    }
+    const match = right - left + 1 === patternText.length
+    if (match) answers.push(left)
+    steps.push(makeStep({ left, right, phase: 'compare', cnt: snapshot(cnt), activeIndex: -1, answers: [...answers], lineId: match ? 'v-answer-add' : 'v-length', message: match ? `窗口内每种字母都未超量，且长度正好为 ${patternText.length}，所以一定是异位词；记录起点 ${left}` : `窗口合法，但长度为 ${right - left + 1}，还不是长度 ${patternText.length} 的异位词` }))
+  }
+  steps.push(makeStep({ left, right: sourceText.length - 1, phase: 'done', cnt: snapshot(cnt), answers: [...answers], lineId: 'v-return', message: '遍历结束，返回全部匹配起点 [0, 6]' }))
   return steps
 }
 
-export const makeAnagramSteps = (method: AnagramMethod) => method === 'counts' ? makeCountsSteps() : makeDifferSteps()
+export const makeAnagramSteps = (method: AnagramMethod) => method === 'fixed' ? makeFixedSteps() : makeVariableSteps()

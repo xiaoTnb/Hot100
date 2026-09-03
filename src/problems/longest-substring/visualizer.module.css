@@ -14,18 +14,24 @@
 .windowCard strong { grid-row: 2; margin-top: 5px; color: var(--blue); font: 700 19px var(--mono); }
 .windowCard span { grid-row: 1 / 3; color: var(--muted); font: 10px var(--mono); }
 .lower { margin-top: 11px; display: grid; grid-template-columns: 1fr 145px; gap: 10px; }
-.setCard { border: 1px solid var(--line); background: var(--surface); }
-.setCard header { padding: 9px 11px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); }
-.setCard header b { font-size: 10px; }
-.setCard header small { color: var(--muted); font-size: 8px; }
-.setCard > div { min-height: 69px; padding: 10px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
-.setCard em { margin: auto; color: var(--muted); font-size: 10px; font-style: normal; }
-.setCard span { padding: 7px 9px; border: 1px solid var(--green); border-radius: 3px; background: var(--green-soft); color: var(--green); font: 700 10px var(--mono); animation: chip-in 300ms ease; }
+.trackerCard { border: 1px solid var(--line); background: var(--surface); }
+.trackerCard header { padding: 9px 11px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.trackerCard header b { font-size: 10px; }
+.trackerCard header small { color: var(--muted); font-size: 8px; }
+.trackerCard > div { min-height: 69px; padding: 9px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.trackerCard span { padding: 6px 8px; display: grid; grid-template-columns: 1fr auto; border: 1px solid var(--line); background: var(--soft); font-family: var(--mono); transition: all 260ms; }
+.trackerCard span small { grid-column: 1 / -1; color: var(--muted); font-size: 7px; }
+.trackerCard span b { color: var(--muted); font-size: 12px; }
+.trackerCard span i { color: #9aa5a0; font-size: 10px; font-style: normal; }
+.trackerCard span[data-on='true'] { border-color: var(--green); background: var(--green-soft); }
+.trackerCard span[data-on='true'] b, .trackerCard span[data-on='true'] i { color: var(--green); }
+.trackerCard span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); box-shadow: 0 0 0 3px rgba(39,118,210,.1); animation: chip-in 300ms ease; }
+.trackerCard span[data-active='true'] b, .trackerCard span[data-active='true'] i { color: var(--blue); }
 .answer { padding: 12px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--green); background: var(--green-soft); }
 .answer small { color: var(--green); font-size: 9px; }
 .answer b { margin-block: 3px; color: var(--green); font: 700 27px var(--mono); }
 .answer span { color: var(--muted); font: 8px var(--mono); }
-.rule { margin-top: 11px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.rule { margin-top: 11px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
 .rule span { padding: 7px 5px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 8px; text-align: center; }
 .rule span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 700; }
 @keyframes duplicate-pulse { to { transform: translateY(-4px); } }
