@@ -1,5 +1,7 @@
-.total { margin-left: auto; padding: 5px 8px; border-radius: 2px; background: var(--blue-soft); color: var(--blue); font: 700 10px var(--mono); }
 .canvas { padding-bottom: 26px; }
+.rainHeader { padding: 8px 11px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--line); background: var(--surface); }
+.rainHeader span { color: var(--muted); font-size: 9px; }
+.rainHeader b { padding: 5px 8px; border-radius: 2px; background: var(--blue-soft); color: var(--blue); font: 700 10px var(--mono); }
 .chart { height: 245px; padding-top: 32px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; border-bottom: 2px solid #78988f; }
 .column { position: relative; min-width: 0; display: grid; grid-template-rows: 1fr 15px 13px; text-align: center; }
 .column > div { position: relative; min-height: 0; }
@@ -10,11 +12,13 @@
 .column[data-role='current'] > div i { background: var(--orange); }
 .column[data-role='left'] > div i { background: var(--blue); }
 .column[data-role='right'] > div i { background: var(--orange); }
+.column[data-role='meet'] > div i { background: var(--green); }
 .column[data-basin='true'] > div { background: rgba(39,118,210,.05); }
 .pointer { position: absolute; z-index: 3; top: -27px; right: 0; left: 0; display: flex; justify-content: center; }
 .pointer b { width: 21px; height: 21px; display: grid; place-items: center; border-radius: 50%; background: var(--ink); color: #fff; font: 700 8px var(--mono); }
 .column[data-role='left'] .pointer b { background: var(--blue); }
 .column[data-role='right'] .pointer b, .column[data-role='current'] .pointer b { background: var(--orange); }
+.column[data-role='meet'] .pointer b { width: auto; padding-inline: 7px; border-radius: 11px; background: var(--green); white-space: nowrap; }
 .dpPanel { margin-top: 13px; display: grid; gap: 6px; }
 .auxRow { display: grid; grid-template-columns: 66px repeat(12, 1fr); gap: 3px; }
 .auxRow > b { padding: 7px 5px; display: grid; place-items: center; background: var(--ink); color: #fff; font: 8px var(--mono); }
@@ -44,7 +48,6 @@
 .formula > span { padding: 9px; display: grid; place-items: center; background: var(--soft); color: var(--muted); font: 9px var(--mono); text-align: center; }
 .formula div[data-total='true'] { border-color: var(--green); background: var(--green-soft); color: var(--green); }
 @media (max-width: 620px) {
-  .total { margin-left: 0; }
   .chart { height: 205px; gap: 2px; }
   .column > div i, .column > div b { right: 8%; left: 8%; }
   .auxRow { grid-template-columns: 52px repeat(12, 1fr); gap: 1px; }

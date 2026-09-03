@@ -18,6 +18,11 @@ export function ThreeSumVisualizer() {
         <div className={styles.equation}><small>当前检查</small><p><b>{step.first === null ? 'a' : threeSorted[step.first]}</b><i>+</i><b>{step.second === null ? 'b' : threeSorted[step.second]}</b><i>+</i><b>{step.third === null ? 'c' : threeSorted[step.third]}</b><i>=</i><strong data-zero={step.phase === 'found' || undefined}>{step.first === null || step.sum === null ? '?' : threeSorted[step.first] + step.sum}</strong></p><span>目标：b + c = {step.target ?? '?'}</span></div>
         <div className={styles.results}><header>不重复三元组</header><div>{step.results.length === 0 ? <em>还没有找到</em> : step.results.map((triple) => <span key={triple.join(',')}>[{triple.join(', ')}]</span>)}</div></div>
       </div>
+      <div className={styles.direction}>
+        <span data-active={step.direction === 'increase' || undefined}><b>b →</b><small>b + c 偏小，让 b 变大</small></span>
+        <span data-active={step.direction === 'match' || undefined}><b>收集</b><small>b + c = target</small></span>
+        <span data-active={step.direction === 'decrease' || undefined}><b>← c</b><small>b + c 偏大，让 c 变小</small></span>
+      </div>
       <div className={styles.rule}><b>去重规则</b><span>a 或 b 与上一次枚举的值相同就跳过；排序后，相同三元组只会出现一次。</span></div>
       <div className={`step-message ${step.phase === 'done' ? 'success' : ''}`} aria-live="polite"><span>{step.phase === 'done' ? <i className="check-symbol">✓</i> : String(playback.stepIndex + 1).padStart(2, '0')}</span><p>{step.message}</p></div>
     </div>

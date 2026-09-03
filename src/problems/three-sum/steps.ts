@@ -1,7 +1,7 @@
 import type { CodeLine, PlayerMethod } from '../../components/player/types'
 
 export type ThreePhase = 'sort' | 'first' | 'second' | 'move' | 'skip' | 'found' | 'break' | 'done'
-export interface ThreeStep { first: number | null; second: number | null; third: number | null; target: number | null; sum: number | null; phase: ThreePhase; results: number[][]; lineId: string; message: string }
+export interface ThreeStep { first: number | null; second: number | null; third: number | null; target: number | null; sum: number | null; phase: ThreePhase; direction?: 'increase' | 'decrease' | 'match'; results: number[][]; lineId: string; message: string }
 
 export const threeOriginal = [-1, 0, 1, 2, -1, -4]
 export const threeSorted = [...threeOriginal].sort((a, b) => a - b)
@@ -65,12 +65,12 @@ export function makeThreeSteps(): ThreeStep[] {
         continue
       }
       let sum = threeSorted[second] + threeSorted[third]
-      steps.push({ first, second, third, target, sum, phase: 'second', results: copyResults(results), lineId: 'second-loop', message: `枚举 b = ${threeSorted[second]}，从右侧 c = ${threeSorted[third]} 开始检查` })
+      steps.push({ first, second, third, target, sum, phase: 'second', direction: sum < target ? 'increase' : sum > target ? 'decrease' : 'match', results: copyResults(results), lineId: 'second-loop', message: sum < target ? `b + c = ${sum} < ${target}，和偏小；本轮结束后让 b 右移，使下一次的和变大` : sum > target ? `b + c = ${sum} > ${target}，和偏大；需要让 c 左移，使和变小` : `b + c = ${sum}，正好等于目标 ${target}` })
       while (second < third && sum > target) {
         const oldThird = third
         third--
         sum = threeSorted[second] + threeSorted[third]
-        steps.push({ first, second, third, target, sum, phase: 'move', results: copyResults(results), lineId: 'move-third', message: `原来的 b + c 太大，c 从下标 ${oldThird} 左移到 ${third}，新的和为 ${sum}` })
+        steps.push({ first, second, third, target, sum, phase: 'move', direction: 'decrease', results: copyResults(results), lineId: 'move-third', message: `和偏大时必须让 c 左移：排序后 c 会变小；若让 b 右移，b 只会更大。c 从下标 ${oldThird} 移到 ${third}，新和为 ${sum}` })
       }
       if (second === third) {
         steps.push({ first, second, third, target, sum, phase: 'break', results: copyResults(results), lineId: 'break', message: 'b 与 c 相遇，已经没有三个不同下标，结束当前 a 的枚举' })
@@ -79,7 +79,7 @@ export function makeThreeSteps(): ThreeStep[] {
       if (sum === target) {
         const triple = [threeSorted[first], threeSorted[second], threeSorted[third]]
         results.push(triple)
-        steps.push({ first, second, third, target, sum, phase: 'found', results: copyResults(results), lineId: 'add-answer', message: `${triple.join(' + ')} = 0，收集三元组 [${triple.join(', ')}]` })
+        steps.push({ first, second, third, target, sum, phase: 'found', direction: 'match', results: copyResults(results), lineId: 'add-answer', message: `${triple.join(' + ')} = 0，收集三元组 [${triple.join(', ')}]；下一轮 for 循环继续让 b 右移` })
       }
     }
   }

@@ -11,8 +11,9 @@ export function TrappingRainWaterVisualizer() {
   const step = steps[playback.stepIndex]
   const selectMethod = (id: string) => { setMethod(id as RainMethod); playback.reset() }
 
-  return <AlgorithmPlayer methods={rainMethods} activeMethod={method} onMethodChange={selectMethod} playback={playback} code={getRainCode(method)} activeLineId={step.lineId} toolbarExtra={<span className={styles.total}>ans = {step.total}</span>}>
+  return <AlgorithmPlayer methods={rainMethods} activeMethod={method} onMethodChange={selectMethod} playback={playback} code={getRainCode(method)} activeLineId={step.lineId}>
     <div className={`animation-canvas ${styles.canvas}`}>
+      <div className={styles.rainHeader}><span>{method === 'dp' ? '左右最高柱预处理' : method === 'stack' ? '单调栈逐层填坑' : '双指针逐格结算'}</span><b>ans = {step.total}</b></div>
       <RainChart step={step} method={method} />
       {method === 'dp' && <DpPanel step={step} />}
       {method === 'stack' && <StackPanel step={step} />}
@@ -25,10 +26,10 @@ export function TrappingRainWaterVisualizer() {
 
 function RainChart({ step, method }: { step: RainStep; method: RainMethod }) {
   return <div className={styles.chart}>{rainHeights.map((height, index) => {
-    const role = index === step.left ? 'left' : index === step.right ? 'right' : index === step.index ? 'current' : undefined
+    const role = step.left === step.right && index === step.left ? 'meet' : index === step.left ? 'left' : index === step.right ? 'right' : index === step.index ? 'current' : undefined
     const inBasin = step.basin.includes(index)
     return <div className={styles.column} data-role={role} data-basin={inBasin || undefined} key={index}>
-      <span className={styles.pointer}>{role && <b>{method === 'pointers' ? role === 'left' ? 'l' : role === 'right' ? 'r' : 'i' : role === 'current' ? 'i' : role === 'left' ? 'L' : 'R'}</b>}</span>
+      <span className={styles.pointer}>{role && <b>{role === 'meet' ? 'l = r' : method === 'pointers' ? role === 'left' ? 'l' : role === 'right' ? 'r' : 'i' : role === 'current' ? 'i' : role === 'left' ? 'L' : 'R'}</b>}</span>
       <div><i style={{ height: `${height / 3 * 100}%` }} /><b style={{ bottom: `${height / 3 * 100}%`, height: `${step.waterAt[index] / 3 * 100}%` }} /></div>
       <strong>{height}</strong><small>{index}</small>
     </div>

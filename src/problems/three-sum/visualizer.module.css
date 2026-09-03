@@ -31,6 +31,11 @@
 .results > div { min-height: 86px; padding: 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .results em { margin: auto; color: var(--muted); font-size: 10px; font-style: normal; }
 .results span { padding: 8px 9px; border: 1px solid var(--green); border-radius: 3px; background: var(--green-soft); color: var(--green); font: 700 10px var(--mono); }
+.direction { margin-top: 11px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.direction span { padding: 8px 10px; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); }
+.direction b { font: 700 11px var(--mono); }
+.direction small { font-size: 9px; text-align: right; }
+.direction span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); box-shadow: 0 0 0 3px rgba(39, 118, 210, .08); }
 .rule { margin-top: 11px; padding: 10px 12px; display: flex; gap: 12px; border-left: 3px solid var(--orange); background: var(--orange-soft); }
 .rule b { font-size: 10px; white-space: nowrap; }
 .rule span { color: var(--muted); font-size: 10px; line-height: 1.5; }
@@ -42,4 +47,5 @@
   .array > div { width: 45px; }
   .array strong { height: 50px; font-size: 15px; }
   .logic { grid-template-columns: 1fr; }
+  .direction { grid-template-columns: 1fr; }
 }
