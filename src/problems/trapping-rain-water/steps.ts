@@ -125,7 +125,7 @@ function makeStackSteps(): RainStep[] {
     while (stack.length && rainHeights[i] > rainHeights[stack[stack.length - 1]]) {
       const top = stack.pop()!
       if (!stack.length) {
-        steps.push(step({ phase: 'pop', index: i, stack: [], waterAt: [...waterAt], total, basin: [top], lineId: 'stack-break', message: `弹出下标 ${top} 后栈为空，没有左边界，不能形成积水` }))
+        steps.push(step({ phase: 'pop', index: i, stack: [], waterAt: [...waterAt], total, basin: [top], lineId: 'stack-break', message: `因为当前柱 height[${i}]=${rainHeights[i]} > 栈顶柱 height[${top}]=${rainHeights[top]}，弹出 ${top} 作为坑底；但弹出后栈为空，没有左边界，不能接水` }))
         break
       }
       const left = stack[stack.length - 1]
@@ -134,10 +134,11 @@ function makeStackSteps(): RainStep[] {
       const currentWater = width * depth
       for (let j = left + 1; j < i; j++) waterAt[j] += depth
       total += currentWater
-      steps.push(step({ phase: 'pop', index: i, left, right: i, stack: [...stack], waterAt: [...waterAt], currentWater, total, basin: [left, top, i], calculation: { kind: 'basin', leftIndex: left, bottomIndex: top, rightIndex: i, leftHeight: rainHeights[left], bottomHeight: rainHeights[top], rightHeight: rainHeights[i], width, waterHeight: depth }, lineId: 'stack-add', message: `左墙是下标 ${left}（高 ${rainHeights[left]}），坑底是 ${top}（高 ${rainHeights[top]}），右墙是 ${i}（高 ${rainHeights[i]}）：宽 ${width}，本层水高 ${depth}，新增 ${currentWater}` }))
+      steps.push(step({ phase: 'pop', index: i, left, right: i, stack: [...stack], waterAt: [...waterAt], currentWater, total, basin: [left, top, i], calculation: { kind: 'basin', leftIndex: left, bottomIndex: top, rightIndex: i, leftHeight: rainHeights[left], bottomHeight: rainHeights[top], rightHeight: rainHeights[i], width, waterHeight: depth }, lineId: 'stack-add', message: `触发条件：height[${i}]=${rainHeights[i]} > height[${top}]=${rainHeights[top]}。弹出 ${top} 作为坑底；新栈顶 ${left} 是左墙，当前柱 ${i} 是右边界，计算出本层新增 ${currentWater}` }))
     }
+    const pushReason = stack.length ? `height[${i}]=${rainHeights[i]} ≤ 当前栈顶高度 ${rainHeights[stack[stack.length - 1]]}，while 停止` : '当前栈为空，不满足 while 条件'
     stack.push(i)
-    steps.push(step({ phase: 'push', index: i, stack: [...stack], waterAt: [...waterAt], total, basin: [], lineId: 'stack-push', message: `下标 ${i} 入栈；栈内柱高从底到顶保持递减` }))
+    steps.push(step({ phase: 'push', index: i, stack: [...stack], waterAt: [...waterAt], total, basin: [], lineId: 'stack-push', message: `${pushReason}；下标 ${i} 入栈，继续保持单调递减` }))
   }
   steps.push(step({ phase: 'done', stack: [...stack], waterAt, total, lineId: 'stack-return', message: '每个下标最多入栈、出栈一次，最终雨水量为 6' }))
   return steps

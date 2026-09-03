@@ -28,7 +28,7 @@ function RainChart({ step, method }: { step: RainStep; method: RainMethod }) {
   return <div className={styles.chart}>{rainHeights.map((height, index) => {
     const role = method === 'stack' && step.basin[1] === index ? 'bottom' : step.left === step.right && index === step.left ? 'meet' : index === step.left ? 'left' : index === step.right ? 'right' : index === step.index ? 'current' : undefined
     const inBasin = step.basin.includes(index)
-    return <div className={styles.column} data-role={role} data-basin={inBasin || undefined} key={index}>
+    return <div className={styles.column} data-role={role} data-basin={inBasin || undefined} data-active-index={method === 'pointers' && step.phase === 'collect' && index === step.index || undefined} key={index}>
       <span className={styles.pointer}>{role && <b>{role === 'meet' ? 'l = r' : role === 'bottom' ? 'top' : method === 'pointers' ? role === 'left' ? 'l' : role === 'right' ? 'r' : 'i' : role === 'current' ? 'i' : role === 'left' ? 'L' : 'R'}</b>}</span>
       <div><i style={{ height: `${height / 3 * 100}%` }} /><b style={{ bottom: `${height / 3 * 100}%`, height: `${step.waterAt[index] / 3 * 100}%` }} /></div>
       <strong>{height}</strong><small>{index}</small>
@@ -47,22 +47,22 @@ function ArrayRow({ label, values, ready, active }: { label: string; values: num
 }
 
 function StackPanel({ step }: { step: RainStep }) {
-  return <div className={styles.stackPanel}><header><b>单调栈</b><small>保存下标 · 栈顶在右</small></header><div>{step.stack.length === 0 ? <em>空栈</em> : step.stack.map((index) => <span key={index}><small>下标 {index}</small><b>{rainHeights[index]}</b></span>)}</div></div>
+  return <div className={styles.stackPanel}><header><b>单调栈</b><small>保存下标 · 栈顶在右</small></header><p><b>弹出条件</b><code>height[i] &gt; height[stack.peek()]</code><span>当前柱比栈顶低点高，才可能封住它的右侧</span></p><div>{step.stack.length === 0 ? <em>空栈</em> : step.stack.map((index) => <span key={index}><small>下标 {index}</small><b>{rainHeights[index]}</b></span>)}</div></div>
 }
 
 function PointerPanel({ step }: { step: RainStep }) {
   const leftMax = Math.max(0, ...step.leftMax)
   const rightMax = Math.max(0, ...step.rightMax)
-  return <div className={styles.pointerPanel}><div data-side="left"><small>leftMax</small><b>{leftMax}</b></div><p>每次结算较低的一侧<br /><span>该侧水位已经确定</span></p><div data-side="right"><small>rightMax</small><b>{rightMax}</b></div></div>
+  return <div className={styles.pointerPanel}><div data-side="left"><small>leftMax</small><b>{leftMax}</b></div><p>{step.phase === 'done' ? '左右指针已经相遇' : <>正在结算下标 <b>i = {step.index}</b></>}<br /><span>闪烁的下标就是本轮加入 ans 的位置</span></p><div data-side="right"><small>rightMax</small><b>{rightMax}</b></div></div>
 }
 
 function CalculationPanel({ calculation, method, currentWater, total }: { calculation: RainCalculation | null; method: RainMethod; currentWater: number; total: number }) {
-  if (!calculation) return <div className={styles.calculationEmpty}><span>{method === 'dp' ? '先填写左右最高柱，之后才能逐格计算水量' : method === 'stack' ? '出现右墙时，弹出栈顶作为坑底并计算新的一层水' : '更新两侧最高柱后，从较低的一侧结算当前位置'}</span><b>累计 ans = {total}</b></div>
+  if (!calculation) return <div className={styles.calculationEmpty}><span>{method === 'dp' ? '先填写左右最高柱，之后才能逐格计算水量' : method === 'stack' ? '只有当前柱高于栈顶柱时才弹栈；弹出后仍有左边界，才能计算积水' : '更新两侧最高柱后，从较低的一侧结算当前位置'}</span><b>累计 ans = {total}</b></div>
   if (calculation.kind === 'basin') return <div className={styles.calculationPanel}>
     <div className={styles.sources}>
       <span data-source="left"><small>左墙 L · 下标 {calculation.leftIndex}</small><b>height[L] = {calculation.leftHeight}</b></span>
       <span data-source="bottom"><small>坑底 top · 下标 {calculation.bottomIndex}</small><b>height[top] = {calculation.bottomHeight}</b></span>
-      <span data-source="right"><small>右墙 i · 下标 {calculation.rightIndex}</small><b>height[i] = {calculation.rightHeight}</b></span>
+      <span data-source="right"><small>当前柱 i（右边界）· 下标 {calculation.rightIndex}</small><b>height[i] = {calculation.rightHeight}</b></span>
     </div>
     <div className={styles.equationLine}><span>宽度：{calculation.rightIndex} − {calculation.leftIndex} − 1 = <b>{calculation.width}</b></span><i>×</i><span>本层水高：min({calculation.leftHeight}, {calculation.rightHeight}) − {calculation.bottomHeight} = <b>{calculation.waterHeight}</b></span><i>=</i><strong>新增 {currentWater}</strong><em>累计 {total}</em></div>
   </div>
