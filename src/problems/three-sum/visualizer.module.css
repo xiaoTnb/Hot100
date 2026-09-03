@@ -1,4 +1,3 @@
-.count { margin-left: auto; color: var(--muted); font: 10px var(--mono); }
 .canvas { padding-bottom: 26px; }
 .sortLine { padding: 10px 12px; display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); background: var(--surface); }
 .sortLine span { color: var(--muted); font-size: 9px; }
@@ -40,7 +39,6 @@
 .rule b { font-size: 10px; white-space: nowrap; }
 .rule span { color: var(--muted); font-size: 10px; line-height: 1.5; }
 @media (max-width: 620px) {
-  .count { margin-left: 0; }
   .sortLine { align-items: flex-start; flex-wrap: wrap; }
   .sortLine i { margin-left: 0; }
   .array { gap: 4px; }
