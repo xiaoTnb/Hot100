@@ -7,8 +7,8 @@
 .sourceRow div[data-window='true'] strong { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); }
 .sourceRow div[data-active='true'] strong { box-shadow: 0 0 0 3px rgba(39,118,210,.12); animation: count-flash 480ms ease; }
 .sourceRow div[data-left='true']::before, .sourceRow div[data-right='true']::after { position: absolute; bottom: calc(100% + 6px); padding: 3px 6px; border-radius: 9px; color: #fff; font: 700 7px var(--mono); }
-.sourceRow div[data-left='true']::before { left: 1px; content: 'left'; background: var(--blue); }
-.sourceRow div[data-right='true']::after { right: 1px; content: 'right'; background: var(--orange); }
+.sourceRow div[data-left='true']::before { left: 1px; content: 'l'; background: var(--blue); }
+.sourceRow div[data-right='true']::after { right: 1px; content: 'r'; background: var(--orange); }
 .pattern { margin-top: 12px; padding: 9px 11px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); background: var(--surface); }
 .pattern span { color: var(--muted); font-size: 9px; }
 .pattern code { color: var(--blue); font: 700 13px var(--mono); }

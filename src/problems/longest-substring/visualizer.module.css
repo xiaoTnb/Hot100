@@ -18,7 +18,7 @@
 .trackerCard header { padding: 9px 11px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); }
 .trackerCard header b { font-size: 10px; }
 .trackerCard header small { color: var(--muted); font-size: 8px; }
-.trackerCard > div { min-height: 69px; padding: 9px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.trackerCard > div { min-height: 69px; padding: 9px; display: grid; grid-template-columns: .8fr 1fr repeat(3, 1.1fr) 1fr .8fr; gap: 5px; }
 .trackerCard span { padding: 6px 8px; display: grid; grid-template-columns: 1fr auto; border: 1px solid var(--line); background: var(--soft); font-family: var(--mono); transition: all 260ms; }
 .trackerCard span small { grid-column: 1 / -1; color: var(--muted); font-size: 7px; }
 .trackerCard span b { color: var(--muted); font-size: 12px; }
@@ -27,6 +27,9 @@
 .trackerCard span[data-on='true'] b, .trackerCard span[data-on='true'] i { color: var(--green); }
 .trackerCard span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); box-shadow: 0 0 0 3px rgba(39,118,210,.1); animation: chip-in 300ms ease; }
 .trackerCard span[data-active='true'] b, .trackerCard span[data-active='true'] i { color: var(--blue); }
+.trackerCard .ellipsisCell { display: flex; flex-direction: column; align-items: center; justify-content: center; border-style: dashed; background: transparent; }
+.trackerCard .ellipsisCell b { color: var(--muted); font-size: 16px; letter-spacing: 3px; }
+.trackerCard .ellipsisCell small { color: var(--muted); font-size: 6px; white-space: nowrap; }
 .answer { padding: 12px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--green); background: var(--green-soft); }
 .answer small { color: var(--green); font-size: 9px; }
 .answer b { margin-block: 3px; color: var(--green); font: 700 27px var(--mono); }
@@ -42,5 +45,9 @@
   .stringRow > div { width: 38px; }
   .stringRow strong { height: 46px; font-size: 16px; }
   .lower { grid-template-columns: 1fr; }
+  .trackerCard > div { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+  .trackerCard span { padding-inline: 3px; }
+  .trackerCard span small { font-size: 6px; }
+  .trackerCard span i { font-size: 8px; }
   .rule { grid-template-columns: 1fr 1fr; }
 }
