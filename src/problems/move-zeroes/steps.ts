@@ -17,18 +17,23 @@ export const moveMethods: PlayerMethod[] = [{ id: 'two-pointers', label: '双指
 
 export const moveCode: CodeLine[] = [
   { id: 'class', text: 'class Solution {' },
-  { id: 'public', text: 'public:' },
-  { id: 'method', text: '  void moveZeroes(vector<int>& nums) {' },
-  { id: 'init', text: '    int n = nums.size(), left = 0, right = 0;' },
-  { id: 'while', text: '    while (right < n) {' },
-  { id: 'if', text: '      if (nums[right]) {' },
-  { id: 'swap', text: '        swap(nums[left], nums[right]);' },
-  { id: 'left', text: '        left++;' },
+  { id: 'method', text: '  public void moveZeroes(int[] nums) {' },
+  { id: 'init', text: '    int l = 0, r = 0;' },
+  { id: 'while', text: '    while (r < nums.length) {' },
+  { id: 'if', text: '      if (nums[r] != 0) {' },
+  { id: 'swap', text: '        swap(nums, l, r);' },
+  { id: 'left', text: '        l++;' },
   { id: 'if-close', text: '      }' },
-  { id: 'right', text: '      right++;' },
+  { id: 'right', text: '      r++;' },
   { id: 'while-close', text: '    }' },
   { id: 'method-close', text: '  }' },
-  { id: 'class-close', text: '};' },
+  { id: 'blank', text: '' },
+  { id: 'swap-method', text: '  private void swap(int[] nums, int l, int r) {' },
+  { id: 'temp', text: '    int temp = nums[l];' },
+  { id: 'assign-left', text: '    nums[l] = nums[r];' },
+  { id: 'assign-right', text: '    nums[r] = temp;' },
+  { id: 'swap-close', text: '  }' },
+  { id: 'class-close', text: '}' },
 ]
 
 export function makeMoveSteps(): MoveStep[] {
