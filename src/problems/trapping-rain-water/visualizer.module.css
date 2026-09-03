@@ -44,6 +44,8 @@
 .pointerPanel > div { padding: 10px 13px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--line); background: var(--surface); }
 .pointerPanel div[data-side='left'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); }
 .pointerPanel div[data-side='right'] { border-color: var(--orange); background: var(--orange-soft); color: #b55d19; }
+.pointerPanel > div[data-active='true'] { box-shadow: 0 0 0 3px rgba(39, 118, 210, .1); transform: translateY(-2px); }
+.pointerPanel > div[data-side='right'][data-active='true'] { box-shadow: 0 0 0 3px rgba(239, 125, 60, .12); }
 .pointerPanel small { font-size: 9px; }
 .pointerPanel > div b { font: 700 20px var(--mono); }
 .pointerPanel p { margin: 0; align-self: center; color: var(--ink); font-size: 10px; line-height: 1.5; text-align: center; }

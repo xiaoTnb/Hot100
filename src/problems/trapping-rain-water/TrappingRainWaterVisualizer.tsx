@@ -28,7 +28,7 @@ function RainChart({ step, method }: { step: RainStep; method: RainMethod }) {
   return <div className={styles.chart}>{rainHeights.map((height, index) => {
     const role = method === 'stack' && step.basin[1] === index ? 'bottom' : step.left === step.right && index === step.left ? 'meet' : index === step.left ? 'left' : index === step.right ? 'right' : index === step.index ? 'current' : undefined
     const inBasin = step.basin.includes(index)
-    return <div className={styles.column} data-role={role} data-basin={inBasin || undefined} data-active-index={method === 'pointers' && step.phase === 'collect' && index === step.index || undefined} key={index}>
+    return <div className={styles.column} data-role={role} data-basin={inBasin || undefined} data-active-index={step.phase !== 'done' && index === step.index || undefined} key={index}>
       <span className={styles.pointer}>{role && <b>{role === 'meet' ? 'l = r' : role === 'bottom' ? 'top' : method === 'pointers' ? role === 'left' ? 'l' : role === 'right' ? 'r' : 'i' : role === 'current' ? 'i' : role === 'left' ? 'L' : 'R'}</b>}</span>
       <div><i style={{ height: `${height / 3 * 100}%` }} /><b style={{ bottom: `${height / 3 * 100}%`, height: `${step.waterAt[index] / 3 * 100}%` }} /></div>
       <strong>{height}</strong><small>{index}</small>
@@ -53,7 +53,13 @@ function StackPanel({ step }: { step: RainStep }) {
 function PointerPanel({ step }: { step: RainStep }) {
   const leftMax = Math.max(0, ...step.leftMax)
   const rightMax = Math.max(0, ...step.rightMax)
-  return <div className={styles.pointerPanel}><div data-side="left"><small>leftMax</small><b>{leftMax}</b></div><p>{step.phase === 'done' ? '左右指针已经相遇' : <>正在结算下标 <b>i = {step.index}</b></>}<br /><span>闪烁的下标就是本轮加入 ans 的位置</span></p><div data-side="right"><small>rightMax</small><b>{rightMax}</b></div></div>
+  const calculation = step.calculation?.kind === 'column' ? step.calculation : null
+  const side = calculation?.side
+  return <div className={styles.pointerPanel}>
+    <div data-side="left" data-active={side === 'left' || undefined}><small>leftMax</small><b>{leftMax}</b></div>
+    <p>{step.phase === 'done' ? <><b>left = right</b><br /><span>双指针相遇，遍历结束</span></> : side === 'left' ? <><b>height[l] = {rainHeights[step.left]} &lt; height[r] = {rainHeights[step.right]}</b><br /><span>左侧更低，本轮结算左侧并执行 left++</span></> : <><b>height[l] = {rainHeights[step.left]} ≥ height[r] = {rainHeights[step.right]}</b><br /><span>右侧较低或相等，本轮结算右侧并执行 right--</span></>}</p>
+    <div data-side="right" data-active={side === 'right' || undefined}><small>rightMax</small><b>{rightMax}</b></div>
+  </div>
 }
 
 function CalculationPanel({ calculation, method, currentWater, total }: { calculation: RainCalculation | null; method: RainMethod; currentWater: number; total: number }) {
