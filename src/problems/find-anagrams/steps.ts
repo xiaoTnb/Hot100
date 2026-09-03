@@ -10,6 +10,7 @@ export interface AnagramStep {
   cntS: number[]
   cnt: number[]
   activeIndex: number
+  activePosition: number
   answers: number[]
   lineId: string
   message: string
@@ -77,7 +78,7 @@ const blank = () => Array<number>(26).fill(0)
 const snapshot = (values: number[]) => [...values]
 
 function makeStep(values: Partial<AnagramStep>): AnagramStep {
-  return { left: 0, right: -1, phase: 'init', cntP: blank(), cntS: blank(), cnt: blank(), activeIndex: -1, answers: [], lineId: '', message: '', ...values }
+  return { left: 0, right: -1, phase: 'init', cntP: blank(), cntS: blank(), cnt: blank(), activeIndex: -1, activePosition: -1, answers: [], lineId: '', message: '', ...values }
 }
 
 function makeFixedSteps(): AnagramStep[] {
@@ -95,9 +96,9 @@ function makeFixedSteps(): AnagramStep[] {
     const incomingIndex = incoming.charCodeAt(0) - 97
     cntS[incomingIndex]++
     const left = right - patternText.length + 1
-    steps.push(makeStep({ left: Math.max(0, left), right, phase: 'add', cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: incomingIndex, answers: [...answers], lineId: 'f-add', message: `right = ${right}：字母 “${incoming}” 进入，cntS['${incoming}'] 变为 ${cntS[incomingIndex]}` }))
+    steps.push(makeStep({ left: Math.max(0, left), right, phase: 'add', cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: incomingIndex, activePosition: right, answers: [...answers], lineId: 'f-add', message: `r = ${right}：只让 s[${right}] = “${incoming}” 进入窗口；cntS 记录窗口实际数量，所以 cntS['${incoming}'] 变为 ${cntS[incomingIndex]}` }))
     if (left < 0) {
-      steps.push(makeStep({ left: 0, right, phase: 'grow', cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: incomingIndex, answers: [...answers], lineId: 'f-continue', message: `left = ${right} - ${patternText.length} + 1 = ${left}，窗口长度还不足 ${patternText.length}，继续加入字符` }))
+      steps.push(makeStep({ left: 0, right, phase: 'grow', cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: incomingIndex, activePosition: right, answers: [...answers], lineId: 'f-continue', message: `l = ${right} - ${patternText.length} + 1 = ${left}，窗口长度还不足 ${patternText.length}，暂不比较，继续向右加入字符` }))
       continue
     }
     const match = cntS.every((value, index) => value === cntP[index])
@@ -106,7 +107,7 @@ function makeFixedSteps(): AnagramStep[] {
     const outgoing = sourceText[left]
     const outgoingIndex = outgoing.charCodeAt(0) - 97
     cntS[outgoingIndex]--
-    steps.push(makeStep({ left: left + 1, right, phase: 'remove', cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: outgoingIndex, answers: [...answers], lineId: 'f-remove', message: `本轮比较结束，移出左端 s[${left}] = “${outgoing}”，为下一轮固定长度窗口腾出位置` }))
+    steps.push(makeStep({ left: left + 1, right, phase: 'remove', cntP: snapshot(cntP), cntS: snapshot(cntS), activeIndex: outgoingIndex, activePosition: left, answers: [...answers], lineId: 'f-remove', message: `本轮比较结束，只移出 s[${left}] = “${outgoing}”；cntS['${outgoing}'] 减为 ${cntS[outgoingIndex]}，为下一个长度为 ${patternText.length} 的窗口腾出位置` }))
   }
   steps.push(makeStep({ left: sourceText.length, right: sourceText.length - 1, phase: 'done', cntP: snapshot(cntP), cntS: snapshot(cntS), answers: [...answers], lineId: 'f-return', message: '所有长度为 3 的窗口检查完成，返回 [0, 6]' }))
   return steps
@@ -126,13 +127,13 @@ function makeVariableSteps(): AnagramStep[] {
     const incoming = sourceText[right]
     const c = incoming.charCodeAt(0) - 97
     cnt[c]--
-    steps.push(makeStep({ left, right, phase: 'add', cnt: snapshot(cnt), activeIndex: c, answers: [...answers], lineId: 'v-add', message: `right = ${right}：“${incoming}” 进入窗口，消耗一次配额，cnt['${incoming}'] 变为 ${cnt[c]}` }))
+    steps.push(makeStep({ left, right, phase: 'add', cnt: snapshot(cnt), activeIndex: c, activePosition: right, answers: [...answers], lineId: 'v-add', message: `r = ${right}：只让 s[${right}] = “${incoming}” 进入窗口，消耗一次目标配额；cnt['${incoming}'] 变为 ${cnt[c]}` }))
     while (cnt[c] < 0) {
-      steps.push(makeStep({ left, right, phase: 'excess', cnt: snapshot(cnt), activeIndex: c, answers: [...answers], lineId: 'v-while', message: `cnt['${incoming}'] = ${cnt[c]} < 0，说明刚进入的 “${incoming}” 超量；移动 left 直到它不再超量` }))
+      steps.push(makeStep({ left, right, phase: 'excess', cnt: snapshot(cnt), activeIndex: c, activePosition: right, answers: [...answers], lineId: 'v-while', message: `cnt['${incoming}'] = ${cnt[c]} < 0，说明刚进入的 s[${right}] 让 “${incoming}” 超量；移动 l 直到它不再超量` }))
       const outgoing = sourceText[left]
       const outgoingIndex = outgoing.charCodeAt(0) - 97
       cnt[outgoingIndex]++
-      steps.push(makeStep({ left, right, phase: 'shrink', cnt: snapshot(cnt), activeIndex: outgoingIndex, answers: [...answers], lineId: 'v-remove', message: `移出 s[${left}] = “${outgoing}”，归还一次 “${outgoing}” 的配额` }))
+      steps.push(makeStep({ left, right, phase: 'shrink', cnt: snapshot(cnt), activeIndex: outgoingIndex, activePosition: left, answers: [...answers], lineId: 'v-remove', message: `只移出 l 指向的 s[${left}] = “${outgoing}”，归还一次 “${outgoing}” 的配额` }))
       left++
       steps.push(makeStep({ left, right, phase: 'shrink', cnt: snapshot(cnt), activeIndex: outgoingIndex, answers: [...answers], lineId: 'v-move', message: `left++，窗口左边界移动到下标 ${left}${cnt[c] < 0 ? '；“' + incoming + '” 仍然超量，继续收缩' : '；窗口重新合法'}` }))
     }
