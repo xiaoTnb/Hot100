@@ -12,7 +12,7 @@ export interface MoveStep {
   message: string
 }
 
-export const moveInitial = [0, 1, 0, 3, 12]
+export const moveInitial = [2, 0, 1, 0, 3, 12]
 export const moveMethods: PlayerMethod[] = [{ id: 'two-pointers', label: '双指针', complexity: 'O(N) · O(1)' }]
 
 export const moveCode: CodeLine[] = [
@@ -46,9 +46,15 @@ export function makeMoveSteps(): MoveStep[] {
       left++
       steps.push({ nums: [...nums], left, right, phase: 'advance', swapPair: [], lineId: 'left', message: `非零区增加一格，left 向右移动到 ${left}` })
     }
-    steps.push({ nums: [...nums], left, right: right + 1, phase: 'advance', swapPair: [], lineId: 'right', message: `right 向右移动到 ${right + 1}` })
+    const nextRight = right + 1
+    steps.push({
+      nums: [...nums], left, right: nextRight, phase: 'advance', swapPair: [], lineId: 'right',
+      message: nextRight === nums.length
+        ? `right 从 ${right} 移动到 ${nextRight}，此时 right = n = ${nums.length}，已经越过最后一个下标 ${nums.length - 1}`
+        : `right 从 ${right} 向右移动到 ${nextRight}，继续检查 nums[${nextRight}]`,
+    })
   }
 
-  steps.push({ nums: [...nums], left, right: nums.length, phase: 'done', swapPair: [], lineId: 'while', message: 'right 到达数组末尾：非零数保持原顺序，所有 0 已移动到末尾' })
+  steps.push({ nums: [...nums], left, right: nums.length, phase: 'done', swapPair: [], lineId: 'while', message: `判断 right < n：${nums.length} < ${nums.length} 为 false，循环结束；所有 0 已移动到末尾` })
   return steps
 }

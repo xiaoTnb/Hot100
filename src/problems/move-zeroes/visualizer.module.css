@@ -3,20 +3,26 @@
 .legend { display: flex; gap: 18px; color: var(--muted); font-size: 10px; }
 .legend span { display: flex; align-items: center; gap: 6px; }
 .legend i { width: 8px; height: 8px; border-radius: 50%; }
-.legend i[data-color='green'] { background: var(--green); }
-.legend i[data-color='blue'] { background: var(--blue); }
+.legend i[data-color='left'] { background: var(--blue); }
+.legend i[data-color='right'] { background: var(--orange); }
+.legend i[data-color='settled'] { background: var(--green); }
 .array { min-height: 180px; padding: 48px 0 25px; display: flex; align-items: center; justify-content: center; gap: 10px; }
 .array > div { position: relative; width: 72px; flex: 0 1 72px; transition: transform 350ms; }
 .array strong { height: 72px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); font: 700 23px var(--mono); transition: all 350ms; }
 .array small { display: block; margin-top: 6px; color: var(--muted); font: 9px var(--mono); text-align: center; }
 .array .pointer { position: absolute; right: 0; bottom: calc(100% + 7px); left: 0; min-height: 35px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 2px; }
-.pointer b { padding: 2px 5px; border-radius: 2px; background: var(--ink); color: #fff; font: 8px var(--mono); }
+.pointer b { padding: 3px 7px; border-radius: 10px; color: #fff; font: 700 8px var(--mono); animation: pointer-in 300ms ease; }
+.pointer b[data-pointer='left'] { background: var(--blue); box-shadow: 0 3px 8px rgba(39, 118, 210, .22); }
+.pointer b[data-pointer='right'] { background: var(--orange); box-shadow: 0 3px 8px rgba(239, 125, 60, .22); }
 .array > div[data-zero='true'] strong { color: #a7b0ac; background: var(--soft); }
 .array > div[data-settled='true'] strong { border-color: var(--green); background: var(--green-soft); color: var(--green); }
 .array > div[data-right='true'] { transform: translateY(-5px); }
-.array > div[data-right='true'] strong { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(39, 118, 210, .12); }
+.array > div[data-left='true'] strong { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); }
+.array > div[data-right='true'] strong { border-color: var(--orange); box-shadow: 0 0 0 4px rgba(239, 125, 60, .12); }
 .array > div[data-swap='true'] strong { border-color: var(--orange); background: var(--orange-soft); color: #b55d19; animation: swap-pop 420ms ease; }
-.array .exit strong { color: var(--muted); font-size: 10px; border-style: dashed; }
+.array .exit { min-width: 82px; }
+.array .exit strong { padding-inline: 5px; color: #b55d19; background: var(--orange-soft); font-size: 9px; border-color: var(--orange); border-style: dashed; text-align: center; }
+.array .exit small { color: #b55d19; white-space: nowrap; }
 .invariant { display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 0; border: 1px solid var(--line); background: var(--surface); }
 .invariant > span { min-width: 60px; padding: 12px; display: grid; place-items: center; border-right: 1px solid var(--line); background: var(--soft); color: var(--muted); font-size: 9px; }
 .invariant > span b { color: var(--ink); font: 700 18px var(--mono); }
@@ -30,11 +36,15 @@
 .phaseTrack span[data-active='true'] { color: var(--blue); font-weight: 700; }
 .phaseTrack span[data-active='true'] b { border-color: var(--blue); background: var(--blue); color: #fff; }
 @keyframes swap-pop { 0% { transform: scale(.82); } 65% { transform: scale(1.08); } }
+@keyframes pointer-in { from { opacity: 0; transform: translateY(-6px); } }
 @media (max-width: 620px) {
   .inPlace { margin-left: 0; }
-  .array { gap: 5px; justify-content: flex-start; overflow: hidden; }
-  .array > div { min-width: 47px; }
-  .array strong { height: 55px; font-size: 18px; }
+  .legend { flex-wrap: wrap; gap: 7px 13px; }
+  .array { gap: 3px; justify-content: flex-start; overflow: hidden; }
+  .array > div { min-width: 39px; }
+  .array .exit { min-width: 68px; }
+  .array strong { height: 50px; font-size: 17px; }
+  .array .exit small { font-size: 7px; }
   .invariant { grid-template-columns: auto 1fr; }
   .invariant p:not(:last-child) { border-right: 0; }
 }
