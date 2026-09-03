@@ -1,14 +1,16 @@
 .best { margin-left: auto; padding: 5px 8px; border-radius: 2px; background: var(--blue-soft); color: var(--blue); font: 700 10px var(--mono); }
 .canvas { padding-bottom: 26px; }
-.chart { position: relative; height: 290px; padding-top: 30px; border-bottom: 2px solid var(--ink); overflow: hidden; }
-.bars { position: absolute; z-index: 2; inset: 30px 0 0; display: grid; grid-template-columns: repeat(9, 1fr); align-items: end; }
+.chart { position: relative; height: 300px; padding-top: 48px; border-bottom: 2px solid #78988f; overflow: hidden; }
+.bars { position: absolute; z-index: 2; inset: 48px 0 0; display: grid; grid-template-columns: repeat(9, 1fr); align-items: end; }
 .slot { position: relative; height: 100%; display: flex; justify-content: center; align-items: end; }
-.slot i { position: relative; width: 5px; min-height: 2px; display: block; background: #7d8a84; transition: all 350ms; }
+.slot i { position: relative; width: 5px; min-height: 2px; display: block; background: #86a89e; transition: all 350ms; }
 .slot i strong { position: absolute; right: 50%; bottom: calc(100% + 4px); transform: translateX(50%); color: var(--muted); font: 9px var(--mono); font-style: normal; }
-.slot i[data-boundary='true'] { width: 8px; background: var(--ink); box-shadow: 0 0 0 3px rgba(25, 35, 31, .08); }
-.slot i[data-moving='true'] { background: var(--orange); animation: boundary-pulse 500ms ease infinite alternate; }
+.slot i[data-boundary='true'] { width: 8px; box-shadow: 0 0 0 3px rgba(39, 118, 210, .09); }
+.slot i[data-side='left'] { background: var(--blue); }
+.slot i[data-side='right'] { background: var(--orange); }
+.slot i[data-moving='true'] { animation: boundary-pulse 500ms ease infinite alternate; }
 .slot small { position: absolute; top: calc(100% + 7px); color: var(--muted); font: 9px var(--mono); }
-.pointer { position: absolute; z-index: 4; top: -27px; right: 0; left: 0; display: flex; justify-content: center; gap: 2px; }
+.pointer { position: absolute; z-index: 4; top: -42px; right: 0; left: 0; display: flex; justify-content: center; gap: 2px; }
 .pointer b { width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; color: #fff; font: 700 9px var(--mono); }
 .pointer b[data-side='left'] { background: var(--blue); }
 .pointer b[data-side='right'] { background: var(--orange); }

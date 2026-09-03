@@ -9,16 +9,17 @@ export function MaxWaterVisualizer() {
   const playback = usePlayback(steps.length, 1750)
   const step = steps[playback.stepIndex]
   const waterLevel = step.phase === 'done' ? 0 : Math.min(heights[step.l], heights[step.r])
+  const waterRatio = waterLevel / 8
   const left = ((step.l + .5) / heights.length) * 100
   const right = 100 - ((step.r + .5) / heights.length) * 100
 
   return <AlgorithmPlayer methods={waterMethods} activeMethod="two-pointers" onMethodChange={playback.reset} playback={playback} code={waterCode} activeLineId={step.lineId} toolbarExtra={<span className={styles.best}>max = {step.best}</span>}>
     <div className={`animation-canvas ${styles.canvas}`}>
       <div className={styles.chart}>
-        {step.phase !== 'done' && <div className={styles.water} style={{ left: `${left}%`, right: `${right}%`, height: `${(waterLevel / 8) * 100}%` }}><span>area = {step.area}</span></div>}
+        {step.phase !== 'done' && <div className={styles.water} style={{ left: `${left}%`, right: `${right}%`, height: `calc(${waterRatio * 100}% - ${waterRatio * 48}px)` }}><span>area = {step.area}</span></div>}
         <div className={styles.bars}>{heights.map((height, index) => <div className={styles.slot} key={index}>
           <span className={styles.pointer}>{index === step.l && <b data-side="left">l</b>}{index === step.r && <b data-side="right">r</b>}</span>
-          <i data-boundary={(index === step.l || index === step.r) || undefined} data-moving={(step.moving === 'left' && index === step.l || step.moving === 'right' && index === step.r) || undefined} style={{ height: `${(height / 8) * 100}%` }}><strong>{height}</strong></i>
+          <i data-boundary={(index === step.l || index === step.r) || undefined} data-side={index === step.l ? 'left' : index === step.r ? 'right' : undefined} data-moving={(step.moving === 'left' && index === step.l || step.moving === 'right' && index === step.r) || undefined} style={{ height: `${(height / 8) * 100}%` }}><strong>{height}</strong></i>
           <small>{index}</small>
         </div>)}</div>
       </div>

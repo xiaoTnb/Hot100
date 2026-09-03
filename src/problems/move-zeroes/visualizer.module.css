@@ -41,9 +41,9 @@
   .inPlace { margin-left: 0; }
   .legend { flex-wrap: wrap; gap: 7px 13px; }
   .array { gap: 3px; justify-content: flex-start; overflow: hidden; }
-  .array > div { min-width: 39px; }
-  .array .exit { min-width: 68px; }
-  .array strong { height: 50px; font-size: 17px; }
+  .array > div { min-width: 34px; }
+  .array .exit { min-width: 60px; }
+  .array strong { height: 47px; font-size: 16px; }
   .array .exit small { font-size: 7px; }
   .invariant { grid-template-columns: auto 1fr; }
   .invariant p:not(:last-child) { border-right: 0; }
