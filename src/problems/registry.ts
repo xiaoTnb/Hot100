@@ -1,5 +1,7 @@
 import { groupAnagramsProblem } from './group-anagrams/definition'
+import { findAnagramsProblem } from './find-anagrams/definition'
 import { longestConsecutiveProblem } from './longest-consecutive/definition'
+import { longestSubstringProblem } from './longest-substring/definition'
 import { maxWaterProblem } from './max-water/definition'
 import { moveZeroesProblem } from './move-zeroes/definition'
 import { threeSumProblem } from './three-sum/definition'
@@ -15,6 +17,8 @@ export const problems: ProblemDefinition[] = [
   maxWaterProblem,
   threeSumProblem,
   trappingRainWaterProblem,
+  longestSubstringProblem,
+  findAnagramsProblem,
 ]
 
 export function findProblem(slug: string | null): ProblemDefinition | undefined {
