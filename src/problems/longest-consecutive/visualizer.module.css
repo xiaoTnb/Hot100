@@ -1,0 +1,68 @@
+.setSize { margin-left: auto; color: var(--muted); font: 10px var(--mono); }
+.canvas { padding-bottom: 26px; }
+
+.inputRow { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.inputRow > span { margin-right: 4px; color: var(--muted); font: 11px var(--mono); }
+.inputRow b { min-width: 47px; padding: 6px 9px 8px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); font: 700 14px var(--mono); transition: all 300ms; }
+.inputRow b small { margin-bottom: 2px; color: #a0aaa6; font: 8px var(--mono); }
+.inputRow b[data-used='true'] { background: var(--soft); }
+.inputRow b[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); box-shadow: 0 0 0 3px rgba(39, 118, 210, 0.1); transform: translateY(-2px); }
+
+.setCard { margin-top: 14px; border: 1px solid var(--line); background: var(--surface); }
+.setCard header { min-height: 38px; padding: 7px 13px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); }
+.setCard header b { color: var(--blue); font: 700 11px var(--mono); }
+.setCard header small { color: var(--muted); font-size: 9px; text-align: right; }
+.setCard > div { min-height: 76px; padding: 14px; display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+.setCard em { margin: auto; color: #9ca6a2; font-size: 11px; font-style: normal; }
+.setCard span { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--soft); font: 700 13px var(--mono); transition: all 300ms; }
+.setCard span[data-sequence='true'] { border-color: var(--green); background: var(--green-soft); color: var(--green); }
+.setCard span[data-current='true'] { border-color: var(--blue); background: var(--blue); color: #fff; box-shadow: 0 0 0 4px rgba(39, 118, 210, 0.13); transform: scale(1.08); }
+.setCard span[data-probe='true']:not([data-current='true']) { border-color: var(--orange); background: var(--orange-soft); color: #b55d19; }
+
+.workbench { margin-top: 14px; display: grid; grid-template-columns: minmax(150px, .8fr) minmax(240px, 1.5fr) minmax(120px, .65fr); gap: 10px; }
+.predecessorCard, .sequenceCard, .metrics { min-height: 126px; padding: 14px; border: 1px solid var(--line); background: var(--surface); }
+.predecessorCard { display: flex; flex-direction: column; justify-content: center; text-align: center; transition: all 300ms; }
+.predecessorCard small, .sequenceCard > small, .metrics small { color: var(--muted); font-size: 9px; }
+.predecessorCard strong { margin: 8px 0; font: 700 17px var(--mono); }
+.predecessorCard span { color: #8e9995; font-size: 10px; }
+.predecessorCard[data-state='found'] { border-color: var(--orange); background: var(--orange-soft); }
+.predecessorCard[data-state='found'] strong, .predecessorCard[data-state='found'] span { color: #b55d19; }
+.predecessorCard[data-state='missing'] { border-color: var(--green); background: var(--green-soft); }
+.predecessorCard[data-state='missing'] strong, .predecessorCard[data-state='missing'] span { color: var(--green); }
+
+.sequenceCard { display: flex; flex-direction: column; justify-content: center; }
+.sequenceCard > div { min-height: 46px; margin: 9px 0 5px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+.sequenceCard em { color: #9ca6a2; font-size: 11px; font-style: normal; }
+.sequenceCard span { display: flex; align-items: center; }
+.sequenceCard i { margin-inline: 5px; color: var(--green); font-style: normal; }
+.sequenceCard b { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 3px; background: var(--green-soft); color: var(--green); font: 700 13px var(--mono); animation: number-pop 350ms ease; }
+.sequenceCard p { color: var(--muted); font: 9px var(--mono); text-align: center; }
+
+.metrics { display: grid; grid-template-columns: 1fr; gap: 7px; }
+.metrics span { padding: 8px; display: flex; align-items: center; justify-content: space-between; background: var(--soft); }
+.metrics b { font: 700 20px var(--mono); }
+.metrics span[data-best='true'] { background: var(--blue-soft); color: var(--blue); }
+.metrics span[data-best='true'] small { color: var(--blue); }
+
+.phaseTrack { display: flex; gap: 7px; margin-top: 13px; }
+.phaseTrack span { display: flex; align-items: center; gap: 4px; color: #8e9995; font-size: 9px; }
+.phaseTrack span:not(:last-child)::after { content: ''; width: 20px; height: 1px; background: var(--line); }
+.phaseTrack b { width: 17px; height: 17px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font: 9px var(--mono); }
+.phaseTrack span[data-active='true'] { color: var(--blue); font-weight: 700; }
+.phaseTrack span[data-active='true'] b { border-color: var(--blue); background: var(--blue); color: #fff; }
+
+@keyframes number-pop { from { transform: scale(.75); opacity: .3; } }
+
+@media (max-width: 720px) {
+  .workbench { grid-template-columns: 1fr 1fr; }
+  .sequenceCard { grid-column: 1 / -1; grid-row: 1; }
+}
+
+@media (max-width: 520px) {
+  .setSize { margin-left: 0; }
+  .setCard header small { max-width: 170px; }
+  .workbench { grid-template-columns: 1fr; }
+  .sequenceCard { grid-column: auto; grid-row: auto; }
+  .phaseTrack { flex-wrap: wrap; gap: 7px 10px; }
+  .phaseTrack span:not(:last-child)::after { display: none; }
+}
