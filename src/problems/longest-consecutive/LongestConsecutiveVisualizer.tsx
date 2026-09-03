@@ -15,11 +15,14 @@ export function LongestConsecutiveVisualizer() {
       <div className={`animation-canvas ${styles.canvas}`}>
         <section className={styles.inputRow}>
           <span>nums</span>
-          {consecutiveNumbers.map((number, index) => <b data-active={index === step.arrayIndex || undefined} data-used={step.setValues.includes(number) || undefined} key={index}><small>{index}</small>{number}</b>)}
+          {consecutiveNumbers.map((number, index) => <b data-active={index === step.arrayIndex || undefined} data-used={(step.phase !== 'build' || index <= step.arrayIndex) || undefined} data-duplicate={index === step.arrayIndex && step.duplicateRejected || undefined} key={index}><small>{index}</small>{number}</b>)}
         </section>
 
         <section className={styles.setCard}>
-          <header><b>HashSet</b><small>动画按数值顺序展示，算法不需要排序</small></header>
+          <header>
+            <b>HashSet · 按加入过程展示</b>
+            <small data-rejected={step.duplicateRejected || undefined}>{step.duplicateRejected ? `重复的 ${consecutiveNumbers[step.arrayIndex]} 未加入，大小不变` : '集合本身无序，并且自动去重'}</small>
+          </header>
           <div>
             {step.setValues.length === 0 && <em>空集合</em>}
             {step.setValues.map((number) => <span data-current={number === step.currentNum || undefined} data-probe={number === step.probe || undefined} data-sequence={step.sequence.includes(number) || undefined} key={number}>{number}</span>)}

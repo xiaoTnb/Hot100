@@ -7,11 +7,13 @@
 .inputRow b small { margin-bottom: 2px; color: #a0aaa6; font: 8px var(--mono); }
 .inputRow b[data-used='true'] { background: var(--soft); }
 .inputRow b[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); box-shadow: 0 0 0 3px rgba(39, 118, 210, 0.1); transform: translateY(-2px); }
+.inputRow b[data-duplicate='true'] { border-color: var(--orange); background: var(--orange-soft); color: #b55d19; box-shadow: 0 0 0 3px rgba(239, 125, 60, .13); animation: reject-shake 380ms ease; }
 
 .setCard { margin-top: 14px; border: 1px solid var(--line); background: var(--surface); }
 .setCard header { min-height: 38px; padding: 7px 13px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); }
 .setCard header b { color: var(--blue); font: 700 11px var(--mono); }
 .setCard header small { color: var(--muted); font-size: 9px; text-align: right; }
+.setCard header small[data-rejected='true'] { padding: 4px 7px; border-radius: 2px; background: var(--orange-soft); color: #b55d19; font-weight: 700; animation: reject-pop 350ms ease; }
 .setCard > div { min-height: 76px; padding: 14px; display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
 .setCard em { margin: auto; color: #9ca6a2; font-size: 11px; font-style: normal; }
 .setCard span { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--soft); font: 700 13px var(--mono); transition: all 300ms; }
@@ -52,6 +54,8 @@
 .phaseTrack span[data-active='true'] b { border-color: var(--blue); background: var(--blue); color: #fff; }
 
 @keyframes number-pop { from { transform: scale(.75); opacity: .3; } }
+@keyframes reject-pop { from { transform: scale(.86); opacity: .25; } }
+@keyframes reject-shake { 0%, 100% { transform: translateY(-2px); } 35% { transform: translate(-3px, -2px); } 70% { transform: translate(3px, -2px); } }
 
 @media (max-width: 720px) {
   .workbench { grid-template-columns: 1fr 1fr; }
