@@ -2,7 +2,9 @@ import { groupAnagramsProblem } from './group-anagrams/definition'
 import { findAnagramsProblem } from './find-anagrams/definition'
 import { longestConsecutiveProblem } from './longest-consecutive/definition'
 import { longestSubstringProblem } from './longest-substring/definition'
+import { maximumSubarrayProblem } from './maximum-subarray/definition'
 import { maxWaterProblem } from './max-water/definition'
+import { minimumWindowSubstringProblem } from './minimum-window-substring/definition'
 import { moveZeroesProblem } from './move-zeroes/definition'
 import { slidingWindowMaximumProblem } from './sliding-window-maximum/definition'
 import { subarraySumProblem } from './subarray-sum/definition'
@@ -23,6 +25,8 @@ export const problems: ProblemDefinition[] = [
   findAnagramsProblem,
   subarraySumProblem,
   slidingWindowMaximumProblem,
+  minimumWindowSubstringProblem,
+  maximumSubarrayProblem,
 ]
 
 export function findProblem(slug: string | null): ProblemDefinition | undefined {
