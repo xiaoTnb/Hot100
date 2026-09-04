@@ -9,8 +9,9 @@ export function SlidingWindowMaximumVisualizer() {
   const playback = usePlayback(steps.length, 1700)
   const step = steps[playback.stepIndex]
   const windowReady = step.index - step.left + 1 >= windowSize
-  return <AlgorithmPlayer methods={queueMethods} activeMethod="deque" onMethodChange={playback.reset} playback={playback} code={queueCode} activeLineId={step.lineId} toolbarExtra={<span className={styles.size}>k = {windowSize}</span>}>
+  return <AlgorithmPlayer methods={queueMethods} activeMethod="deque" onMethodChange={playback.reset} playback={playback} code={queueCode} activeLineId={step.lineId}>
     <div className={`animation-canvas ${styles.canvas}`}>
+      <div className={styles.inputLine}><span>动画用例</span><code>nums = [{windowNumbers.join(', ')}]</code><b>k = {windowSize}</b></div>
       <section className={styles.array}><span>nums</span>{windowNumbers.map((number, index) => <div data-window={index >= step.left && index <= step.index || undefined} data-current={index === step.index || undefined} data-removed={index === step.removedIndex || undefined} data-maximum={step.queue[0] === index && windowReady || undefined} key={index}><i>{index === step.left && step.index >= 0 && <b data-side="left">l</b>}{index === step.index && <b data-side="right">r</b>}</i><strong>{number}</strong><small>{index}</small></div>)}</section>
       <section className={styles.queue}><header><b>单调队列 q · 存下标</b><small>队首 → 队尾，对应数值保持单调递减</small></header><div className={styles.queueBody}><i>队首</i>{step.queue.length === 0 ? <em>空队列</em> : step.queue.map((index, position) => <span data-front={position === 0 || undefined} key={index}><small>下标 {index}</small><b>{windowNumbers[index]}</b></span>)}<i>队尾</i></div></section>
       <div className={styles.logic}>

@@ -1,5 +1,8 @@
 .canvas { padding-bottom: 26px; }
-.size { padding: 5px 8px; border: 1px solid var(--orange); background: var(--orange-soft); color: #b55d19; font: 700 9px var(--mono); }
+.inputLine { padding: 9px 11px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); background: var(--surface); }
+.inputLine span { color: var(--muted); font-size: 8px; }
+.inputLine code { font: 9px var(--mono); }
+.inputLine b { margin-left: auto; padding: 5px 8px; border: 1px solid var(--orange); background: var(--orange-soft); color: #b55d19; font: 700 9px var(--mono); }
 .array { min-height: 128px; padding: 42px 0 17px; display: flex; align-items: center; justify-content: center; gap: 5px; }
 .array > span { margin-right: 4px; color: var(--muted); font: 9px var(--mono); }
 .array > div { position: relative; width: 50px; }
@@ -37,6 +40,8 @@
 .rule span { padding: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 8px; text-align: center; }
 .rule span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 700; }
 @media (max-width: 620px) {
+  .inputLine { align-items: flex-start; flex-wrap: wrap; }
+  .inputLine b { margin-left: 0; }
   .array { gap: 2px; }
   .array > div { width: 36px; }
   .array strong { height: 43px; font-size: 12px; }

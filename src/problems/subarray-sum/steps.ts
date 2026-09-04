@@ -18,7 +18,7 @@ export interface PrefixStep {
   message: string
 }
 
-export const prefixNumbers = [1, 1, 1]
+export const prefixNumbers = [1, -1, 2, 1, -1, 2]
 export const prefixTarget = 2
 export const prefixMethods: PlayerMethod[] = [
   { id: 'two-pass', label: '两次遍历', complexity: 'O(N) · O(N)' },
