@@ -1,17 +1,19 @@
 import { useMemo, useState } from 'react'
 import { AlgorithmPlayer } from '../../components/player/AlgorithmPlayer'
+import { useCodeLanguage } from '../../components/player/language-context'
 import { usePlayback } from '../../components/player/usePlayback'
 import { getMaxCode, makeMaxSteps, maxMethods, maxNumbers, type MaxMethod } from './steps'
 import styles from './visualizer.module.css'
 
 export function MaximumSubarrayVisualizer() {
+  const { language } = useCodeLanguage()
   const [method, setMethod] = useState<MaxMethod>('prefix')
   const steps = useMemo(() => makeMaxSteps(method), [method])
   const playback = usePlayback(steps.length, 1600)
   const step = steps[playback.stepIndex]
   const selectMethod = (id: string) => { setMethod(id as MaxMethod); playback.reset() }
   const answer = Number.isFinite(step.ans) ? step.ans : '−∞'
-  return <AlgorithmPlayer methods={maxMethods} activeMethod={method} onMethodChange={selectMethod} playback={playback} code={getMaxCode(method)} activeLineId={step.lineId}>
+  return <AlgorithmPlayer methods={maxMethods} activeMethod={method} onMethodChange={selectMethod} playback={playback} code={getMaxCode(method, language)} activeLineId={step.lineId}>
     <div className={'animation-canvas ' + styles.canvas}>
       <div className={styles.inputLine}><span>动画用例</span><code>nums = [{maxNumbers.join(', ')}]</code></div>
       <section className={styles.array}><span>nums</span>{maxNumbers.map((number, index) => <div data-candidate={step.candidateStart >= 0 && index >= step.candidateStart && index <= step.index || undefined} data-best={step.bestStart >= 0 && index >= step.bestStart && index <= step.bestEnd || undefined} data-current={index === step.index || undefined} key={index}><i>{index === step.candidateStart && step.index >= 0 && <b>起点</b>}{index === step.index && <b data-end="true">当前</b>}</i><strong>{number}</strong><small>{index}</small></div>)}</section>

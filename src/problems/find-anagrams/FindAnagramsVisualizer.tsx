@@ -1,16 +1,18 @@
 import { useMemo, useState } from 'react'
 import { AlgorithmPlayer } from '../../components/player/AlgorithmPlayer'
+import { useCodeLanguage } from '../../components/player/language-context'
 import { usePlayback } from '../../components/player/usePlayback'
 import { anagramMethods, getAnagramCode, makeAnagramSteps, patternText, sourceText, type AnagramMethod, type AnagramStep } from './steps'
 import styles from './visualizer.module.css'
 
 export function FindAnagramsVisualizer() {
+  const { language } = useCodeLanguage()
   const [method, setMethod] = useState<AnagramMethod>('fixed')
   const steps = useMemo(() => makeAnagramSteps(method), [method])
   const playback = usePlayback(steps.length, 1500)
   const step = steps[playback.stepIndex]
   const selectMethod = (id: string) => { setMethod(id as AnagramMethod); playback.reset() }
-  return <AlgorithmPlayer methods={anagramMethods} activeMethod={method} onMethodChange={selectMethod} playback={playback} code={getAnagramCode(method)} activeLineId={step.lineId}>
+  return <AlgorithmPlayer methods={anagramMethods} activeMethod={method} onMethodChange={selectMethod} playback={playback} code={getAnagramCode(method, language)} activeLineId={step.lineId}>
     <div className={`animation-canvas ${styles.canvas}`}>
       <StringWindow step={step} />
       <div className={styles.pattern}><span>目标 p</span><code>“{patternText}”</code><small>目标长度 = {patternText.length}</small><b>{method === 'fixed' ? '窗口满 3 个后比较计数' : 'cnt < 0 时收缩窗口'}</b></div>

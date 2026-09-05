@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { AlgorithmPlayer } from '../../components/player/AlgorithmPlayer'
+import { useCodeLanguage } from '../../components/player/language-context'
 import { usePlayback } from '../../components/player/usePlayback'
 import { getSubstringCode, makeSubstringSteps, substringInput, substringMethods, type SubstringMethod } from './steps'
 import styles from './visualizer.module.css'
@@ -17,7 +18,8 @@ const trackerCells: TrackerCell[] = [
 ]
 
 export function LongestSubstringVisualizer() {
-  const [method, setMethod] = useState<SubstringMethod>('count')
+  const { language } = useCodeLanguage()
+  const [method, setMethod] = useState<SubstringMethod>(() => language === 'javascript' ? 'set' : 'count')
   const steps = useMemo(() => makeSubstringSteps(method), [method])
   const playback = usePlayback(steps.length, 1500)
   const step = steps[playback.stepIndex]
@@ -31,12 +33,15 @@ export function LongestSubstringVisualizer() {
       </div>)}</div>
       <div className={styles.windowCard}><small>当前连续窗口 [left, right]</small><strong>“{windowText}”</strong><span>长度：{Math.max(0, step.windowRight - step.left + 1)}</span></div>
       <div className={styles.lower}>
-        <section className={styles.trackerCard}><header><b>{method === 'count' ? 'int[] cnt = new int[128]' : 'boolean[] has = new boolean[128]'}</b><small>未展开的下标区间用省略号表示</small></header><div>{trackerCells.map((cell) => cell.kind === 'ellipsis'
+        {method === 'set' ? <section className={`${styles.trackerCard} ${styles.setTracker}`}><header><b>window = new Set()</b><small>只保存当前窗口内的字符</small></header><div>{step.setValues.length === 0
+          ? <em>Set 为空</em>
+          : step.setValues.map((char) => <span data-active={char.charCodeAt(0) === step.activeCode || undefined} key={char}><small>字符</small><b>{char}</b><i>存在</i></span>)}</div></section>
+          : <section className={styles.trackerCard}><header><b>{method === 'count' ? 'int[] cnt = new int[128]' : 'boolean[] has = new boolean[128]'}</b><small>未展开的下标区间用省略号表示</small></header><div>{trackerCells.map((cell) => cell.kind === 'ellipsis'
           ? <span className={styles.ellipsisCell} key={cell.label}><b>…</b><small>{cell.label}</small></span>
-          : <span data-active={cell.index === step.activeCode || undefined} data-on={step.tracker[cell.index] > 0 || undefined} key={cell.index}><small>下标 {cell.index}</small><b>{cell.char ?? '·'}</b><i>{method === 'count' ? step.tracker[cell.index] : step.tracker[cell.index] > 0 ? 'true' : 'false'}</i></span>)}</div></section>
+          : <span data-active={cell.index === step.activeCode || undefined} data-on={step.tracker[cell.index] > 0 || undefined} key={cell.index}><small>下标 {cell.index}</small><b>{cell.char ?? '·'}</b><i>{method === 'count' ? step.tracker[cell.index] : step.tracker[cell.index] > 0 ? 'true' : 'false'}</i></span>)}</div></section>}
         <section className={styles.answer}><small>历史最长</small><b>{step.ans}</b><span>ans = max(ans, right - left + 1)</span></section>
       </div>
-      <div className={styles.rule}><span data-active={step.phase === 'add' || undefined}>① right 字符进入</span><span data-active={step.phase === 'duplicate' || step.phase === 'remove' || undefined}>② 重复则移动 left</span><span data-active={step.phase === 'update' || undefined}>③ 更新 ans</span></div>
+      <div className={styles.rule}><span data-active={step.phase === 'add' || undefined}>① right 字符进入{method === 'set' ? ' Set' : ''}</span><span data-active={step.phase === 'duplicate' || step.phase === 'remove' || undefined}>② 重复则移动 left</span><span data-active={step.phase === 'update' || undefined}>③ 更新 ans</span></div>
       <div className={`step-message ${step.phase === 'done' ? 'success' : ''}`} aria-live="polite"><span>{step.phase === 'done' ? <i className="check-symbol">✓</i> : String(playback.stepIndex + 1).padStart(2, '0')}</span><p>{step.message}</p></div>
     </div>
   </AlgorithmPlayer>

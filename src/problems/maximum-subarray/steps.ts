@@ -1,4 +1,4 @@
-import type { CodeLine, PlayerMethod } from '../../components/player/types'
+import type { CodeLanguage, CodeLine, PlayerMethod } from '../../components/player/types'
 
 export type MaxMethod = 'prefix' | 'dp' | 'rolling'
 export type MaxPhase = 'ready' | 'sum' | 'candidate' | 'minimum' | 'transition' | 'update' | 'done'
@@ -20,9 +20,9 @@ export interface MaxStep {
 
 export const maxNumbers = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 export const maxMethods: PlayerMethod[] = [
-  { id: 'prefix', label: '前缀和 + 贪心', complexity: 'O(N) · O(1)' },
-  { id: 'dp', label: '动态规划数组', complexity: 'O(N) · O(N)' },
-  { id: 'rolling', label: '空间优化', complexity: 'O(N) · O(1)' },
+  { id: 'prefix', label: '前缀和 + 贪心', complexity: 'O(N) · O(1)', languages: ['java', 'javascript'] },
+  { id: 'dp', label: '动态规划数组', complexity: 'O(N) · O(N)', languages: ['java'] },
+  { id: 'rolling', label: '空间优化', complexity: 'O(N) · O(1)', languages: ['java'] },
 ]
 
 const prefixCode: CodeLine[] = [
@@ -70,7 +70,23 @@ const rollingCode: CodeLine[] = [
   { id: 'r-class-close', text: '}' },
 ]
 
-export const getMaxCode = (method: MaxMethod) => method === 'prefix' ? prefixCode : method === 'dp' ? dpCode : rollingCode
+const prefixJavascriptCode: CodeLine[] = [
+  { id: 'p-method', text: 'function maxSubArray(nums) {' },
+  { id: 'p-ans', text: '    let ans = -Infinity' },
+  { id: 'p-min', text: '    let minPreSum = 0' },
+  { id: 'p-sum', text: '    let preSum = 0' },
+  { id: 'p-blank-1', text: '' },
+  { id: 'p-loop', text: '    for (let i = 0; i < nums.length; i++) {' },
+  { id: 'p-add', text: '        preSum += nums[i]' },
+  { id: 'p-update', text: '        ans = Math.max(ans, preSum - minPreSum)' },
+  { id: 'p-min-update', text: '        minPreSum = Math.min(preSum, minPreSum)' },
+  { id: 'p-loop-close', text: '    }' },
+  { id: 'p-blank-2', text: '' },
+  { id: 'p-return', text: '    return ans' },
+  { id: 'p-method-close', text: '}' },
+]
+
+export const getMaxCode = (method: MaxMethod, language: CodeLanguage) => method === 'prefix' ? language === 'javascript' ? prefixJavascriptCode : prefixCode : method === 'dp' ? dpCode : rollingCode
 const emptyF = () => Array<number | null>(maxNumbers.length).fill(null)
 const base = (values: Partial<MaxStep>): MaxStep => ({ phase: 'ready', index: -1, preSum: 0, minPreSum: 0, candidate: 0, f: emptyF(), currentF: 0, candidateStart: -1, bestStart: -1, bestEnd: -1, ans: Number.NEGATIVE_INFINITY, lineId: '', message: '', ...values })
 

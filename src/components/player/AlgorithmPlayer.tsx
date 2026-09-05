@@ -21,6 +21,7 @@ interface AlgorithmPlayerProps {
 export function AlgorithmPlayer({ methods, activeMethod, onMethodChange, playback, code, activeLineId, toolbarExtra, className = '', children }: AlgorithmPlayerProps) {
   const [showCode, setShowCode] = useState(false)
   const { language, setLanguage } = useCodeLanguage()
+  const languageLabel = language === 'java' ? 'Java' : 'JavaScript'
   const availableMethods = methods.filter((method) => (method.languages ?? ['java']).includes(language))
   const hasImplementation = availableMethods.some((method) => method.id === activeMethod)
 
@@ -33,7 +34,7 @@ export function AlgorithmPlayer({ methods, activeMethod, onMethodChange, playbac
               {method.label} <small>{method.complexity}</small>
             </button>
           ))}
-          {availableMethods.length === 0 && <span className="method-unavailable">JavaScript 解法待录入</span>}
+          {availableMethods.length === 0 && <span className="method-unavailable">{languageLabel} 解法待录入</span>}
         </div>
         {hasImplementation && toolbarExtra}
         <div className="toolbar-actions">
@@ -56,7 +57,7 @@ export function AlgorithmPlayer({ methods, activeMethod, onMethodChange, playbac
           {showCode && <CodePanel lines={code} activeLineId={activeLineId} filename={language === 'java' ? 'Solution.java' : 'solution.js'} />}
         </div>
       </> : <div className="language-empty-state" role="status">
-        <b>这道题的 JavaScript 解法还没有录入</b>
+        <b>这道题的 {languageLabel} 解法还没有录入</b>
         <p>收到你的答案后，这里会展示与代码思路一致的动画和同步高亮。</p>
       </div>}
     </div>

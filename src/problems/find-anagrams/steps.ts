@@ -1,4 +1,4 @@
-import type { CodeLine, PlayerMethod } from '../../components/player/types'
+import type { CodeLanguage, CodeLine, PlayerMethod } from '../../components/player/types'
 
 export type AnagramMethod = 'fixed' | 'variable'
 export type AnagramPhase = 'init' | 'add' | 'grow' | 'compare' | 'remove' | 'excess' | 'shrink' | 'done'
@@ -19,8 +19,8 @@ export interface AnagramStep {
 export const sourceText = 'cbaebabacd'
 export const patternText = 'abc'
 export const anagramMethods: PlayerMethod[] = [
-  { id: 'fixed', label: '定长滑窗', complexity: 'O(26N + M)' },
-  { id: 'variable', label: '不定长滑窗', complexity: 'O(N + M)' },
+  { id: 'fixed', label: '定长滑窗', complexity: 'O(26N + M)', languages: ['java', 'javascript'] },
+  { id: 'variable', label: '不定长滑窗', complexity: 'O(N + M)', languages: ['java'] },
 ]
 
 const fixedCode: CodeLine[] = [
@@ -73,7 +73,34 @@ const variableCode: CodeLine[] = [
   { id: 'v-class-close', text: '}' },
 ]
 
-export const getAnagramCode = (method: AnagramMethod) => method === 'fixed' ? fixedCode : variableCode
+const fixedJavascriptCode: CodeLine[] = [
+  { id: 'f-method', text: 'function findAnagrams(s, p) {' },
+  { id: 'f-answer', text: '    const ans = []' },
+  { id: 'f-comment', text: '    // cnt = count' },
+  { id: 'f-p-array', text: '    const cntP = new Array(26).fill(0) // 统计 p 的每种字母的出现次数' },
+  { id: 'f-s-array', text: "    const cntS = new Array(26).fill(0) // 统计 s 的长为 len(p) 的子串 s' 的每种字母的出现次数" },
+  { id: 'f-blank-1', text: '' },
+  { id: 'f-p-loop', text: '    for (const c of p) {' },
+  { id: 'f-p-add', text: "        cntP[c.charCodeAt() - 'a'.charCodeAt()]++ // 统计 p 的字母" },
+  { id: 'f-p-close', text: '    }' },
+  { id: 'f-blank-2', text: '' },
+  { id: 'f-loop', text: '    for (let right = 0; right < s.length; right++) {' },
+  { id: 'f-add', text: "        cntS[s[right].charCodeAt() - 'a'.charCodeAt()]++ // 右端点字母进入窗口" },
+  { id: 'f-left', text: '        const left = right - p.length + 1' },
+  { id: 'f-short', text: '        if (left < 0) { // 窗口长度不足 len(p)' },
+  { id: 'f-continue', text: '            continue' },
+  { id: 'f-short-close', text: '        }' },
+  { id: 'f-equal', text: "        if (_.isEqual(cntS, cntP)) { // s' 和 p 的每种字母的出现次数都相同" },
+  { id: 'f-answer-add', text: "            ans.push(left) // s' 左端点下标加入答案" },
+  { id: 'f-equal-close', text: '        }' },
+  { id: 'f-remove', text: "        cntS[s[left].charCodeAt() - 'a'.charCodeAt()]-- // 左端点字母离开窗口" },
+  { id: 'f-loop-close', text: '    }' },
+  { id: 'f-blank-3', text: '' },
+  { id: 'f-return', text: '    return ans' },
+  { id: 'f-method-close', text: '}' },
+]
+
+export const getAnagramCode = (method: AnagramMethod, language: CodeLanguage) => method === 'fixed' ? language === 'javascript' ? fixedJavascriptCode : fixedCode : variableCode
 const blank = () => Array<number>(26).fill(0)
 const snapshot = (values: number[]) => [...values]
 

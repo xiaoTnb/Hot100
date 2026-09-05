@@ -9,6 +9,7 @@ export const findAnagramsProblem = {
   difficulty: 'medium',
   difficultyLabel: '中等',
   tags: ['哈希表', '字符串', '滑动窗口'],
+  languages: ['java', 'javascript'],
   url: 'https://leetcode.cn/problems/find-all-anagrams-in-a-string/',
   lead: <>在字符串 <code>s</code> 中找到所有字符串 <code>p</code> 的异位词子串，返回这些子串的起始下标。</>,
   note: '异位词子串，是从 s 中连续截取的一段字符串：它与 p 长度相同、每个字母的出现次数也完全相同，但排列顺序可以不同。例如 “cba” 是 “abc” 的异位词子串，“ca” 不是。',

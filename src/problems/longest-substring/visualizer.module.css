@@ -30,6 +30,9 @@
 .trackerCard .ellipsisCell { display: flex; flex-direction: column; align-items: center; justify-content: center; border-style: dashed; background: transparent; }
 .trackerCard .ellipsisCell b { color: var(--muted); font-size: 16px; letter-spacing: 3px; }
 .trackerCard .ellipsisCell small { color: var(--muted); font-size: 6px; white-space: nowrap; }
+.setTracker > div { display: flex; align-items: center; justify-content: flex-start; gap: 7px; }
+.setTracker > div > em { width: 100%; color: var(--muted); font-size: 10px; font-style: normal; text-align: center; }
+.setTracker span { min-width: 74px; }
 .answer { padding: 12px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--green); background: var(--green-soft); }
 .answer small { color: var(--green); font-size: 9px; }
 .answer b { margin-block: 3px; color: var(--green); font: 700 27px var(--mono); }
