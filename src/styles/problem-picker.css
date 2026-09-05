@@ -5,18 +5,26 @@
 .problem-list-dialog header p { margin: 5px 0 0; color: var(--muted); font: 10px var(--mono); }
 .problem-list-dialog header button { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--muted); }
 .problem-list-dialog header button:hover { border-color: var(--blue); color: var(--blue); }
-.problem-search { height: 48px; margin: 16px 18px 10px; padding: 0 13px; display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); border-radius: 3px; background: var(--paper); color: var(--muted); }
+.problem-language-filter { margin: 16px 18px 0; padding: 3px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; border: 1px solid var(--line); border-radius: 3px; background: var(--soft); }
+.problem-language-filter button { min-height: 34px; border: 0; border-radius: 2px; background: transparent; color: var(--muted); font-size: 11px; font-weight: 700; }
+.problem-language-filter button small { margin-left: 4px; font: 9px var(--mono); opacity: 0.72; }
+.problem-language-filter button:hover { color: var(--blue); }
+.problem-language-filter button:active { transform: translateY(1px); }
+.problem-language-filter button.active { background: var(--surface); color: var(--blue); box-shadow: inset 0 0 0 1px var(--line); }
+.problem-search { height: 48px; margin: 10px 18px; padding: 0 13px; display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); border-radius: 3px; background: var(--paper); color: var(--muted); }
 .problem-search:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(39, 118, 210, 0.12); }
 .problem-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 13px; }
 .problem-search input::placeholder { color: #7c8782; }
 .problem-list-results { min-height: 170px; padding: 0 18px 18px; overflow: auto; }
-.problem-list-results > button { width: 100%; min-height: 64px; padding: 10px 12px; display: grid; grid-template-columns: 42px 1fr auto; gap: 10px; align-items: center; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; }
+.problem-list-results > button { width: 100%; min-height: 64px; padding: 10px 12px; display: grid; grid-template-columns: 42px minmax(0, 1fr) auto auto; gap: 10px; align-items: center; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; }
 .problem-list-results > button:hover { background: var(--soft); }
 .problem-list-results > button.active { background: var(--blue-soft); box-shadow: inset 3px 0 var(--blue); }
 .problem-list-results > button > b { color: var(--blue); font: 700 12px var(--mono); }
 .problem-list-results > button span { min-width: 0; display: flex; flex-direction: column; gap: 5px; }
 .problem-list-results > button strong { font-size: 14px; }
 .problem-list-results > button small { color: var(--muted); font-size: 10px; }
+.problem-list-results > button .problem-language-support { flex-direction: row; gap: 4px; }
+.problem-language-support i { padding: 3px 5px; border: 1px solid var(--line); border-radius: 2px; color: var(--muted); font: 700 8px var(--mono); font-style: normal; }
 .problem-list-results > button > svg { color: var(--muted); }
 .problem-list-empty { min-height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); }
 .problem-list-empty p { margin: 10px 0 14px; font-size: 13px; }
@@ -26,6 +34,7 @@
   .problem-list-overlay { padding: 12px; }
   .problem-list-dialog { max-height: calc(100dvh - 24px); }
   .problem-list-dialog > header { min-height: 68px; padding: 14px; }
+  .problem-language-filter { margin: 12px 14px 0; }
   .problem-search { margin: 12px 14px 8px; }
   .problem-list-results { padding-inline: 14px; }
 }

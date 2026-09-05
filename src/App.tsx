@@ -1,5 +1,7 @@
 import { ArrowLeft, ArrowRight, List, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { LanguageProvider } from './components/player/LanguageProvider'
+import type { CodeLanguage } from './components/player/types'
 import { ProblemPicker } from './components/problem/ProblemPicker'
 import { findProblem, problems } from './problems/registry'
 
@@ -7,8 +9,19 @@ function problemFromUrl() {
   return findProblem(new URLSearchParams(window.location.search).get('problem')) ?? problems[0]
 }
 
+const LANGUAGE_STORAGE_KEY = 'hot100-code-language'
+
+function savedLanguage(): CodeLanguage {
+  try {
+    return window.localStorage.getItem(LANGUAGE_STORAGE_KEY) === 'javascript' ? 'javascript' : 'java'
+  } catch {
+    return 'java'
+  }
+}
+
 function App() {
   const [problemSlug, setProblemSlug] = useState(() => problemFromUrl().slug)
+  const [language, setLanguage] = useState<CodeLanguage>(savedLanguage)
   const [problemPanelOpen, setProblemPanelOpen] = useState(true)
   const [problemListOpen, setProblemListOpen] = useState(false)
   const problemIndex = useMemo(() => Math.max(0, problems.findIndex((problem) => problem.slug === problemSlug)), [problemSlug])
@@ -34,14 +47,23 @@ function App() {
     return () => window.removeEventListener('popstate', syncFromHistory)
   }, [switchProblem])
 
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language)
+    } catch {
+      // The preference still works for this session when storage is unavailable.
+    }
+  }, [language])
+
   const chooseProblem = (slug: string) => {
     switchProblem(slug)
     setProblemListOpen(false)
   }
 
   return (
-    <div id="top">
-      <main className={problemPanelOpen ? '' : 'problem-panel-collapsed'}>
+    <LanguageProvider value={{ language, setLanguage }}>
+      <div id="top">
+        <main className={problemPanelOpen ? '' : 'problem-panel-collapsed'}>
         <section className="problem-intro shell" id="problem" aria-labelledby="problem-title">
           <button className="problem-panel-toggle" onClick={() => setProblemPanelOpen((open) => !open)} aria-expanded={problemPanelOpen} aria-controls="problem-overview" title={problemPanelOpen ? '收起题目栏' : '展开题目栏'}>
             {problemPanelOpen ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
@@ -70,14 +92,15 @@ function App() {
         <section className="visualizer-section" id="visualizer">
           <div className="shell">
             <Suspense fallback={<div className="visualizer-loading">正在加载动画…</div>}>
-              <Visualizer key={problem.slug} />
+              <Visualizer key={`${problem.slug}:${language}`} />
             </Suspense>
           </div>
         </section>
-      </main>
+        </main>
 
-      {problemListOpen && <ProblemPicker problems={problems} activeSlug={problem.slug} onSelect={chooseProblem} onClose={() => setProblemListOpen(false)} />}
-    </div>
+        {problemListOpen && <ProblemPicker problems={problems} activeSlug={problem.slug} preferredLanguage={language} onSelect={chooseProblem} onClose={() => setProblemListOpen(false)} />}
+      </div>
+    </LanguageProvider>
   )
 }
 

@@ -16,7 +16,7 @@ export function SlidingWindowMaximumVisualizer() {
       <section className={styles.queue}><header><b>单调队列 q · 存下标</b><small>队首 → 队尾，对应数值保持单调递减</small></header><div className={styles.queueBody}><i>队首</i>{step.queue.length === 0 ? <em>空队列</em> : step.queue.map((index, position) => <span data-front={position === 0 || undefined} key={index}><small>下标 {index}</small><b>{windowNumbers[index]}</b></span>)}<i>队尾</i></div></section>
       <div className={styles.logic}>
         <section><small>left = i − k + 1</small><b>{step.index < 0 ? '等待开始' : `${step.index} − ${windowSize} + 1 = ${step.rawLeft}`}</b><span>{windowReady ? `窗口范围 [${step.left}, ${step.index}]` : `left < 0，窗口还需 ${Math.max(0, windowSize - (step.index + 1))} 个数`}</span></section>
-        <section><small>当前最大值</small><b>{windowReady && step.queue.length > 0 ? windowNumbers[step.queue[0]] : '—'}</b><span>{windowReady && step.queue.length > 0 ? `q.getFirst() = ${step.queue[0]}` : '窗口未满时暂不记录'}</span></section>
+        <section><small>当前最大值</small><b>{windowReady && step.queue.length > 0 ? windowNumbers[step.queue[0]] : '暂无'}</b><span>{windowReady && step.queue.length > 0 ? `队首下标 = ${step.queue[0]}` : '窗口未满时暂不记录'}</span></section>
         <section className={styles.answers}><small>ans</small><div>{step.answers.map((answer, index) => <b data-filled={answer !== null || undefined} key={index}>{answer ?? '·'}</b>)}</div></section>
       </div>
       <div className={styles.rule}><span data-active={step.phase === 'inspect' || step.phase === 'prune' || step.phase === 'push' || undefined}>① 右边入：删掉更弱的队尾</span><span data-active={step.phase === 'expire' || undefined}>② 左边出：删除过期队首</span><span data-active={step.phase === 'record' || undefined}>③ 队首记录为最大值</span></div>

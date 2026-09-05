@@ -25,11 +25,11 @@ export function MaxWaterVisualizer() {
       </div>
 
       <div className={styles.calculation}>
-        <div><small>高度（短边）</small><strong>min({step.phase === 'done' ? '—' : `${heights[step.l]}, ${heights[step.r]}`})</strong><b>{waterLevel || '—'}</b></div>
+        <div><small>高度（短边）</small><strong>min({step.phase === 'done' ? '暂无' : `${heights[step.l]}, ${heights[step.r]}`})</strong><b>{waterLevel || '暂无'}</b></div>
         <span>×</span>
-        <div><small>宽度</small><strong>{step.phase === 'done' ? 'r = l' : `${step.r} − ${step.l}`}</strong><b>{step.phase === 'done' ? '—' : step.r - step.l}</b></div>
+        <div><small>宽度</small><strong>{step.phase === 'done' ? 'r = l' : `${step.r} − ${step.l}`}</strong><b>{step.phase === 'done' ? '暂无' : step.r - step.l}</b></div>
         <span>=</span>
-        <div data-area="true"><small>当前面积</small><strong>area</strong><b>{step.phase === 'done' ? '—' : step.area}</b></div>
+        <div data-area="true"><small>当前面积</small><strong>area</strong><b>{step.phase === 'done' ? '暂无' : step.area}</b></div>
         <div data-best="true"><small>历史最大</small><strong>ans</strong><b>{step.best}</b></div>
       </div>
 

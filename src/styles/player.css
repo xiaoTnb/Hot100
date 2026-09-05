@@ -1,9 +1,17 @@
 .algorithm-player { height: 100%; min-height: 0; display: flex; flex-direction: column; border: 1px solid var(--line); background: var(--surface); box-shadow: 8px 8px 0 var(--soft); }
 .player-toolbar { flex: 0 0 auto; min-height: 56px; padding: 9px 16px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--line); }
+.toolbar-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.language-switch { height: 36px; padding: 3px; display: flex; align-items: center; gap: 2px; border: 1px solid var(--line); border-radius: 3px; background: var(--soft); }
+.language-switch > span { padding: 0 7px; color: var(--muted); font: 700 9px var(--mono); white-space: nowrap; }
+.language-switch button { height: 28px; min-width: 42px; padding: 0 9px; border: 0; border-radius: 2px; background: transparent; color: var(--muted); font: 700 10px var(--mono); }
+.language-switch button:hover { color: var(--blue); }
+.language-switch button:active { transform: translateY(1px); }
+.language-switch button.active { background: var(--surface); color: var(--blue); box-shadow: inset 0 0 0 1px var(--line); }
 .method-tabs { display: flex; align-items: center; gap: 6px; }
 .method-tabs button { min-height: 40px; padding: 0 14px; border: 0; border-radius: 4px; background: transparent; color: var(--muted); font-size: 13px; font-weight: 700; }
 .method-tabs button small { margin-left: 5px; font: 10px var(--mono); opacity: 0.7; }
 .method-tabs button.active { background: var(--ink); color: #fff; }
+.method-unavailable { min-height: 40px; display: flex; align-items: center; color: var(--muted); font-size: 12px; }
 .example-tabs { display: flex; align-items: center; gap: 5px; }
 .example-tabs > span { margin-right: 6px; color: var(--muted); font-size: 11px; }
 .example-tabs button { width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); font: 12px var(--mono); }
@@ -23,6 +31,9 @@
 
 .player-body { min-height: 0; display: grid; grid-template-columns: 1.55fr 1fr; flex: 1; overflow: auto; }
 .player-body.code-hidden { grid-template-columns: 1fr; }
+.language-empty-state { min-height: 0; flex: 1; padding: 48px 24px; display: grid; place-content: center; gap: 8px; text-align: center; background: var(--paper); }
+.language-empty-state b { font-size: 17px; }
+.language-empty-state p { max-width: 440px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
 .animation-canvas { position: relative; min-width: 0; padding: 28px 30px; overflow: hidden; background-image: linear-gradient(rgba(220, 227, 224, 0.45) 1px, transparent 1px), linear-gradient(90deg, rgba(220, 227, 224, 0.45) 1px, transparent 1px); background-size: 24px 24px; }
 .animation-canvas::after { content: ''; position: absolute; z-index: 0; inset: 0; pointer-events: none; background: linear-gradient(145deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.92)); }
 .animation-canvas > * { position: relative; z-index: 1; }
@@ -52,7 +63,9 @@
   .player-toolbar { align-items: flex-start; flex-direction: column; gap: 10px; }
   .method-tabs { width: 100%; }
   .method-tabs button { flex: 1; padding-inline: 8px; }
+  .toolbar-actions { width: 100%; margin-left: 0; justify-content: space-between; }
   .example-tabs { align-self: flex-end; }
+  .language-switch > span { display: none; }
   .animation-canvas { padding: 23px 16px; }
   .step-message p { font-size: 13px; }
   .live-code pre { font-size: 9px; line-height: 1.6; }

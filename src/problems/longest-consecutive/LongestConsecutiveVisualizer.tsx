@@ -20,7 +20,7 @@ export function LongestConsecutiveVisualizer() {
 
         <section className={styles.setCard}>
           <header>
-            <b>HashSet · 按加入过程展示</b>
+            <b>Set · 按加入过程展示</b>
             <small data-rejected={step.duplicateRejected || undefined}>{step.duplicateRejected ? `重复的 ${consecutiveNumbers[step.arrayIndex]} 未加入，大小不变` : '集合本身无序，并且自动去重'}</small>
           </header>
           <div>

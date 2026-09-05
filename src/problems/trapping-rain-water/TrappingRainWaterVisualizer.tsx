@@ -47,7 +47,7 @@ function ArrayRow({ label, values, ready, active }: { label: string; values: num
 }
 
 function StackPanel({ step }: { step: RainStep }) {
-  return <div className={styles.stackPanel}><header><b>单调栈</b><small>保存下标 · 栈顶在右</small></header><p><b>弹出条件</b><code>height[i] &gt; height[stack.peek()]</code><span>当前柱比栈顶低点高，才可能封住它的右侧</span></p><div>{step.stack.length === 0 ? <em>空栈</em> : step.stack.map((index) => <span key={index}><small>下标 {index}</small><b>{rainHeights[index]}</b></span>)}</div></div>
+  return <div className={styles.stackPanel}><header><b>单调栈</b><small>保存下标 · 栈顶在右</small></header><p><b>弹出条件</b><code>height[i] &gt; height[栈顶下标]</code><span>当前柱比栈顶低点高，才可能封住它的右侧</span></p><div>{step.stack.length === 0 ? <em>空栈</em> : step.stack.map((index) => <span key={index}><small>下标 {index}</small><b>{rainHeights[index]}</b></span>)}</div></div>
 }
 
 function PointerPanel({ step }: { step: RainStep }) {

@@ -63,7 +63,7 @@ function makeStep(overrides: Partial<ConsecutiveStep>): ConsecutiveStep {
   return {
     phase: 'build', arrayIndex: -1, setValues: [], currentNum: null, probe: null,
     predecessorExists: null, duplicateRejected: false, sequence: [], currentStreak: 0, longestStreak: 0,
-    lineId: 'create-set', message: '创建一个空的 HashSet，用来保存所有数字并自动去重',
+    lineId: 'create-set', message: '创建一个空的 Set，用来保存所有数字并自动去重',
     ...overrides,
   }
 }
@@ -81,8 +81,8 @@ export function makeConsecutiveSteps(): ConsecutiveStep[] {
       duplicateRejected,
       lineId: 'set-add',
       message: duplicateRejected
-        ? `nums[${arrayIndex}] = ${number} 已经存在：HashSet 拒绝重复值，Set.size 仍是 ${set.size}`
-        : `把 nums[${arrayIndex}] = ${number} 加入 HashSet，Set.size 变为 ${set.size}`,
+        ? `nums[${arrayIndex}] = ${number} 已经存在：Set 拒绝重复值，Set.size 仍是 ${set.size}`
+        : `把 nums[${arrayIndex}] = ${number} 加入 Set，Set.size 变为 ${set.size}`,
     }))
   })
 
