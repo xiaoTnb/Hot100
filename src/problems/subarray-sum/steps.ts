@@ -21,9 +21,9 @@ export interface PrefixStep {
 export const prefixNumbers = [1, -1, 2, 1, -1, 2]
 export const prefixTarget = 2
 export const prefixMethods: PlayerMethod[] = [
-  { id: 'two-pass', label: '两次遍历', complexity: 'O(N) · O(N)' },
-  { id: 'one-seed', label: '一次遍历 · 先放 0', complexity: 'O(N) · O(N)' },
-  { id: 'one-before', label: '一次遍历 · 先记 s', complexity: 'O(N) · O(N)' },
+  { id: 'two-pass', label: '两次遍历', complexity: 'O(N) · O(N)', languages: ['java', 'javascript'] },
+  { id: 'one-seed', label: '一次遍历 · 先放 0', complexity: 'O(N) · O(N)', languages: ['java', 'javascript'] },
+  { id: 'one-before', label: '一次遍历 · 先记 s', complexity: 'O(N) · O(N)', languages: ['java', 'javascript'] },
 ]
 
 const twoPassCode: CodeLine[] = [
@@ -79,7 +79,56 @@ const oneBeforeCode: CodeLine[] = [
   { id: 'b-class-close', text: '}' },
 ]
 
-export const getPrefixCode = (method: PrefixMethod) => method === 'two-pass' ? twoPassCode : method === 'one-seed' ? oneSeedCode : oneBeforeCode
+const twoPassJavaScriptCode: CodeLine[] = [
+  { id: 't-method', text: 'var subarraySum = function (nums, k) {' },
+  { id: 't-n', text: '  const n = nums.length' },
+  { id: 't-prefix', text: '  const s = Array(n + 1).fill(0)' },
+  { id: 't-build-loop', text: '  for (let i = 0; i < n; i++) {' },
+  { id: 't-build', text: '    s[i + 1] = s[i] + nums[i]' },
+  { id: 't-build-close', text: '  }' },
+  { id: 't-map', text: '  const cnt = new Map()' },
+  { id: 't-ans', text: '  let ans = 0' },
+  { id: 't-loop', text: '  for (const sj of s) {' },
+  { id: 't-query', text: '    ans += cnt.get(sj - k) ?? 0' },
+  { id: 't-record', text: '    cnt.set(sj, (cnt.get(sj) ?? 0) + 1)' },
+  { id: 't-loop-close', text: '  }' },
+  { id: 't-return', text: '  return ans' },
+  { id: 't-method-close', text: '};' },
+]
+
+const oneSeedJavaScriptCode: CodeLine[] = [
+  { id: 's-method', text: 'var subarraySum = function (nums, k) {' },
+  { id: 's-map', text: '  const cnt = new Map()' },
+  { id: 's-seed', text: '  cnt.set(0, 1)' },
+  { id: 's-sum', text: '  let s = 0' },
+  { id: 's-ans', text: '  let ans = 0' },
+  { id: 's-loop', text: '  for (const x of nums) {' },
+  { id: 's-add', text: '    s += x' },
+  { id: 's-query', text: '    ans += cnt.get(s - k) ?? 0' },
+  { id: 's-record', text: '    cnt.set(s, (cnt.get(s) ?? 0) + 1)' },
+  { id: 's-loop-close', text: '  }' },
+  { id: 's-return', text: '  return ans' },
+  { id: 's-method-close', text: '};' },
+]
+
+const oneBeforeJavaScriptCode: CodeLine[] = [
+  { id: 'b-method', text: 'var subarraySum = function (nums, k) {' },
+  { id: 'b-map', text: '  const cnt = new Map()' },
+  { id: 'b-sum', text: '  let s = 0' },
+  { id: 'b-ans', text: '  let ans = 0' },
+  { id: 'b-loop', text: '  for (const x of nums) {' },
+  { id: 'b-record', text: '    cnt.set(s, (cnt.get(s) ?? 0) + 1)' },
+  { id: 'b-add', text: '    s += x' },
+  { id: 'b-query', text: '    ans += cnt.get(s - k) ?? 0' },
+  { id: 'b-loop-close', text: '  }' },
+  { id: 'b-return', text: '  return ans' },
+  { id: 'b-method-close', text: '};' },
+]
+
+export const getPrefixCode = (method: PrefixMethod, language: 'java' | 'javascript' = 'java') => {
+  if (language === 'javascript') return method === 'two-pass' ? twoPassJavaScriptCode : method === 'one-seed' ? oneSeedJavaScriptCode : oneBeforeJavaScriptCode
+  return method === 'two-pass' ? twoPassCode : method === 'one-seed' ? oneSeedCode : oneBeforeCode
+}
 const entries = (map: Map<number, number>): [number, number][] => [...map.entries()]
 const positionsFor = (positions: Map<number, number[]>, key: number) => [...(positions.get(key) ?? [])]
 const remember = (map: Map<number, number>, positions: Map<number, number[]>, value: number, index: number) => {

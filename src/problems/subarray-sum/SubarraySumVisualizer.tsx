@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react'
 import { AlgorithmPlayer } from '../../components/player/AlgorithmPlayer'
+import { useCodeLanguage } from '../../components/player/language-context'
 import { usePlayback } from '../../components/player/usePlayback'
 import { getPrefixCode, makePrefixSteps, prefixMethods, prefixNumbers, prefixTarget, type PrefixMethod } from './steps'
 import styles from './visualizer.module.css'
 
 export function SubarraySumVisualizer() {
+  const { language } = useCodeLanguage()
   const [method, setMethod] = useState<PrefixMethod>('two-pass')
   const steps = useMemo(() => makePrefixSteps(method), [method])
   const playback = usePlayback(steps.length, 1700)
@@ -12,7 +14,7 @@ export function SubarraySumVisualizer() {
   const selectMethod = (id: string) => { setMethod(id as PrefixMethod); playback.reset() }
   const matched = (index: number) => step.matchedStarts.some((start) => index >= start && index < step.prefixIndex)
 
-  return <AlgorithmPlayer methods={prefixMethods} activeMethod={method} onMethodChange={selectMethod} playback={playback} code={getPrefixCode(method)} activeLineId={step.lineId}>
+  return <AlgorithmPlayer methods={prefixMethods} activeMethod={method} onMethodChange={selectMethod} playback={playback} code={getPrefixCode(method, language)} activeLineId={step.lineId}>
     <div className={`animation-canvas ${styles.canvas}`}>
       <div className={styles.inputLine}><span>动画用例</span><code>nums = [{prefixNumbers.join(', ')}]</code><b>k = {prefixTarget}</b></div>
       <section className={styles.array}><span>nums</span>{prefixNumbers.map((number, index) => <div data-active={index === step.arrayIndex || undefined} data-match={matched(index) || undefined} key={index}><strong>{number}</strong><small>{index}</small></div>)}</section>
