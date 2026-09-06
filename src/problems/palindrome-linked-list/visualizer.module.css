@@ -1,0 +1,48 @@
+.phaseRail { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); background: rgba(255,255,255,.76); }
+.phaseRail span { min-height: 47px; display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 11px; }
+.phaseRail span + span { border-left: 1px solid var(--line); }
+.phaseRail i { width: 21px; height: 21px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font: 9px var(--mono); font-style: normal; }
+.phaseRail span[data-active='true'] { color: var(--blue); font-weight: 700; background: var(--blue-soft); }
+.phaseRail span[data-active='true'] i { border-color: var(--blue); background: var(--blue); color: white; }
+.phaseRail span[data-done='true'] i { border-color: var(--green); color: var(--green); }
+
+.board { min-height: 260px; margin-top: 14px; padding: 20px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--line); background: rgba(255,255,255,.74); }
+.laneLabel { margin-bottom: 17px; color: var(--muted); font: 700 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.list { position: relative; height: 120px; }
+.nodeWrap { --slot: 0; position: absolute; left: calc(4% + var(--slot) * 24%); top: 10px; width: 70px; text-align: center; transition: left 650ms cubic-bezier(.22,.8,.24,1); }
+.node { width: 62px; height: 62px; margin: auto; display: grid; place-items: center; border: 2px solid #9ca9a3; border-radius: 50%; background: var(--surface); font: 700 23px var(--display); transition: all 350ms; }
+.nodeWrap[data-half='right'] .node { border-color: #7c9f90; background: #f2f8f5; }
+.nodeWrap[data-active='true'] .node { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); transform: translateY(-4px); box-shadow: 0 7px 0 rgba(39,118,210,.08); }
+.nodeWrap[data-compared='true'] .node { border-color: var(--green); background: var(--green-soft); color: var(--green); }
+.nodeWrap small { display: block; margin-top: 7px; color: #8b9792; font: 9px var(--mono); }
+.pointers { height: 29px; display: flex; justify-content: center; gap: 3px; }
+.pointers span { height: 21px; padding: 0 7px; display: grid; place-items: center; border-radius: 12px; color: white; font: 700 8px var(--mono); animation: pointerIn 300ms ease; }
+.slow, .head { background: var(--blue); }
+.fast, .head2 { background: var(--orange); }
+.arrow { position: absolute; top: 66px; color: #97a39e; font: 19px var(--mono); transition: transform 500ms; }
+.arrow[data-index='0'] { left: 21%; }
+.arrow[data-index='1'] { left: 45%; }
+.arrow[data-index='2'] { left: 69%; }
+.board[data-reversed='true'] .arrow[data-index='1'] { opacity: 0; }
+.board[data-reversed='true'] .arrow[data-index='2'] { color: var(--orange); }
+.splitCaption { display: flex; justify-content: space-between; color: var(--muted); font: 9px var(--mono); }
+.splitCaption span:last-child { color: var(--orange); }
+
+.comparison { min-height: 66px; margin-top: 10px; padding: 10px 17px; display: flex; align-items: center; justify-content: center; gap: 13px; border: 1px dashed var(--line); color: var(--muted); opacity: .65; }
+.comparison[data-visible='true'] { border-style: solid; border-color: #a9c8bb; background: var(--green-soft); color: var(--ink); opacity: 1; }
+.comparison strong { width: 39px; height: 39px; display: grid; place-items: center; border-radius: 50%; background: white; color: var(--green); font: 700 18px var(--display); }
+.comparison i { color: var(--green); font-style: normal; }
+.comparison b { color: var(--green); font: 800 18px var(--mono); letter-spacing: .12em; }
+.comparison span { font-size: 11px; }
+
+@keyframes pointerIn { from { opacity: 0; transform: translateY(-6px); } }
+
+@media (max-width: 620px) {
+  .phaseRail span { min-height: 42px; gap: 4px; font-size: 9px; }
+  .phaseRail i { width: 18px; height: 18px; }
+  .board { min-height: 225px; padding: 14px 10px; }
+  .nodeWrap { left: calc(1% + var(--slot) * 25%); width: 54px; }
+  .node { width: 49px; height: 49px; font-size: 19px; }
+  .arrow { top: 60px; }
+  .pointers span { padding-inline: 5px; font-size: 7px; }
+}

@@ -1,0 +1,70 @@
+.readout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.readout > div {
+  min-height: 66px;
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 3px 10px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.readout span { color: var(--muted); font: 9px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+.readout b { grid-row: 2; color: var(--ink); font: 700 13px var(--mono); }
+.readout small { grid-column: 2; grid-row: 1 / span 2; color: var(--blue); font: 700 11px var(--mono); }
+.readout .status { border-left: 3px solid var(--blue); }
+.readout .status b { grid-column: 1 / -1; font-family: var(--display); }
+.readout .status[data-phase='switch'] { border-left-color: var(--orange); background: var(--orange-soft); }
+.readout .status[data-phase='found'] { border-left-color: var(--green); background: var(--green-soft); }
+
+.scene {
+  min-height: 290px;
+  margin-top: 12px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.scene svg { width: 100%; height: auto; max-height: 330px; overflow: visible; }
+.edges path { fill: none; stroke: #aab6b1; stroke-width: 2; marker-end: url(#intersection-arrow); }
+.edges marker path { fill: #aab6b1; }
+.rowLabel { fill: #89958f; font: 700 12px var(--mono); }
+.nullEnd { fill: #89958f; font: 11px var(--mono); }
+.node circle { fill: var(--surface); stroke: #aab6b1; stroke-width: 2; transition: fill 350ms, stroke 350ms, filter 350ms; }
+.node[data-kind='shared'] circle { fill: #f2f8f5; stroke: #7c9f90; }
+.node[data-visited='true'] circle { stroke: var(--blue); }
+.node[data-active='true'] circle { fill: var(--blue-soft); stroke: var(--blue); stroke-width: 3; }
+.node[data-found='true'] circle { fill: var(--green-soft); stroke: var(--green); filter: drop-shadow(0 0 8px rgba(23, 132, 91, .3)); }
+.value { fill: var(--ink); font: 700 24px var(--display); }
+.node[data-active='true'] .value { fill: var(--blue); }
+.node[data-found='true'] .value { fill: var(--green); }
+.nodeLabel { fill: #89958f; font: 10px var(--mono); }
+
+.pointer { transition: transform 520ms cubic-bezier(.22, .8, .24, 1); }
+.pointer circle { stroke: white; stroke-width: 2; }
+.pointer text { fill: white; font: 700 12px var(--mono); }
+.pointer.p circle { fill: var(--blue); }
+.pointer.q circle { fill: var(--orange); }
+.pointer .nullText { fill: var(--muted); font-size: 9px; }
+
+.distanceTrack { height: 35px; margin-top: 10px; display: flex; align-items: center; gap: 9px; color: var(--muted); font: 9px var(--mono); }
+.distanceTrack i { height: 3px; flex: 1; overflow: hidden; border-radius: 3px; background: var(--line); }
+.distanceTrack i b { display: block; height: 100%; background: linear-gradient(90deg, var(--blue), var(--orange)); transition: width 500ms ease; }
+.distanceTrack strong { color: var(--ink); }
+.distanceTrack small { margin-left: 8px; color: var(--muted); }
+
+@media (max-width: 620px) {
+  .readout { grid-template-columns: 1fr 1fr; }
+  .readout .status { grid-column: 1 / -1; min-height: 54px; }
+  .scene { min-height: 220px; }
+  .scene svg { width: 100%; max-width: none; }
+  .distanceTrack small { display: none; }
+}

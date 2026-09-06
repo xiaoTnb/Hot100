@@ -1,0 +1,25 @@
+.rule { min-height: 58px; padding: 10px 15px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); background: rgba(255,255,255,.76); }
+.rule span { color: var(--muted); font-size: 10px; }
+.rule b { color: var(--blue); font: 700 16px var(--mono); }
+.rule i { height: 1px; flex: 1; background: var(--line); }
+.rule small { color: var(--orange); font: 9px var(--mono); }
+.scene { min-height: 250px; margin-top: 12px; padding: 24px 15px; display: grid; place-items: center; overflow-x: auto; border: 1px solid var(--line); background: rgba(255,255,255,.74); }
+.list { position: relative; min-width: 720px; height: 150px; display: flex; justify-content: center; align-items: center; }
+.wrap { position: relative; width: 95px; display: flex; align-items: center; justify-content: center; transition: opacity 400ms, transform 400ms; }
+.wrap[data-removed='true'] { opacity: .22; transform: translateY(27px) scale(.85); }
+.node { width: 53px; height: 53px; display: grid; place-items: center; border: 2px solid #91a099; border-radius: 50%; background: white; font: 700 19px var(--display); transition: all 300ms; }
+.wrap[data-pointer='true'] .node { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); }
+.dummy { padding: 10px 8px; border: 1px dashed #91a099; color: var(--muted); font: 8px var(--mono); }
+.arrow { margin-right: 8px; color: #9aa6a1; font-style: normal; }
+.null { color: var(--muted); font: 9px var(--mono); font-style: normal; }
+.pointers { position: absolute; top: -34px; left: 18px; right: 0; display: flex; justify-content: center; gap: 3px; }
+.pointers span, .pointers em { padding: 5px 7px; border-radius: 10px; background: var(--blue); color: white; font: 700 7px var(--mono); font-style: normal; animation: pointerIn 300ms ease; }
+.pointers em { background: var(--orange); }
+.wrap > small { position: absolute; top: 64px; color: #89958f; font: 8px var(--mono); white-space: nowrap; }
+.bypass { position: absolute; left: 345px; top: 81px; width: 210px; overflow: visible; }
+.bypass path { fill: none; stroke: var(--green); stroke-width: 2; stroke-dasharray: 5 4; }
+.bypass text { fill: var(--green); font: 8px var(--mono); }
+.positions { min-height: 40px; padding: 8px 13px; display: flex; align-items: center; gap: 18px; border: 1px solid var(--line); border-top: 0; background: rgba(255,255,255,.7); color: var(--muted); font: 9px var(--mono); }
+.positions b { margin-left: auto; color: var(--green); }
+@keyframes pointerIn { from { opacity: 0; transform: translateY(-6px); } }
+@media (max-width: 620px) { .scene { justify-content: start; } .positions { gap: 8px; } .positions b { display: none; } }
