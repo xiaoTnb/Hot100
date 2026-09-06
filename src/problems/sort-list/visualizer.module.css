@@ -1,0 +1,35 @@
+.recursionRail { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--line); background: rgba(255,255,255,.76); }
+.recursionRail span { min-height: 45px; display: flex; align-items: center; justify-content: center; gap: 5px; color: var(--muted); font-size: 9px; }
+.recursionRail span + span { border-left: 1px solid var(--line); }
+.recursionRail i { width: 18px; height: 18px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font: 8px var(--mono); font-style: normal; }
+.recursionRail span[data-active='true'] { background: var(--blue-soft); color: var(--blue); font-weight: 700; }
+.recursionRail span[data-passed='true'] i { border-color: var(--green); color: var(--green); }
+.board { min-height: 330px; margin-top: 12px; border: 1px solid var(--line); background: rgba(255,255,255,.74); }
+.board header { height: 40px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.board header span { color: var(--blue); font-size: 11px; font-weight: 700; }
+.board header small { color: var(--muted); font: 9px var(--mono); }
+.board[data-direction='up'] header span { color: var(--orange); }
+.board[data-direction='done'] header span { color: var(--green); }
+.groups { min-height: 220px; padding: 30px 20px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+.group { padding: 14px 13px 18px; border: 1px solid var(--line); background: white; animation: groupIn 420ms both; }
+.group > small { display: block; margin-bottom: 15px; color: var(--muted); text-align: center; font: 8px var(--mono); }
+.group > div { display: flex; align-items: center; }
+.group span { display: flex; align-items: center; }
+.group b { width: 47px; height: 47px; display: grid; place-items: center; border: 1px solid #91a099; border-radius: 50%; font: 700 17px var(--display); transition: all 300ms; }
+.group span[data-active='true'] b { border: 2px solid var(--blue); background: var(--blue-soft); color: var(--blue); }
+.board[data-direction='up'] .group span[data-active='true'] b { border-color: var(--orange); background: var(--orange-soft); color: var(--orange); }
+.board[data-direction='done'] .group b { border-color: var(--green); background: var(--green-soft); color: var(--green); }
+.group i { margin: 0 5px; color: #98a49f; font-style: normal; }
+.explain { min-height: 68px; padding: 10px 16px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 1px solid var(--line); color: var(--muted); }
+.explain span, .explain strong { font-size: 10px; }
+.explain b { width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid var(--line); background: white; color: var(--orange); font: 700 15px var(--mono); }
+.explain i { color: var(--orange); font-style: normal; }
+.explain strong { color: var(--green); }
+@keyframes groupIn { from { opacity: 0; transform: translateY(9px) scale(.96); } }
+@media (max-width: 620px) {
+  .recursionRail span { min-height: 40px; font-size: 0; }
+  .recursionRail i { font-size: 8px; }
+  .groups { min-height: 205px; padding-inline: 8px; gap: 6px; overflow-x: auto; justify-content: flex-start; }
+  .group { flex: 0 0 auto; padding-inline: 8px; }
+  .group b { width: 40px; height: 40px; }
+}
