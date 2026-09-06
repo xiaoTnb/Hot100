@@ -1,0 +1,3 @@
+import { lazy } from 'react'
+import type { ProblemDefinition } from '../types'
+export const minStackProblem={slug:'min-stack',number:'42',leetcodeId:'LeetCode #155',title:'最小栈',difficulty:'medium',difficultyLabel:'中等',tags:['栈','设计'],languages:['javascript'],url:'https://leetcode.cn/problems/min-stack/',lead:<>设计支持 <code>push</code>、<code>pop</code>、<code>top</code>，并能在常数时间获取最小元素的栈。</>,note:'每个栈帧同时保存当前值和“到这里为止的最小值”。push 时只需与前一帧最小值比较；栈底哨兵 [0, Infinity] 消除了空栈分支。',example:<><code>push(-2), push(0), push(-3), getMin(), pop()…</code><strong>→ -3, 0, -2</strong></>,Visualizer:lazy(()=>import('./MinStackVisualizer').then(m=>({default:m.MinStackVisualizer})))} satisfies ProblemDefinition

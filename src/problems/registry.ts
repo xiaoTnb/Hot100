@@ -1,6 +1,8 @@
 import { groupAnagramsProblem } from './group-anagrams/definition'
 import { addTwoNumbersProblem } from './add-two-numbers/definition'
 import { copyRandomListProblem } from './copy-random-list/definition'
+import { decodeStringProblem } from './decode-string/definition'
+import { dailyTemperaturesProblem } from './daily-temperatures/definition'
 import { intersectionLinkedListProblem } from './intersection-linked-list/definition'
 import { findAnagramsProblem } from './find-anagrams/definition'
 import { findFirstLastPositionProblem } from './find-first-last-position/definition'
@@ -13,6 +15,7 @@ import { linkedListCycleIIProblem } from './linked-list-cycle-ii/definition'
 import { maximumSubarrayProblem } from './maximum-subarray/definition'
 import { mergeIntervalsProblem } from './merge-intervals/definition'
 import { mergeTwoSortedListsProblem } from './merge-two-sorted-lists/definition'
+import { minStackProblem } from './min-stack/definition'
 import { maxWaterProblem } from './max-water/definition'
 import { minimumWindowSubstringProblem } from './minimum-window-substring/definition'
 import { moveZeroesProblem } from './move-zeroes/definition'
@@ -65,6 +68,9 @@ export const problems: ProblemDefinition[] = [
   copyRandomListProblem,
   sortListProblem,
   lruCacheProblem,
+  minStackProblem,
+  decodeStringProblem,
+  dailyTemperaturesProblem,
 ]
 
 export function findProblem(slug: string | null): ProblemDefinition | undefined {

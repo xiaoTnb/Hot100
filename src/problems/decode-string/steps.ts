@@ -1,0 +1,14 @@
+import type { CodeLine,PlayerMethod } from '../../components/player/types'
+export interface DecodeFrame{source:string;label:string;result?:string} export interface DecodeStep{range:[number,number];cursor:number;balance:number|null;frames:DecodeFrame[];output:string;phase:'start'|'scan'|'recurse'|'repeat'|'done';lineId:string;message:string}
+export const decodeMethods:PlayerMethod[]=[{id:'recursive',label:'递归解析',complexity:'O(N) · O(N)',languages:['javascript']}]
+export const decodeCode:CodeLine[]=[{id:'function',text:'var decodeString = function (s) {'},{id:'empty',text:'  if (s.length === 0) return s'},{id:'letter-if',text:"  if ('a' <= s[0] && s[0] <= 'z') {"},{id:'letter',text:'    return s[0] + decodeString(s.slice(1))'},{id:'letter-close',text:'  }'},{id:'left',text:"  const i = s.indexOf('[')"},{id:'balance',text:'  let balance = 1'},{id:'loop',text:'  for (let j = i + 1; ; j++) {'},{id:'left-more',text:"    if (s[j] === '[') balance++"},{id:'right',text:"    else if (s[j] === ']') {"},{id:'decrease',text:'      balance--'},{id:'matched',text:'      if (balance === 0) {'},{id:'k',text:'        const k = parseInt(s.slice(0, i))'},{id:'return',text:'        return decodeString(s.slice(i + 1, j)).repeat(k)'},{id:'rest',text:'          + decodeString(s.slice(j + 1))'},{id:'matched-close',text:'      }'},{id:'right-close',text:'    }'},{id:'loop-close',text:'  }'},{id:'end',text:'}'}]
+export const decodeSteps:DecodeStep[]=[
+ {range:[0,11],cursor:0,balance:null,frames:[{source:'3[a]2[bc]',label:'decode(root)'}],output:'',phase:'start',lineId:'function',message:'从完整字符串开始递归解析，首字符 3 表示重复次数'},
+ {range:[0,3],cursor:3,balance:0,frames:[{source:'3[a]2[bc]',label:'decode(root)'}],output:'',phase:'scan',lineId:'matched',message:'找到第一个匹配括号 3[a]：balance 从 1 回到 0'},
+ {range:[2,2],cursor:2,balance:null,frames:[{source:'3[a]2[bc]',label:'decode(root)'},{source:'a',label:'decode(inner)'}],output:'a',phase:'recurse',lineId:'letter',message:'递归解码内部字符串 a；字母直接返回 a'},
+ {range:[0,3],cursor:3,balance:null,frames:[{source:'3[a]2[bc]',label:'decode(root)',result:'a × 3'}],output:'aaa',phase:'repeat',lineId:'return',message:'内部结果 a 重复 3 次，得到 aaa'},
+ {range:[4,8],cursor:8,balance:0,frames:[{source:'2[bc]',label:'decode(rest)'}],output:'aaa',phase:'scan',lineId:'decrease',message:'递归处理剩余 2[bc]，扫描到匹配右括号'},
+ {range:[6,7],cursor:7,balance:null,frames:[{source:'2[bc]',label:'decode(rest)'},{source:'bc',label:'decode(inner)'}],output:'aaabc',phase:'recurse',lineId:'letter',message:'内部 bc 逐字母递归，返回 bc'},
+ {range:[4,8],cursor:8,balance:null,frames:[{source:'2[bc]',label:'decode(rest)',result:'bc × 2'}],output:'aaabcbc',phase:'repeat',lineId:'return',message:'bc 重复 2 次得到 bcbc，与前段 aaa 拼接'},
+ {range:[0,8],cursor:8,balance:null,frames:[],output:'aaabcbc',phase:'done',lineId:'rest',message:'所有递归调用返回，最终解码结果是 aaabcbc'},
+]
