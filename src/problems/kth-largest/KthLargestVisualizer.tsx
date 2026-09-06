@@ -1,0 +1,10 @@
+import { AlgorithmPlayer } from '../../components/player/AlgorithmPlayer'
+import { usePlayback } from '../../components/player/usePlayback'
+import { kthCode,kthMethods,kthSteps } from './steps'
+import styles from './visualizer.module.css'
+export function KthLargestVisualizer(){const playback=usePlayback(kthSteps.length,2100);const step=kthSteps[playback.stepIndex]??kthSteps[0];return <AlgorithmPlayer methods={kthMethods} activeMethod="quickselect" onMethodChange={playback.reset} playback={playback} code={kthCode} activeLineId={step.lineId}><div className="animation-canvas">
+ <div className={styles.meta}><div><span>k</span><b>2nd largest</b></div><div><span>targetIndex</span><b>n − k = 4</b></div><div data-done={step.phase==='done'||undefined}><span>当前分区</span><b>[{step.left}, {step.right}]</b></div></div>
+ <div className={styles.board}><div className={styles.array}>{step.nums.map((value,index)=><div data-outside={index<step.left||index>step.right||undefined} data-pivot={index===step.pivotIndex||undefined} data-target={index===4||undefined} data-i={index===step.i||undefined} data-j={index===step.j||undefined} key={`${index}-${value}`}><span>{index===step.i?'i':''}{index===step.j?'j':''}</span><b>{value}</b><small>index {index}</small>{index===4&&<em>target</em>}</div>)}</div><div className={styles.partition}><span>小于 pivot</span><i/><b>{step.pivotValue===null?'选择基准':`pivot = ${step.pivotValue}`}</b><i/><span>大于 pivot</span></div></div>
+ <div className={styles.decision} data-phase={step.phase}><span>{step.phase==='narrow'?'丢弃左半区':step.phase==='done'?'命中目标':step.phase==='settle'?'基准归位':'双指针分区'}</span><b>{step.phase==='done'?'第 2 大 = 5':step.pivotValue===null?'等待 partition':`pivot ${step.pivotValue}`}</b><small>只保留 targetIndex 所在的一侧</small></div>
+ <div className={`step-message ${step.phase==='done'?'success':''}`} aria-live="polite"><span>{step.phase==='done'?<i className="check-symbol">✓</i>:String(playback.stepIndex+1).padStart(2,'0')}</span><p>{step.message}</p></div>
+ </div></AlgorithmPlayer>}

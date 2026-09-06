@@ -1,0 +1,3 @@
+import { lazy } from 'react'
+import type { ProblemDefinition } from '../types'
+export const kthLargestProblem={slug:'kth-largest-element-in-an-array',number:'45',leetcodeId:'LeetCode #215',title:'数组中的第 K 个最大元素',difficulty:'medium',difficultyLabel:'中等',tags:['快速选择','数组'],languages:['javascript'],url:'https://leetcode.cn/problems/kth-largest-element-in-an-array/',lead:<>返回整数数组排序后的第 <code>k</code> 大元素，而不是第 k 个不同元素；要求平均 O(n) 时间。</>,note:'第 k 大对应升序下标 n-k。QuickSelect 每次分区只保留包含目标下标的一侧，因此无需完整排序；随机基准降低持续遇到坏分区的概率。',example:<><code>nums = [3,2,1,5,6,4]，k = 2</code><strong>→ 5</strong></>,Visualizer:lazy(()=>import('./KthLargestVisualizer').then(m=>({default:m.KthLargestVisualizer})))} satisfies ProblemDefinition

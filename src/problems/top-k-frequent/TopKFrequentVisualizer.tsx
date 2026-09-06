@@ -1,0 +1,10 @@
+import { AlgorithmPlayer } from '../../components/player/AlgorithmPlayer'
+import { usePlayback } from '../../components/player/usePlayback'
+import { topK,topKCode,topKMethods,topKNums,topKSteps } from './steps'
+import styles from './visualizer.module.css'
+export function TopKFrequentVisualizer(){const playback=usePlayback(topKSteps.length,1550);const step=topKSteps[playback.stepIndex]??topKSteps[0];return <AlgorithmPlayer methods={topKMethods} activeMethod="bucket" onMethodChange={playback.reset} playback={playback} code={topKCode} activeLineId={step.lineId}><div className="animation-canvas">
+ <div className={styles.input}><span>nums</span><div>{topKNums.map((x,i)=><b data-consumed={i<step.consumed||undefined} data-active={i===step.consumed-1&&step.phase==='count'||undefined} key={i}>{x}</b>)}</div><em>k = <strong>{topK}</strong></em></div>
+ <div className={styles.workspace}><section className={styles.counts}><header><span>频率 Map</span><small>number → count</small></header><div>{[1,2,3].map(x=>{const count=step.counts[x]??0;return <article data-active={step.active===x&&step.phase==='count'||undefined} data-empty={!count||undefined} key={x}><b>{x}</b><i>×</i><strong>{count}</strong><span><em style={{width:`${count/3*100}%`}}/></span></article>})}</div></section><section className={styles.buckets}><header><span>频率桶</span><small>高频 ↑</small></header><div>{[3,2,1].map(freq=><article data-scan={step.scanBucket===freq||undefined} key={freq}><small>freq {freq}</small><span>{step.buckets[freq].map(x=><b data-active={step.active===x||undefined} key={x}>{x}</b>)}{step.buckets[freq].length===0&&<em>empty</em>}</span></article>)}</div></section></div>
+ <div className={styles.output} data-done={step.phase==='done'||undefined}><span>Top {topK}</span><div>{step.output.map(x=><b key={x}>{x}</b>)}{step.output.length===0&&<em>等待从最高频桶收集</em>}</div><small>{step.output.length} / {topK}</small></div>
+ <div className={`step-message ${step.phase==='done'?'success':''}`} aria-live="polite"><span>{step.phase==='done'?<i className="check-symbol">✓</i>:String(playback.stepIndex+1).padStart(2,'0')}</span><p>{step.message}</p></div>
+ </div></AlgorithmPlayer>}

@@ -4,6 +4,7 @@ import { copyRandomListProblem } from './copy-random-list/definition'
 import { decodeStringProblem } from './decode-string/definition'
 import { dailyTemperaturesProblem } from './daily-temperatures/definition'
 import { intersectionLinkedListProblem } from './intersection-linked-list/definition'
+import { kthLargestProblem } from './kth-largest/definition'
 import { findAnagramsProblem } from './find-anagrams/definition'
 import { findFirstLastPositionProblem } from './find-first-last-position/definition'
 import { findMinimumRotatedArrayProblem } from './find-minimum-rotated-array/definition'
@@ -32,6 +33,7 @@ import { subarraySumProblem } from './subarray-sum/definition'
 import { swapNodesInPairsProblem } from './swap-nodes-in-pairs/definition'
 import { threeSumProblem } from './three-sum/definition'
 import { trappingRainWaterProblem } from './trapping-rain-water/definition'
+import { topKFrequentProblem } from './top-k-frequent/definition'
 import { twoSumProblem } from './two-sum/definition'
 import type { ProblemDefinition } from './types'
 
@@ -71,6 +73,8 @@ export const problems: ProblemDefinition[] = [
   minStackProblem,
   decodeStringProblem,
   dailyTemperaturesProblem,
+  kthLargestProblem,
+  topKFrequentProblem,
 ]
 
 export function findProblem(slug: string | null): ProblemDefinition | undefined {
