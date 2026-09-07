@@ -17,7 +17,7 @@ export function MergeIntervalsVisualizer() {
       <IntervalTrack intervals={isSort ? mergeSorted : mergeInput} activeIndex={step.currentIndex} title={isSort ? '按左端点排序后的区间' : '原始区间'} />
       {isSort ? <>
         <div className={styles.comparison} data-overlap={step.overlaps === true ? 'yes' : step.overlaps === false ? 'no' : undefined}>
-          <section><small>{method === 'sort-build' ? '正在生成' : '答案末尾'}</small><b>{step.previous ? '[' + step.previous.join(', ') + ']' : step.current ? '[' + step.current.join(', ') + ']' : '空'}</b></section>
+          <section><small>{method === 'sort-build' ? '正在生成' : '答案末尾'}</small><b>{method === 'sort-build' ? step.current ? '[' + step.current.join(', ') + ']' : '空' : step.previous ? '[' + step.previous.join(', ') + ']' : '空'}</b></section>
           <strong>{step.previous && step.current ? step.current[0] + ' ' + (step.overlaps ? '≤' : '>') + ' ' + step.previous[1] : step.phase === 'merge' ? '扩展边界' : '等待比较'}</strong>
           <section><small>当前区间</small><b>{step.current ? '[' + step.current.join(', ') + ']' : '暂无'}</b></section>
         </div>

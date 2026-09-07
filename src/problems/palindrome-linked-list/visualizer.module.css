@@ -1,10 +1,16 @@
 .phaseRail { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); background: rgba(255,255,255,.76); }
+.phaseRail[data-count='2'] { grid-template-columns: repeat(2, 1fr); }
 .phaseRail span { min-height: 47px; display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 11px; }
 .phaseRail span + span { border-left: 1px solid var(--line); }
 .phaseRail i { width: 21px; height: 21px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font: 9px var(--mono); font-style: normal; }
 .phaseRail span[data-active='true'] { color: var(--blue); font-weight: 700; background: var(--blue-soft); }
 .phaseRail span[data-active='true'] i { border-color: var(--blue); background: var(--blue); color: white; }
 .phaseRail span[data-done='true'] i { border-color: var(--green); color: var(--green); }
+.callStack { margin-top: 10px; padding: 9px 11px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); background: var(--surface); }
+.callStack > b { color: var(--muted); font: 8px var(--mono); white-space: nowrap; }
+.callStack > div { display: flex; flex-wrap: wrap; gap: 5px; }
+.callStack span { padding: 5px 7px; border: 1px solid var(--orange); background: var(--orange-soft); color: #b55d19; font: 7px var(--mono); }
+.callStack em { color: var(--muted); font: 8px var(--mono); font-style: normal; }
 
 .board { min-height: 260px; margin-top: 14px; padding: 20px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--line); background: rgba(255,255,255,.74); }
 .laneLabel { margin-bottom: 17px; color: var(--muted); font: 700 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }

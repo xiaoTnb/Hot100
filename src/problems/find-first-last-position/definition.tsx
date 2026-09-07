@@ -3,7 +3,7 @@ import type { ProblemDefinition } from '../types'
 
 export const findFirstLastPositionProblem = {
   slug: 'find-first-last-position',
-  number: '28',
+  number: '30',
   leetcodeId: 'LeetCode #34',
   title: '在排序数组中查找元素的第一个和最后一个位置',
   difficulty: 'medium',

@@ -3,7 +3,7 @@ import type { ProblemDefinition } from '../types'
 
 export const addTwoNumbersProblem = {
   slug: 'add-two-numbers',
-  number: '36',
+  number: '33',
   leetcodeId: 'LeetCode #2',
   title: '两数相加',
   difficulty: 'medium',

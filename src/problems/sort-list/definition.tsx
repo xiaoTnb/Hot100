@@ -3,7 +3,7 @@ import type { ProblemDefinition } from '../types'
 
 export const sortListProblem = {
   slug: 'sort-list',
-  number: '40',
+  number: '37',
   leetcodeId: 'LeetCode #148',
   title: '排序链表',
   difficulty: 'medium',

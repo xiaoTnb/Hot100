@@ -3,7 +3,7 @@ import type { ProblemDefinition } from '../types'
 
 export const removeNthNodeProblem = {
   slug: 'remove-nth-node-from-end-of-list',
-  number: '37',
+  number: '34',
   leetcodeId: 'LeetCode #19',
   title: '删除链表的倒数第 N 个结点',
   difficulty: 'medium',

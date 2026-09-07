@@ -3,7 +3,7 @@ import type { ProblemDefinition } from '../types'
 
 export const search2dMatrixProblem = {
   slug: 'search-2d-matrix',
-  number: '27',
+  number: '29',
   leetcodeId: 'LeetCode #74',
   title: '搜索二维矩阵',
   difficulty: 'medium',

@@ -3,7 +3,7 @@ import type { ProblemDefinition } from '../types'
 
 export const searchInsertPositionProblem = {
   slug: 'search-insert-position',
-  number: '26',
+  number: '28',
   leetcodeId: 'LeetCode #35',
   title: '搜索插入位置',
   difficulty: 'easy',
