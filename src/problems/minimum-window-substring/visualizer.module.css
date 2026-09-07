@@ -1,4 +1,15 @@
 .canvas { padding-bottom: 26px; }
+.scrollCode :global(.live-code pre) {
+  max-height: 640px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: #71857c #19231f;
+  scrollbar-width: thin;
+}
+.scrollCode :global(.live-code pre::-webkit-scrollbar) { width: 8px; }
+.scrollCode :global(.live-code pre::-webkit-scrollbar-track) { background: #19231f; }
+.scrollCode :global(.live-code pre::-webkit-scrollbar-thumb) { border: 2px solid #19231f; border-radius: 8px; background: #71857c; }
+.scrollCode :global(.live-code pre::-webkit-scrollbar-thumb:hover) { background: #9aada5; }
 .inputLine { padding: 9px 11px; display: flex; align-items: center; gap: 11px; border: 1px solid var(--line); background: var(--surface); }
 .inputLine span { color: var(--muted); font-size: 8px; }
 .inputLine code { font: 9px var(--mono); }
@@ -43,6 +54,7 @@
 .flow span { padding: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 7px; text-align: center; }
 .flow span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 700; }
 @media (max-width: 620px) {
+  .scrollCode :global(.live-code pre) { max-height: 430px; }
   .inputLine { flex-wrap: wrap; }
   .inputLine b { margin-left: 0; }
   .stringRow { gap: 1px; }

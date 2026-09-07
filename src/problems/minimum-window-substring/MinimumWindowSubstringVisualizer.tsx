@@ -21,7 +21,7 @@ export function MinimumWindowSubstringVisualizer() {
   const step = steps[playback.stepIndex]
   const selectMethod = (id: string) => { setMethod(id as WindowMethod); playback.reset() }
   const answer = step.ansLeft < 0 ? '' : windowSource.slice(step.ansLeft, step.ansRight + 1)
-  return <AlgorithmPlayer methods={windowMethods} activeMethod={method} onMethodChange={selectMethod} playback={playback} code={getWindowCode(method)} activeLineId={step.lineId}>
+  return <AlgorithmPlayer className={styles.scrollCode} methods={windowMethods} activeMethod={method} onMethodChange={selectMethod} playback={playback} code={getWindowCode(method)} activeLineId={step.lineId}>
     <div className={'animation-canvas ' + styles.canvas}>
       <div className={styles.inputLine}><span>动画用例</span><code>s = “{windowSource}”</code><b>t = “{windowTarget}”</b></div>
       <section className={styles.stringRow}>{[...windowSource].map((char, index) => <div data-window={index >= step.left && index <= step.right || undefined} data-best={step.ansLeft >= 0 && index >= step.ansLeft && index <= step.ansRight || undefined} data-active={index === step.activePosition || undefined} key={index}><i>{index === step.left && step.right >= 0 && <b data-side="left">l</b>}{index === step.right && <b data-side="right">r</b>}</i><strong>{char}</strong><small>{index}</small></div>)}</section>
