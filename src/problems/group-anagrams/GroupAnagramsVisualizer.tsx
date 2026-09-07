@@ -5,7 +5,7 @@ import { getGroupCode, groupMethods, groupPhaseNames, groupWords, makeGroupSteps
 import styles from './visualizer.module.css'
 
 export function GroupAnagramsVisualizer() {
-  const [method, setMethod] = useState<GroupMethod>('sort')
+  const [method, setMethod] = useState<GroupMethod>('count')
   const steps = useMemo(() => makeGroupSteps(method), [method])
   const playback = usePlayback(steps.length, 1900)
   const step = steps[playback.stepIndex]

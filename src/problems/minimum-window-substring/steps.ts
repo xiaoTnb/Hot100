@@ -22,8 +22,8 @@ export interface WindowStep {
 export const windowSource = 'ADOBECODEBANC'
 export const windowTarget = 'ABC'
 export const windowMethods: PlayerMethod[] = [
-  { id: 'counts', label: '双计数数组', complexity: 'O(52M + N)' },
   { id: 'diff', label: 'diff + geCnt', complexity: 'O(M + N)' },
+  { id: 'counts', label: '双计数数组', complexity: 'O(52M + N)' },
 ]
 
 const countsCode: CodeLine[] = [

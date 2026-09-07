@@ -19,8 +19,8 @@ export interface AnagramStep {
 export const sourceText = 'cbaebabacd'
 export const patternText = 'abc'
 export const anagramMethods: PlayerMethod[] = [
-  { id: 'fixed', label: '定长滑窗', complexity: 'O(26N + M)', languages: ['java', 'javascript'] },
   { id: 'variable', label: '不定长滑窗', complexity: 'O(N + M)', languages: ['java'] },
+  { id: 'fixed', label: '定长滑窗', complexity: 'O(26N + M)', languages: ['java', 'javascript'] },
 ]
 
 const fixedCode: CodeLine[] = [

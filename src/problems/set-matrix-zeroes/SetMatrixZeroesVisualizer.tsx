@@ -5,7 +5,7 @@ import { getZeroCode, makeZeroSteps, zeroMethods, type ZeroMethod } from './step
 import styles from './visualizer.module.css'
 
 export function SetMatrixZeroesVisualizer() {
-  const [method, setMethod] = useState<ZeroMethod>('arrays')
+  const [method, setMethod] = useState<ZeroMethod>('inplace')
   const steps = useMemo(() => makeZeroSteps(method), [method])
   const playback = usePlayback(steps.length, 1250), step = steps[playback.stepIndex]
   const change = (id: string) => { setMethod(id as ZeroMethod); playback.reset() }

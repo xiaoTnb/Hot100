@@ -24,9 +24,9 @@ export interface MergeStep {
 export const mergeInput: Interval[] = [[1, 6], [2, 3], [8, 10], [9, 12], [15, 18]]
 export const mergeSorted = mergeInput.map(([start, end]) => [start, end] as Interval).sort((a, b) => a[0] - b[0])
 export const mergeMethods: PlayerMethod[] = [
+  { id: 'difference', label: '差分数组', complexity: 'O(N + U)', languages: ['java'] },
   { id: 'sort-mutate', label: '排序 · 修改末尾', complexity: 'O(N logN)', languages: ['java'] },
   { id: 'sort-build', label: '排序 · 直接生成', complexity: 'O(N logN)', languages: ['java'] },
-  { id: 'difference', label: '差分数组', complexity: 'O(N + U)', languages: ['java'] },
   { id: 'sweep', label: '扫描线', complexity: 'O(N logN)', languages: ['java'] },
 ]
 

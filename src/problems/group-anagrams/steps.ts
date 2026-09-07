@@ -20,8 +20,8 @@ export interface GroupStep {
 export const groupWords = ['eat', 'tea', 'tan', 'ate', 'nat', 'bat']
 
 export const groupMethods: PlayerMethod[] = [
-  { id: 'sort', label: '排序作为 key', complexity: 'O(NK logK)' },
   { id: 'count', label: '计数作为 key', complexity: 'O(N(K+26))' },
+  { id: 'sort', label: '排序作为 key', complexity: 'O(NK logK)' },
 ]
 
 const sortCode: CodeLine[] = [

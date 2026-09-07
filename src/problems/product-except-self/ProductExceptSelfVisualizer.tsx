@@ -5,7 +5,7 @@ import { getProductCode, makeProductSteps, productMethods, productNumbers, type 
 import styles from './visualizer.module.css'
 
 export function ProductExceptSelfVisualizer() {
-  const [method, setMethod] = useState<ProductMethod>('arrays')
+  const [method, setMethod] = useState<ProductMethod>('optimized')
   const steps = useMemo(() => makeProductSteps(method), [method])
   const playback = usePlayback(steps.length, 1450)
   const step = steps[playback.stepIndex]

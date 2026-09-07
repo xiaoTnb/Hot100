@@ -16,8 +16,8 @@ export interface ProductStep {
 
 export const productNumbers = [1, 2, 3, 4]
 export const productMethods: PlayerMethod[] = [
-  { id: 'arrays', label: '前缀积 + 后缀积', complexity: 'O(N) · O(N)', languages: ['java'] },
   { id: 'optimized', label: '复用输出数组', complexity: 'O(N) · O(1)', languages: ['java'] },
+  { id: 'arrays', label: '前缀积 + 后缀积', complexity: 'O(N) · O(N)', languages: ['java'] },
 ]
 
 const arraysCode: CodeLine[] = [

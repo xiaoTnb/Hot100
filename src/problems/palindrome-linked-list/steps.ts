@@ -5,8 +5,8 @@ export type PalindromePhase = 'start' | 'descend' | 'middle' | 'reverse' | 'comp
 export interface PalindromeStep { phase: PalindromePhase; slow: number | null; fast: number | null; left: number | null; right: number | null; reversed: boolean; compared: number[]; stack: number[]; lineId: string; message: string }
 export const palindromeValues = [1, 2, 2, 1]
 export const palindromeMethods: PlayerMethod[] = [
-  { id: 'recursive', label: '递归 · 双向比较', complexity: 'O(N) · O(N)', languages: ['java'] },
   { id: 'reverse-half', label: '中点 + 反转后半段', complexity: 'O(N) · O(1)', languages: ['java'] },
+  { id: 'recursive', label: '递归 · 双向比较', complexity: 'O(N) · O(N)', languages: ['java'] },
 ]
 
 const recursiveCode: CodeLine[] = [

@@ -28,8 +28,8 @@ export const twoSumExamples: TwoSumExample[] = [
 ]
 
 export const twoSumMethods: PlayerMethod[] = [
-  { id: 'brute', label: '暴力枚举', complexity: 'O(N²)' },
   { id: 'hash', label: '哈希表', complexity: 'O(N)' },
+  { id: 'brute', label: '暴力枚举', complexity: 'O(N²)' },
 ]
 
 const bruteCode: CodeLine[] = [

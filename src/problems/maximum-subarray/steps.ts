@@ -21,8 +21,8 @@ export interface MaxStep {
 export const maxNumbers = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 export const maxMethods: PlayerMethod[] = [
   { id: 'prefix', label: '前缀和 + 贪心', complexity: 'O(N) · O(1)', languages: ['java', 'javascript'] },
-  { id: 'dp', label: '动态规划数组', complexity: 'O(N) · O(N)', languages: ['java'] },
   { id: 'rolling', label: '空间优化', complexity: 'O(N) · O(1)', languages: ['java'] },
+  { id: 'dp', label: '动态规划数组', complexity: 'O(N) · O(N)', languages: ['java'] },
 ]
 
 const prefixCode: CodeLine[] = [

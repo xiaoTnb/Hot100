@@ -7,7 +7,7 @@ import styles from './visualizer.module.css'
 
 export function FindAnagramsVisualizer() {
   const { language } = useCodeLanguage()
-  const [method, setMethod] = useState<AnagramMethod>('fixed')
+  const [method, setMethod] = useState<AnagramMethod>('variable')
   const steps = useMemo(() => makeAnagramSteps(method), [method])
   const playback = usePlayback(steps.length, 1500)
   const step = steps[playback.stepIndex]

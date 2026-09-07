@@ -15,7 +15,7 @@ const asciiCells = [
 ] as const
 
 export function MinimumWindowSubstringVisualizer() {
-  const [method, setMethod] = useState<WindowMethod>('counts')
+  const [method, setMethod] = useState<WindowMethod>('diff')
   const steps = useMemo(() => makeWindowSteps(method), [method])
   const playback = usePlayback(steps.length, 1650)
   const step = steps[playback.stepIndex]

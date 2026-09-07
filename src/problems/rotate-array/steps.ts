@@ -16,7 +16,8 @@ export interface RotateStep {
 }
 
 export const rotateInput = [1, 2, 3, 4, 5, 6, 7]
-export const rotateK = 3
+export const rotateK = 10
+const normalizedRotateK = rotateK % rotateInput.length
 export const rotateMethods: PlayerMethod[] = [{ id: 'three-reversals', label: '三次反转', complexity: 'O(N) · O(1)', languages: ['java'] }]
 
 export const rotateCode: CodeLine[] = [
@@ -45,7 +46,7 @@ const passLabels: Record<RotatePass, string> = { all: '整体', front: '前 k �
 
 export function makeRotateSteps(): RotateStep[] {
   const nums = [...rotateInput]
-  const steps: RotateStep[] = [{ nums: [...nums], pass: null, phase: 'normalize', rangeStart: -1, rangeEnd: -1, left: -1, right: -1, lineId: 'rotate-normalize', message: `n = ${nums.length}，k %= n 后仍为 ${rotateK}` }]
+  const steps: RotateStep[] = [{ nums: [...nums], pass: null, phase: 'normalize', rangeStart: -1, rangeEnd: -1, left: -1, right: -1, lineId: 'rotate-normalize', message: `原始 k = ${rotateK} 大于 n = ${nums.length}；执行 k %= n，得到有效轮转次数 ${rotateK} % ${nums.length} = ${normalizedRotateK}` }]
 
   const reverse = (rangeStart: number, rangeEnd: number, pass: RotatePass, callLineId: string) => {
     let left = rangeStart
@@ -64,8 +65,8 @@ export function makeRotateSteps(): RotateStep[] {
   }
 
   reverse(0, nums.length - 1, 'all', 'rotate-first')
-  reverse(0, rotateK - 1, 'front', 'rotate-second')
-  reverse(rotateK, nums.length - 1, 'back', 'rotate-third')
-  steps.push({ nums: [...nums], pass: 'back', phase: 'done', rangeStart: rotateK, rangeEnd: nums.length - 1, left: -1, right: -1, lineId: 'rotate-third', message: '三次反转完成，数组变为 [5, 6, 7, 1, 2, 3, 4]' })
+  reverse(0, normalizedRotateK - 1, 'front', 'rotate-second')
+  reverse(normalizedRotateK, nums.length - 1, 'back', 'rotate-third')
+  steps.push({ nums: [...nums], pass: 'back', phase: 'done', rangeStart: normalizedRotateK, rangeEnd: nums.length - 1, left: -1, right: -1, lineId: 'rotate-third', message: `三次反转完成：向右轮转 ${rotateK} 次，等价于轮转 ${normalizedRotateK} 次` })
   return steps
 }

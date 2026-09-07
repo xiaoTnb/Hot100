@@ -6,8 +6,8 @@ export interface ZeroStep { phase: ZeroPhase; matrix: number[][]; rowMarks: bool
 
 export const zeroInput = [[0, 1, 2, 0], [3, 4, 0, 2], [1, 3, 1, 5]]
 export const zeroMethods: PlayerMethod[] = [
-  { id: 'arrays', label: '行列标记数组', complexity: 'O(MN) · O(M+N)', languages: ['java'] },
   { id: 'inplace', label: '复用首行首列', complexity: 'O(MN) · O(1)', languages: ['java'] },
+  { id: 'arrays', label: '行列标记数组', complexity: 'O(MN) · O(M+N)', languages: ['java'] },
 ]
 
 const arraysCode: CodeLine[] = [

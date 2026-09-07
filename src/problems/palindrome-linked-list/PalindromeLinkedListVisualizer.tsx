@@ -5,7 +5,7 @@ import { getPalindromeCode, makePalindromeSteps, palindromeMethods, palindromeVa
 import styles from './visualizer.module.css'
 
 export function PalindromeLinkedListVisualizer() {
-  const [method, setMethod] = useState<PalindromeMethod>('recursive')
+  const [method, setMethod] = useState<PalindromeMethod>('reverse-half')
   const steps = useMemo(() => makePalindromeSteps(method), [method])
   const playback = usePlayback(steps.length, 1650), step = steps[playback.stepIndex]
   const change = (id: string) => { setMethod(id as PalindromeMethod); playback.reset() }

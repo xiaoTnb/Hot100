@@ -5,7 +5,7 @@ import { getMergeCode, makeMergeSteps, mergeInput, mergeMethods, mergeSorted, ty
 import styles from './visualizer.module.css'
 
 export function MergeIntervalsVisualizer() {
-  const [method, setMethod] = useState<MergeMethod>('sort-mutate')
+  const [method, setMethod] = useState<MergeMethod>('difference')
   const steps = useMemo(() => makeMergeSteps(method), [method])
   const playback = usePlayback(steps.length, 1500)
   const step = steps[playback.stepIndex]

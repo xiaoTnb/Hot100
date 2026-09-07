@@ -5,7 +5,7 @@ import { getRainCode, makeRainSteps, rainHeights, rainMethods, type RainCalculat
 import styles from './visualizer.module.css'
 
 export function TrappingRainWaterVisualizer() {
-  const [method, setMethod] = useState<RainMethod>('dp')
+  const [method, setMethod] = useState<RainMethod>('pointers')
   const steps = useMemo(() => makeRainSteps(method), [method])
   const playback = usePlayback(steps.length, 1350)
   const step = steps[playback.stepIndex]

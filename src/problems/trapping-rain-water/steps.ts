@@ -12,9 +12,9 @@ export interface RainStep {
 
 export const rainHeights = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
 export const rainMethods: PlayerMethod[] = [
+  { id: 'pointers', label: '双指针', complexity: 'O(N) · O(1)' },
   { id: 'dp', label: '动态规划', complexity: 'O(N) · O(N)' },
   { id: 'stack', label: '单调栈', complexity: 'O(N) · O(N)' },
-  { id: 'pointers', label: '双指针', complexity: 'O(N) · O(1)' },
 ]
 
 const dpCode: CodeLine[] = [
