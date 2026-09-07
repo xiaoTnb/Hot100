@@ -26,8 +26,23 @@
 .answer > div { min-height: 48px; padding: 9px 11px; display: flex; align-items: center; gap: 7px; }
 .answer span { padding: 7px 10px; border: 1px solid var(--green); background: var(--green-soft); color: var(--green); font: 700 10px var(--mono); }
 .answer em { color: var(--muted); font-size: 9px; font-style: normal; }
+.eventBoard { margin-top: 11px; border: 1px solid var(--line); background: var(--surface); }
+.eventBoard > header { padding: 9px 11px; display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); }
+.eventBoard header b { font-size: 10px; }
+.eventBoard header small { color: var(--muted); font-size: 8px; text-align: right; }
+.events { min-height: 66px; padding: 10px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.events span { min-width: 55px; padding: 6px 8px; display: flex; justify-content: space-between; gap: 8px; border: 1px solid var(--line); background: var(--soft); transition: 220ms ease; }
+.events span[data-active='true'] { border-color: var(--orange); background: var(--orange-soft); transform: translateY(-2px); }
+.events i { color: var(--muted); font: 8px var(--mono); font-style: normal; }
+.events b { color: var(--blue); font: 700 10px var(--mono); }
+.events em { color: var(--muted); font-size: 9px; font-style: normal; }
+.metrics { padding: 9px 10px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; border-top: 1px solid var(--line); }
+.metrics span { padding: 7px 9px; border: 1px solid var(--line); background: var(--soft); }
+.metrics small { display: block; color: var(--muted); font-size: 7px; }
+.metrics b { display: block; margin-top: 3px; color: var(--blue); font: 700 12px var(--mono); }
 @media (max-width: 620px) {
   .comparison { grid-template-columns: 1fr 72px 1fr; }
   .comparison > strong { min-width: 0; font-size: 9px; }
   .rule { grid-template-columns: 1fr 1fr; }
+  .metrics { grid-template-columns: 1fr 1fr; }
 }

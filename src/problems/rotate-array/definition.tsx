@@ -9,7 +9,7 @@ export const rotateArrayProblem = {
   difficulty: 'medium',
   difficultyLabel: '中等',
   tags: ['数组', '双指针'],
-  languages: ['javascript'],
+  languages: ['java'],
   url: 'https://leetcode.cn/problems/rotate-array/',
   lead: <>将数组中的元素向右轮转 <code>k</code> 个位置，要求直接修改原数组。</>,
   note: '三次反转可以原地完成轮转：整体反转把末尾元素带到前面，再分别恢复前 k 段和剩余段内部的顺序。',

@@ -9,7 +9,7 @@ export const productExceptSelfProblem = {
   difficulty: 'medium',
   difficultyLabel: '中等',
   tags: ['数组', '前缀积'],
-  languages: ['javascript'],
+  languages: ['java'],
   url: 'https://leetcode.cn/problems/product-of-array-except-self/',
   lead: <>返回数组 <code>answer</code>，其中每一项等于原数组中除自身之外所有元素的乘积。</>,
   note: '不能使用除法。pre[i] 保存 i 左侧全部元素的乘积，suf[i] 保存 i 右侧全部元素的乘积，两者相乘就是答案。',

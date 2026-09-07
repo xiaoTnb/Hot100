@@ -17,23 +17,28 @@ export interface RotateStep {
 
 export const rotateInput = [1, 2, 3, 4, 5, 6, 7]
 export const rotateK = 3
-export const rotateMethods: PlayerMethod[] = [{ id: 'three-reversals', label: '三次反转', complexity: 'O(N) · O(1)', languages: ['javascript'] }]
+export const rotateMethods: PlayerMethod[] = [{ id: 'three-reversals', label: '三次反转', complexity: 'O(N) · O(1)', languages: ['java'] }]
 
 export const rotateCode: CodeLine[] = [
-  { id: 'rotate-method', text: 'function rotate(nums, k) {' },
-  { id: 'rotate-reverse-method', text: '    function reverse(i, j) {' },
-  { id: 'rotate-reverse-while', text: '        while (i < j) {' },
-  { id: 'rotate-reverse-swap', text: '            [nums[i], nums[j]] = [nums[j], nums[i]]' },
-  { id: 'rotate-reverse-left', text: '            i++' },
-  { id: 'rotate-reverse-right', text: '            j--' },
-  { id: 'rotate-reverse-while-close', text: '        }' },
-  { id: 'rotate-reverse-close', text: '    }' },
-  { id: 'rotate-n', text: '    const n = nums.length' },
-  { id: 'rotate-normalize', text: '    k %= n' },
-  { id: 'rotate-first', text: '    reverse(0, n - 1)' },
-  { id: 'rotate-second', text: '    reverse(0, k - 1)' },
-  { id: 'rotate-third', text: '    reverse(k, n - 1)' },
-  { id: 'rotate-close', text: '}' },
+  { id: 'rotate-class', text: 'class Solution {' },
+  { id: 'rotate-method', text: '  public void rotate(int[] nums, int k) {' },
+  { id: 'rotate-n', text: '    int n = nums.length;' },
+  { id: 'rotate-normalize', text: '    k %= n;' },
+  { id: 'rotate-first', text: '    reverse(nums, 0, n - 1);' },
+  { id: 'rotate-second', text: '    reverse(nums, 0, k - 1);' },
+  { id: 'rotate-third', text: '    reverse(nums, k, n - 1);' },
+  { id: 'rotate-method-close', text: '  }' },
+  { id: 'rotate-blank', text: '' },
+  { id: 'rotate-reverse-method', text: '  private void reverse(int[] nums, int i, int j) {' },
+  { id: 'rotate-reverse-while', text: '    while (i < j) {' },
+  { id: 'rotate-reverse-temp', text: '      int tmp = nums[i];' },
+  { id: 'rotate-reverse-set-left', text: '      nums[i] = nums[j];' },
+  { id: 'rotate-reverse-set-right', text: '      nums[j] = tmp;' },
+  { id: 'rotate-reverse-left', text: '      i++;' },
+  { id: 'rotate-reverse-right', text: '      j--;' },
+  { id: 'rotate-reverse-while-close', text: '    }' },
+  { id: 'rotate-reverse-close', text: '  }' },
+  { id: 'rotate-class-close', text: '}' },
 ]
 
 const passLabels: Record<RotatePass, string> = { all: '整体', front: '前 k 段', back: '剩余段' }
@@ -50,7 +55,7 @@ export function makeRotateSteps(): RotateStep[] {
       const leftValue = nums[left]
       const rightValue = nums[right]
       ;[nums[left], nums[right]] = [nums[right], nums[left]]
-      steps.push({ nums: [...nums], pass, phase: 'swap', rangeStart, rangeEnd, left, right, lineId: 'rotate-reverse-swap', message: `交换 nums[${left}] = ${leftValue} 与 nums[${right}] = ${rightValue}` })
+      steps.push({ nums: [...nums], pass, phase: 'swap', rangeStart, rangeEnd, left, right, lineId: 'rotate-reverse-set-right', message: `用 tmp 暂存左值，再交换 nums[${left}] = ${leftValue} 与 nums[${right}] = ${rightValue}` })
       left++
       steps.push({ nums: [...nums], pass, phase: 'move', rangeStart, rangeEnd, left, right, lineId: 'rotate-reverse-left', message: `i++，左指针移动到 ${left}` })
       right--

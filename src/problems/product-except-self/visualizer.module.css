@@ -17,6 +17,10 @@
 .formula span { grid-row: 1 / 3; align-self: center; color: var(--muted); font-size: 9px; }
 .formula[data-phase='answer'] { border-left-color: var(--green); }
 .formula[data-phase='answer'] b { color: var(--green); }
+.scalar { margin-top: 9px; padding: 9px 12px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--blue); background: var(--blue-soft); }
+.scalar small { color: var(--muted); font-size: 8px; }
+.scalar b { color: var(--blue); font: 700 17px var(--mono); }
+.scalar span { margin-left: auto; color: var(--muted); font-size: 8px; }
 .flow { margin-top: 9px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
 .flow span { padding: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 8px; text-align: center; }
 .flow span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 700; }

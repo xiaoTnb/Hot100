@@ -8,6 +8,7 @@ import { kthLargestProblem } from './kth-largest/definition'
 import { findAnagramsProblem } from './find-anagrams/definition'
 import { findFirstLastPositionProblem } from './find-first-last-position/definition'
 import { findMinimumRotatedArrayProblem } from './find-minimum-rotated-array/definition'
+import { firstMissingPositiveProblem } from './first-missing-positive/definition'
 import { longestConsecutiveProblem } from './longest-consecutive/definition'
 import { longestSubstringProblem } from './longest-substring/definition'
 import { lruCacheProblem } from './lru-cache/definition'
@@ -54,6 +55,7 @@ export const problems: ProblemDefinition[] = [
   mergeIntervalsProblem,
   rotateArrayProblem,
   productExceptSelfProblem,
+  firstMissingPositiveProblem,
   searchInsertPositionProblem,
   search2dMatrixProblem,
   findFirstLastPositionProblem,
