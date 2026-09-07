@@ -5,22 +5,44 @@
 .matrix span { min-height: 59px; padding: 7px 9px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--line); background: var(--surface); transition: transform 240ms, border-color 240ms, background 240ms; }
 .matrix span small { color: var(--muted); font: 7px var(--mono); }
 .matrix span strong { align-self: flex-end; color: #9aa5a0; font: 700 18px var(--mono); }
+.matrix span em { color: var(--blue); font: 700 7px var(--mono); font-style: normal; }
 .matrix span[data-filled='true'] strong { color: var(--ink); }
 .matrix span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); transform: translateX(3px); }
 .matrix span[data-active='true'] strong { color: var(--blue); }
 .matrix section[data-answer='true'] > b { background: var(--green); }
 .matrix section[data-answer='true'] span[data-filled='true'] { border-color: var(--green); background: var(--green-soft); }
 .matrix section[data-answer='true'] span[data-filled='true'] strong { color: var(--green); }
+.matrix section[data-trace='true'] > b { background: var(--blue); }
+.matrix section[data-trace='true'] span[data-filled='true'] { border-color: var(--blue); background: var(--blue-soft); }
+.matrix section[data-trace='true'] span[data-filled='true'] strong { color: var(--blue); }
+.matrix section[data-answer='true'] span[data-filled='true']:not([data-final='true']) { border-color: var(--blue); background: var(--blue-soft); }
+.matrix section[data-answer='true'] span[data-filled='true']:not([data-final='true']) strong { color: var(--blue); }
+.matrix span[data-final='true'] em { color: var(--green); }
+.storageGuide { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.storageGuide section { padding: 10px 12px; display: grid; grid-template-columns: auto 1fr; gap: 3px 9px; border: 1px solid var(--line); background: var(--surface); }
+.storageGuide b { color: var(--blue); font: 700 13px var(--mono); }
+.storageGuide span { align-self: center; color: var(--ink); font-size: 8px; font-weight: 700; }
+.storageGuide small { grid-column: 1 / -1; color: var(--muted); font-size: 8px; line-height: 1.5; }
+.sideLesson { margin-top: 10px; padding: 11px 14px; display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 12px; border: 1px solid var(--blue); background: var(--blue-soft); }
+.sideLesson small { color: var(--muted); font-size: 8px; }
+.sideLesson b, .sideLesson strong { color: var(--blue); font: 700 13px var(--mono); }
+.split { margin-top: 10px; display: grid; grid-template-columns: 1fr 0.9fr 1fr; gap: 6px; }
+.split section { min-height: 74px; padding: 9px 11px; display: grid; align-content: center; gap: 5px; border: 1px solid var(--line); background: var(--surface); text-align: center; }
+.split small { color: var(--muted); font-size: 8px; }
+.split b { color: var(--ink); font: 700 12px var(--mono); }
+.split strong { color: var(--blue); font: 700 11px var(--mono); }
+.split .excluded { border-color: #e7a4a0; background: #fff3f1; }
+.split .excluded b, .split .excluded strong { color: #b53d37; }
 .formula { margin-top: 12px; padding: 12px 14px; display: grid; grid-template-columns: 1fr auto; border-left: 3px solid var(--blue); background: var(--surface); }
 .formula small { color: var(--muted); font-size: 8px; }
 .formula b { grid-row: 2; margin-top: 4px; color: var(--blue); font: 700 16px var(--mono); }
 .formula span { grid-row: 1 / 3; align-self: center; color: var(--muted); font-size: 9px; }
 .formula[data-phase='answer'] { border-left-color: var(--green); }
 .formula[data-phase='answer'] b { color: var(--green); }
-.scalar { margin-top: 9px; padding: 9px 12px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--blue); background: var(--blue-soft); }
-.scalar small { color: var(--muted); font-size: 8px; }
-.scalar b { color: var(--blue); font: 700 17px var(--mono); }
-.scalar span { margin-left: auto; color: var(--muted); font-size: 8px; }
+.preTrack { margin-top: 7px; padding: 10px 12px; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 5px 12px; border: 1px solid var(--blue); background: var(--blue-soft); }
+.preTrack small { color: var(--muted); font-size: 8px; }
+.preTrack b { color: var(--blue); font: 700 12px var(--mono); }
+.preTrack span { grid-column: 1 / -1; color: var(--muted); font-size: 8px; line-height: 1.5; }
 .flow { margin-top: 9px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
 .flow span { padding: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 8px; text-align: center; }
 .flow span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 700; }
@@ -32,4 +54,9 @@
   .matrix span { min-height: 52px; padding: 5px; }
   .matrix span strong { font-size: 15px; }
   .flow { grid-template-columns: 1fr; }
+  .split { grid-template-columns: 1fr; }
+  .sideLesson { grid-template-columns: 1fr; gap: 5px; text-align: center; }
+  .storageGuide { grid-template-columns: 1fr; }
+  .preTrack { grid-template-columns: 1fr; text-align: center; }
+  .preTrack span { grid-column: 1; }
 }
