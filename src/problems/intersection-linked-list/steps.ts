@@ -13,18 +13,21 @@ export interface IntersectionStep {
 }
 
 export const intersectionMethods: PlayerMethod[] = [
-  { id: 'two-pointer', label: '双指针换轨', complexity: 'O(M + N) · O(1)', languages: ['javascript'] },
+  { id: 'two-pointer', label: '双指针换轨', complexity: 'O(M + N) · O(1)', languages: ['java'] },
 ]
 
 export const intersectionCode: CodeLine[] = [
-  { id: 'function', text: 'var getIntersectionNode = function (headA, headB) {' },
-  { id: 'init', text: '  let p = headA, q = headB' },
-  { id: 'while', text: '  while (p !== q) {' },
-  { id: 'move-p', text: '    p = p ? p.next : headB' },
-  { id: 'move-q', text: '    q = q ? q.next : headA' },
-  { id: 'close', text: '  }' },
-  { id: 'return', text: '  return p' },
-  { id: 'end', text: '};' },
+  { id: 'class', text: 'class Solution {' },
+  { id: 'function', text: '  public ListNode getIntersectionNode(ListNode headA, ListNode headB) {' },
+  { id: 'init', text: '    ListNode p = headA;' },
+  { id: 'init-q', text: '    ListNode q = headB;' },
+  { id: 'while', text: '    while (p != q) {' },
+  { id: 'move-p', text: '      p = p != null ? p.next : headB;' },
+  { id: 'move-q', text: '      q = q != null ? q.next : headA;' },
+  { id: 'close', text: '    }' },
+  { id: 'return', text: '    return p;' },
+  { id: 'method-close', text: '  }' },
+  { id: 'end', text: '}' },
 ]
 
 export const intersectionSteps: IntersectionStep[] = [

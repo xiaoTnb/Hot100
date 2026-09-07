@@ -24,13 +24,18 @@ import { moveZeroesProblem } from './move-zeroes/definition'
 import { palindromeLinkedListProblem } from './palindrome-linked-list/definition'
 import { productExceptSelfProblem } from './product-except-self/definition'
 import { removeNthNodeProblem } from './remove-nth-node/definition'
+import { reverseLinkedListProblem } from './reverse-linked-list/definition'
 import { rotateArrayProblem } from './rotate-array/definition'
+import { rotateImageProblem } from './rotate-image/definition'
 import { search2dMatrixProblem } from './search-2d-matrix/definition'
+import { search2dMatrixIIProblem } from './search-2d-matrix-ii/definition'
 import { searchInsertPositionProblem } from './search-insert-position/definition'
 import { searchRotatedArrayProblem } from './search-rotated-array/definition'
 import { slidingWindowMaximumProblem } from './sliding-window-maximum/definition'
+import { spiralMatrixProblem } from './spiral-matrix/definition'
 import { sortListProblem } from './sort-list/definition'
 import { subarraySumProblem } from './subarray-sum/definition'
+import { setMatrixZeroesProblem } from './set-matrix-zeroes/definition'
 import { swapNodesInPairsProblem } from './swap-nodes-in-pairs/definition'
 import { threeSumProblem } from './three-sum/definition'
 import { trappingRainWaterProblem } from './trapping-rain-water/definition'
@@ -56,12 +61,17 @@ export const problems: ProblemDefinition[] = [
   rotateArrayProblem,
   productExceptSelfProblem,
   firstMissingPositiveProblem,
+  setMatrixZeroesProblem,
+  spiralMatrixProblem,
+  rotateImageProblem,
+  search2dMatrixIIProblem,
+  intersectionLinkedListProblem,
+  reverseLinkedListProblem,
   searchInsertPositionProblem,
   search2dMatrixProblem,
   findFirstLastPositionProblem,
   searchRotatedArrayProblem,
   findMinimumRotatedArrayProblem,
-  intersectionLinkedListProblem,
   palindromeLinkedListProblem,
   linkedListCycleProblem,
   linkedListCycleIIProblem,

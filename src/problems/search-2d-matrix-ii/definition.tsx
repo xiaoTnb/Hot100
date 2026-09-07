@@ -1,0 +1,3 @@
+import { lazy } from 'react'
+import type { ProblemDefinition } from '../types'
+export const search2dMatrixIIProblem = { slug: 'search-a-2d-matrix-ii', number: '21', leetcodeId: 'LeetCode #240', title: '搜索二维矩阵 II', difficulty: 'medium', difficultyLabel: '中等', tags: ['矩阵', '双指针', '排除法'], languages: ['java'], url: 'https://leetcode.cn/problems/search-a-2d-matrix-ii/', lead: <>在每行从左到右、每列从上到下都升序的矩阵中搜索目标值。</>, note: '从右上角开始：当前值是所在行最大值、所在列最小值。小于 target 就能排除整行，大于 target 就能排除整列，每轮获得一整行或一整列的信息。', example: <><code>matrix = [[1,4,7],[2,5,8],[3,6,9]]，target = 5</code><strong>→ true</strong></>, Visualizer: lazy(() => import('./Search2dMatrixIIVisualizer').then((module) => ({ default: module.Search2dMatrixIIVisualizer }))) } satisfies ProblemDefinition

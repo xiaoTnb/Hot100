@@ -1,0 +1,21 @@
+.canvas { padding-bottom: 24px; }
+.bounds { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.bounds span { padding: 8px 10px; display: flex; justify-content: space-between; border: 1px solid var(--line); background: var(--surface); }
+.bounds small { color: var(--muted); font: 8px var(--mono); }
+.bounds b { color: var(--blue); font: 700 11px var(--mono); }
+.matrix { width: min(100%, 430px); margin: 18px auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.matrix span { min-height: 68px; display: grid; place-items: center; align-content: center; gap: 4px; border: 1px solid var(--line); background: var(--surface); transition: 220ms ease; }
+.matrix b { font: 800 18px var(--mono); }
+.matrix small { color: var(--muted); font: 7px var(--mono); }
+.matrix span[data-visited='true'] { border-color: #93b7a7; background: var(--green-soft); color: var(--green); }
+.matrix span[data-active='true'] { outline: 3px solid var(--orange); outline-offset: 2px; background: var(--orange-soft); color: #b55d19; transform: scale(1.04); }
+.direction { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.direction span { padding: 7px; border: 1px solid var(--line); color: var(--muted); font-size: 8px; text-align: center; }
+.direction span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 700; }
+.answer { margin-top: 10px; border: 1px solid var(--line); background: var(--surface); }
+.answer header { padding: 7px 10px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.answer header b { font: 700 9px var(--mono); }.answer header small { color: var(--muted); font-size: 8px; }
+.answer > div { min-height: 47px; padding: 8px; display: flex; flex-wrap: wrap; gap: 5px; }
+.answer span { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--green); background: var(--green-soft); color: var(--green); font: 700 9px var(--mono); }
+.answer span[data-latest='true'] { outline: 2px solid var(--orange); }
+@media (max-width: 620px) { .bounds, .direction { grid-template-columns: 1fr 1fr; } .matrix span { min-height: 54px; } }

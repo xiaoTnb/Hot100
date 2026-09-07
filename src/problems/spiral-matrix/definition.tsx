@@ -1,0 +1,3 @@
+import { lazy } from 'react'
+import type { ProblemDefinition } from '../types'
+export const spiralMatrixProblem = { slug: 'spiral-matrix', number: '19', leetcodeId: 'LeetCode #54', title: '螺旋矩阵', difficulty: 'medium', difficultyLabel: '中等', tags: ['矩阵', '模拟'], languages: ['java'], url: 'https://leetcode.cn/problems/spiral-matrix/', lead: <>按照顺时针螺旋顺序，返回矩阵中的所有元素。</>, note: '用 top、bottom、left、right 框住尚未访问的部分。依次走上、右、下、左四条边，每走完一边就收缩对应边界，并在走下边和左边前检查是否仍有元素。', example: <><code>[[1,2,3],[4,5,6],[7,8,9]]</code><strong>→ [1,2,3,6,9,8,7,4,5]</strong></>, Visualizer: lazy(() => import('./SpiralMatrixVisualizer').then((module) => ({ default: module.SpiralMatrixVisualizer }))) } satisfies ProblemDefinition

@@ -1,0 +1,3 @@
+import { lazy } from 'react'
+import type { ProblemDefinition } from '../types'
+export const rotateImageProblem = { slug: 'rotate-image', number: '20', leetcodeId: 'LeetCode #48', title: '旋转图像', difficulty: 'medium', difficultyLabel: '中等', tags: ['矩阵', '数学', '原地算法'], languages: ['java'], url: 'https://leetcode.cn/problems/rotate-image/', lead: <>将 n×n 矩阵表示的图像原地顺时针旋转 90°。</>, note: '坐标 (i,j) 先沿主对角线转置成 (j,i)，再把所在行左右翻转成 (j,n−1−i)。两次镜像合起来就是一次顺时针旋转。', example: <><code>[[1,2,3],[4,5,6],[7,8,9]]</code><strong>→ [[7,4,1],[8,5,2],[9,6,3]]</strong></>, Visualizer: lazy(() => import('./RotateImageVisualizer').then((module) => ({ default: module.RotateImageVisualizer }))) } satisfies ProblemDefinition

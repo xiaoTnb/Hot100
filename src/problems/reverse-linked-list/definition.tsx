@@ -1,0 +1,3 @@
+import { lazy } from 'react'
+import type { ProblemDefinition } from '../types'
+export const reverseLinkedListProblem = { slug: 'reverse-linked-list', number: '23', leetcodeId: 'LeetCode #206', title: '反转链表', difficulty: 'easy', difficultyLabel: '简单', tags: ['链表', '递归', '双指针'], languages: ['java'], url: 'https://leetcode.cn/problems/reverse-linked-list/', lead: <>反转单链表，并返回反转后的新头节点。</>, note: '迭代法先保存 nxt，再让 cur.next 指向 pre，最后移动两个指针。递归法先递到末尾，以末尾为新头；回程时用 tail.next = head 把当前节点接到尾部，并断开旧方向防止成环。', example: <><code>head = [1,2,3,4,5]</code><strong>→ [5,4,3,2,1]</strong></>, Visualizer: lazy(() => import('./ReverseLinkedListVisualizer').then((module) => ({ default: module.ReverseLinkedListVisualizer }))) } satisfies ProblemDefinition

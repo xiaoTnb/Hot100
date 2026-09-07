@@ -1,0 +1,12 @@
+.canvas { padding-bottom: 24px; }
+.mapping { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 8px; align-items: center; }
+.mapping span { padding: 9px; border: 1px solid var(--line); background: var(--surface); text-align: center; }
+.mapping b { display: block; color: var(--blue); font: 700 11px var(--mono); }.mapping small { color: var(--muted); font-size: 7px; }.mapping i { color: var(--muted); font-size: 8px; font-style: normal; }
+.matrix { width: min(100%, 330px); margin: 20px auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.matrix span { min-height: 76px; display: grid; place-items: center; align-content: center; gap: 5px; border: 1px solid var(--line); background: var(--surface); transition: 240ms ease; }
+.matrix b { font: 800 20px var(--mono); }.matrix small { color: var(--muted); font: 7px var(--mono); }
+.matrix span[data-diagonal='true'] { box-shadow: inset -3px -3px var(--green-soft); }
+.matrix span[data-row='true'] { background: var(--blue-soft); }
+.matrix span[data-active='true'] { outline: 3px solid var(--orange); outline-offset: 2px; background: var(--orange-soft); color: #b55d19; transform: scale(1.04); }
+.phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }.phases span { padding: 8px; border: 1px solid var(--line); color: var(--muted); font-size: 8px; text-align: center; }.phases span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 700; }
+@media (max-width: 620px) { .mapping { grid-template-columns: 1fr; }.mapping i { text-align: center; }.matrix span { min-height: 60px; }.phases { grid-template-columns: 1fr; } }
