@@ -21,7 +21,10 @@ function savedLanguage(): CodeLanguage {
 
 function App() {
   const [problemSlug, setProblemSlug] = useState(() => problemFromUrl().slug)
-  const [language, setLanguage] = useState<CodeLanguage>(savedLanguage)
+  const [language, setLanguage] = useState<CodeLanguage>(() => {
+    const initialProblem = problemFromUrl()
+    return initialProblem.languages?.length === 1 ? initialProblem.languages[0] : savedLanguage()
+  })
   const [problemPanelOpen, setProblemPanelOpen] = useState(true)
   const [problemListOpen, setProblemListOpen] = useState(false)
   const problemIndex = useMemo(() => Math.max(0, problems.findIndex((problem) => problem.slug === problemSlug)), [problemSlug])
@@ -34,6 +37,7 @@ function App() {
     const target = findProblem(slug)
     if (!target) return
     setProblemSlug(target.slug)
+    if (target.languages?.length === 1) setLanguage(target.languages[0])
     if (updateHistory) {
       const url = new URL(window.location.href)
       url.searchParams.set('problem', target.slug)

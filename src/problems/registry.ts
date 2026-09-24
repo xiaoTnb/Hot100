@@ -34,6 +34,7 @@ import { searchRotatedArrayProblem } from './search-rotated-array/definition'
 import { slidingWindowMaximumProblem } from './sliding-window-maximum/definition'
 import { spiralMatrixProblem } from './spiral-matrix/definition'
 import { sortListProblem } from './sort-list/definition'
+import { sortingAlgorithmsProblem } from './sorting-algorithms/definition'
 import { subarraySumProblem } from './subarray-sum/definition'
 import { setMatrixZeroesProblem } from './set-matrix-zeroes/definition'
 import { swapNodesInPairsProblem } from './swap-nodes-in-pairs/definition'
@@ -87,6 +88,7 @@ export const problems: ProblemDefinition[] = [
   dailyTemperaturesProblem,
   kthLargestProblem,
   topKFrequentProblem,
+  sortingAlgorithmsProblem,
 ]
 
 export function findProblem(slug: string | null): ProblemDefinition | undefined {
