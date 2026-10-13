@@ -13,6 +13,6 @@ export const palindromeLinkedListProblem = {
   url: 'https://leetcode.cn/problems/palindrome-linked-list/',
   lead: <>给定单链表的头节点 <code>head</code>，判断这个链表是否为回文链表。</>,
   note: '递归法让 right 先到末尾，归程与从表头右移的 left 比较；另一种方法用快慢指针找到中点，原地反转后半段再逐对比较，把额外空间降到 O(1)。',
-  example: <><code>head = [1, 2, 2, 1]</code><strong>→ true</strong></>,
+  example: <><code>head = [1, 2, 3, 2, 1]</code><strong>→ true</strong></>,
   Visualizer: lazy(() => import('./PalindromeLinkedListVisualizer').then((module) => ({ default: module.PalindromeLinkedListVisualizer }))),
 } satisfies ProblemDefinition

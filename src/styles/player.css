@@ -29,7 +29,7 @@
 .timeline > i b { display: block; height: 100%; background: var(--blue); transition: width 350ms; }
 .timeline span { color: var(--muted); font: 10px var(--mono); }
 
-.player-body { min-height: 0; display: grid; grid-template-columns: 1.55fr 1fr; flex: 1; overflow: auto; }
+.player-body { min-height: 0; display: grid; grid-template-columns: 1.55fr 1fr; flex: 1; overflow: hidden; }
 .player-body.code-hidden { grid-template-columns: 1fr; }
 .language-empty-state { min-height: 0; flex: 1; padding: 48px 24px; display: grid; place-content: center; gap: 8px; text-align: center; background: var(--paper); }
 .language-empty-state b { font-size: 17px; }
@@ -44,11 +44,11 @@
 .step-message.success { border-left-color: var(--green); background: var(--green-soft); }
 .check-symbol { width: 25px; height: 25px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: #fff; font-style: normal; }
 
-.live-code { min-width: 0; display: flex; flex-direction: column; overflow: hidden; border-left: 1px solid var(--line); background: #19231f; color: #d7e1dd; }
+.live-code { min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; border-left: 1px solid var(--line); background: #19231f; color: #d7e1dd; }
 .live-code header { height: 48px; flex: 0 0 auto; padding: 0 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
 .live-code header span { font: 10px var(--mono); }
 .live-code header i { color: #8ca098; font: 9px var(--mono); font-style: normal; }
-.live-code pre { max-height: none; flex: 1; margin: 0; padding: 27px 0; overflow: hidden; font-size: clamp(10px, 0.86vw, 12px); line-height: 1.7; tab-size: 2; }
+.live-code pre { max-height: none; min-height: 0; flex: 1; margin: 0; padding: 27px 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; font-size: clamp(10px, 0.86vw, 12px); line-height: 1.7; tab-size: 2; }
 .live-code code > span { min-width: 0; padding: 2px 16px; display: grid; grid-template-columns: 34px minmax(0, 1fr); column-gap: 8px; align-items: start; white-space: normal; transition: background 250ms, color 250ms; }
 .live-code code > span b { width: auto; color: #65766f; text-align: right; font-weight: 400; line-height: 1.7; user-select: none; }
 .live-code .code-text { min-width: 0; display: block; white-space: pre-wrap; overflow-wrap: anywhere; font-style: normal; }

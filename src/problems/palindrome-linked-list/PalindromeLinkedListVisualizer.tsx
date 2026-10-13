@@ -15,14 +15,16 @@ export function PalindromeLinkedListVisualizer() {
     <div className="animation-canvas">
       <div className={styles.phaseRail} data-count={phases.length}>{phases.map((label, index) => <span data-active={index === phaseIndex || undefined} data-done={index < phaseIndex || undefined} key={label}><i>{index < phaseIndex ? '✓' : index + 1}</i>{label.slice(3)}</span>)}</div>
       {method === 'recursive' && <div className={styles.callStack}><b>递归栈</b><div>{step.stack.length ? step.stack.map((index) => <span key={index}>right: node {index + 1}</span>) : <em>空</em>}</div></div>}
-      <div className={styles.board} data-reversed={step.reversed || undefined}>
+        <div className={styles.board} data-reversed={step.reversed || undefined}>
         <div className={styles.laneLabel}>{method === 'recursive' ? 'left 向右 · right 在归程向左' : step.reversed ? '前半段 / 已反转后半段' : '原链表'}</div>
         <div className={styles.list}>{palindromeValues.map((value, index) => {
           const active = step.slow === index || step.fast === index || step.left === index || step.right === index
-          return <div className={styles.nodeWrap} data-half={index > 1 ? 'right' : 'left'} data-active={active || undefined} data-compared={step.compared.includes(index) || undefined} style={{ '--slot': step.reversed && index > 1 ? 5 - index : index } as CSSProperties} key={index}>
+          const halfStart = Math.floor(palindromeValues.length / 2)
+          const slot = step.reversed && index >= halfStart ? palindromeValues.length + halfStart - index - 1 : index
+          return <div className={styles.nodeWrap} data-half={index >= halfStart ? 'right' : 'left'} data-active={active || undefined} data-compared={step.compared.includes(index) || undefined} style={{ order: slot } as CSSProperties} key={index}>
             <div className={styles.pointers}>{step.slow === index && <span className={styles.slow}>slow</span>}{step.fast === index && <span className={styles.fast}>fast</span>}{step.left === index && <span className={styles.head}>{method === 'recursive' ? 'left' : 'head'}</span>}{step.right === index && <span className={styles.head2}>{method === 'recursive' ? 'right' : 'head2'}</span>}</div>
             <div className={styles.node}>{value}</div><small>node {index + 1}</small>
-          </div>})}{[0,1,2].map((index) => <span className={styles.arrow} data-index={index} key={index}>→</span>)}</div>
+          </div>})}{[0,1,2,3].map((index) => <span className={styles.arrow} data-index={index} key={index}>→</span>)}</div>
       </div>
       <div className={styles.comparison} data-visible={step.phase === 'compare' || step.phase === 'done' || undefined}>{step.phase === 'done' ? <><b>TRUE</b><span>每一对节点值都相等</span></> : step.left !== null && step.right !== null && step.phase === 'compare' ? <><strong>{palindromeValues[step.left]}</strong><i>=</i><strong>{palindromeValues[step.right]}</strong><span>比较的是值，两个指针继续向中间推进</span></> : <span>{method === 'recursive' ? '先让 right 到达 null，归程才开始比较' : '反转完成后，从两段表头开始比较'}</span>}</div>
       <div className={'step-message ' + (step.phase === 'done' ? 'success' : '')}><span>{step.phase === 'done' ? <i className="check-symbol">✓</i> : String(playback.stepIndex + 1).padStart(2, '0')}</span><p>{step.message}</p></div>

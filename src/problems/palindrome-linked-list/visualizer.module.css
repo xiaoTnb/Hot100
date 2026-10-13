@@ -14,8 +14,8 @@
 
 .board { min-height: 260px; margin-top: 14px; padding: 20px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--line); background: rgba(255,255,255,.74); }
 .laneLabel { margin-bottom: 17px; color: var(--muted); font: 700 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
-.list { position: relative; height: 120px; }
-.nodeWrap { --slot: 0; position: absolute; left: calc(4% + var(--slot) * 24%); top: 10px; width: 70px; text-align: center; transition: left 650ms cubic-bezier(.22,.8,.24,1); }
+.list { position: relative; height: 120px; display: flex; align-items: flex-start; padding-top: 10px; }
+.nodeWrap { position: relative; z-index: 1; flex: 1 1 0; min-width: 0; text-align: center; transition: order 650ms cubic-bezier(.22,.8,.24,1); }
 .node { width: 62px; height: 62px; margin: auto; display: grid; place-items: center; border: 2px solid #9ca9a3; border-radius: 50%; background: var(--surface); font: 700 23px var(--display); transition: all 350ms; }
 .nodeWrap[data-half='right'] .node { border-color: #7c9f90; background: #f2f8f5; }
 .nodeWrap[data-active='true'] .node { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); transform: translateY(-4px); box-shadow: 0 7px 0 rgba(39,118,210,.08); }
@@ -26,10 +26,11 @@
 .slow, .head { background: var(--blue); }
 .fast, .head2 { background: var(--orange); }
 .arrow { position: absolute; top: 66px; color: #97a39e; font: 19px var(--mono); transition: transform 500ms; }
-.arrow[data-index='0'] { left: 21%; }
-.arrow[data-index='1'] { left: 45%; }
-.arrow[data-index='2'] { left: 69%; }
-.board[data-reversed='true'] .arrow[data-index='1'] { opacity: 0; }
+.arrow[data-index='0'] { left: 18%; }
+.arrow[data-index='1'] { left: 38%; }
+.arrow[data-index='2'] { left: 58%; }
+.arrow[data-index='3'] { left: 78%; }
+.board[data-reversed='true'] .arrow[data-index='1'] { color: var(--orange); }
 .board[data-reversed='true'] .arrow[data-index='2'] { color: var(--orange); }
 .splitCaption { display: flex; justify-content: space-between; color: var(--muted); font: 9px var(--mono); }
 .splitCaption span:last-child { color: var(--orange); }
@@ -47,7 +48,7 @@
   .phaseRail span { min-height: 42px; gap: 4px; font-size: 9px; }
   .phaseRail i { width: 18px; height: 18px; }
   .board { min-height: 225px; padding: 14px 10px; }
-  .nodeWrap { left: calc(1% + var(--slot) * 25%); width: 54px; }
+  .nodeWrap { flex-basis: 20%; }
   .node { width: 49px; height: 49px; font-size: 19px; }
   .arrow { top: 60px; }
   .pointers span { padding-inline: 5px; font-size: 7px; }

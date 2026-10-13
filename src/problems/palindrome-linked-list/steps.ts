@@ -3,7 +3,7 @@ import type { CodeLine, PlayerMethod } from '../../components/player/types'
 export type PalindromeMethod = 'recursive' | 'reverse-half'
 export type PalindromePhase = 'start' | 'descend' | 'middle' | 'reverse' | 'compare' | 'done'
 export interface PalindromeStep { phase: PalindromePhase; slow: number | null; fast: number | null; left: number | null; right: number | null; reversed: boolean; compared: number[]; stack: number[]; lineId: string; message: string }
-export const palindromeValues = [1, 2, 2, 1]
+export const palindromeValues = [1, 2, 3, 2, 1]
 export const palindromeMethods: PlayerMethod[] = [
   { id: 'reverse-half', label: '中点 + 反转后半段', complexity: 'O(N) · O(1)', languages: ['java'] },
   { id: 'recursive', label: '递归 · 双向比较', complexity: 'O(N) · O(N)', languages: ['java'] },
@@ -85,12 +85,13 @@ function recursiveSteps(): PalindromeStep[] {
 function halfSteps(): PalindromeStep[] {
   return [
     { phase: 'start', slow: 0, fast: 0, left: null, right: null, reversed: false, compared: [], stack: [], lineId: 'h-mid-init', message: 'slow 与 fast 都从表头出发，寻找后半段起点' },
-    { phase: 'middle', slow: 1, fast: 2, left: null, right: null, reversed: false, compared: [], stack: [], lineId: 'h-fast', message: 'slow 走一步到节点 2，fast 走两步到节点 3' },
-    { phase: 'middle', slow: 2, fast: null, left: null, right: null, reversed: false, compared: [], stack: [], lineId: 'h-mid-return', message: 'fast 走出链表，slow 停在后半段起点' },
-    { phase: 'reverse', slow: 2, fast: null, left: null, right: null, reversed: true, compared: [], stack: [], lineId: 'h-link', message: '逐个改写 next，后半段 2 → 1 反转成 1 → 2' },
-    { phase: 'compare', slow: null, fast: null, left: 0, right: 3, reversed: true, compared: [], stack: [], lineId: 'h-compare', message: 'head 的 1 与 head2 的 1 相等' },
-    { phase: 'compare', slow: null, fast: null, left: 1, right: 2, reversed: true, compared: [0,3], stack: [], lineId: 'h-compare', message: '两个指针继续前进：2 与 2 相等' },
-    { phase: 'done', slow: null, fast: null, left: null, right: null, reversed: true, compared: [0,1,2,3], stack: [], lineId: 'h-true', message: 'head2 走到 null，后半段全部匹配，返回 true' },
+    { phase: 'middle', slow: 1, fast: 2, left: null, right: null, reversed: false, compared: [], stack: [], lineId: 'h-fast', message: 'slow 走一步到节点 2，fast 走两步到中点 3' },
+    { phase: 'middle', slow: 2, fast: 4, left: null, right: null, reversed: false, compared: [], stack: [], lineId: 'h-mid-return', message: 'fast 已在尾节点，fast.next 为 null；slow 停在中点，也就是后半段起点' },
+    { phase: 'reverse', slow: 2, fast: null, left: null, right: null, reversed: true, compared: [], stack: [], lineId: 'h-link', message: '逐个改写 next，后半段 3 → 2 → 1 反转成 1 → 2 → 3' },
+    { phase: 'compare', slow: null, fast: null, left: 0, right: 4, reversed: true, compared: [], stack: [], lineId: 'h-compare', message: 'head 的 1 与 head2 的 1 相等' },
+    { phase: 'compare', slow: null, fast: null, left: 1, right: 3, reversed: true, compared: [0,4], stack: [], lineId: 'h-compare', message: '两个指针继续前进：2 与 2 相等' },
+    { phase: 'compare', slow: null, fast: null, left: 2, right: 2, reversed: true, compared: [0,1,3,4], stack: [], lineId: 'h-compare', message: '最后比较中点：3 与 3 相等' },
+    { phase: 'done', slow: null, fast: null, left: null, right: null, reversed: true, compared: [0,1,2,3,4], stack: [], lineId: 'h-true', message: 'head2 走到 null，后半段全部匹配，返回 true' },
   ]
 }
 
