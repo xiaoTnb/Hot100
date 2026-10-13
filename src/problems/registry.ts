@@ -25,6 +25,7 @@ import { palindromeLinkedListProblem } from './palindrome-linked-list/definition
 import { productExceptSelfProblem } from './product-except-self/definition'
 import { removeNthNodeProblem } from './remove-nth-node/definition'
 import { reverseLinkedListProblem } from './reverse-linked-list/definition'
+import { reverseNodesKGroupProblem } from './reverse-nodes-k-group/definition'
 import { rotateArrayProblem } from './rotate-array/definition'
 import { rotateImageProblem } from './rotate-image/definition'
 import { search2dMatrixProblem } from './search-2d-matrix/definition'
@@ -72,15 +73,16 @@ export const problems: ProblemDefinition[] = [
   linkedListCycleProblem,
   linkedListCycleIIProblem,
   mergeTwoSortedListsProblem,
+  addTwoNumbersProblem,
+  removeNthNodeProblem,
+  swapNodesInPairsProblem,
+  reverseNodesKGroupProblem,
+  copyRandomListProblem,
   searchInsertPositionProblem,
   search2dMatrixProblem,
   findFirstLastPositionProblem,
   searchRotatedArrayProblem,
   findMinimumRotatedArrayProblem,
-  addTwoNumbersProblem,
-  removeNthNodeProblem,
-  swapNodesInPairsProblem,
-  copyRandomListProblem,
   sortListProblem,
   lruCacheProblem,
   minStackProblem,

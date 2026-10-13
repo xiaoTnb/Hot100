@@ -15,22 +15,23 @@ export interface AddNumbersStep {
 
 export const addListA = [2, 4, 3]
 export const addListB = [5, 6, 4]
-export const addNumbersMethods: PlayerMethod[] = [{ id: 'digit-add', label: '逐位相加', complexity: 'O(max(M,N)) · O(1)', languages: ['javascript'] }]
+export const addNumbersMethods: PlayerMethod[] = [{ id: 'digit-add', label: '迭代 · 哨兵尾插', complexity: 'O(max(M,N)) · O(1)', languages: ['java'] }]
 export const addNumbersCode: CodeLine[] = [
-  { id: 'function', text: 'var addTwoNumbers = function (l1, l2) {' },
-  { id: 'dummy', text: '  const dummy = new ListNode()' },
-  { id: 'cur', text: '  let cur = dummy' },
-  { id: 'carry', text: '  let carry = 0' },
-  { id: 'while', text: '  while (l1 || l2 || carry) {' },
-  { id: 'sum', text: '    const sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry' },
-  { id: 'node', text: '    cur.next = new ListNode(sum % 10)' },
-  { id: 'next-carry', text: '    carry = Math.floor(sum / 10)' },
-  { id: 'move-cur', text: '    cur = cur.next' },
-  { id: 'move-l1', text: '    if (l1) l1 = l1.next' },
-  { id: 'move-l2', text: '    if (l2) l2 = l2.next' },
-  { id: 'close', text: '  }' },
-  { id: 'return', text: '  return dummy.next' },
-  { id: 'end', text: '};' },
+  { id: 'function', text: 'class Solution {' },
+  { id: 'method', text: '  public ListNode addTwoNumbers(ListNode l1, ListNode l2) {' },
+  { id: 'dummy', text: '    ListNode dummy = new ListNode();' },
+  { id: 'cur', text: '    ListNode cur = dummy;' },
+  { id: 'carry', text: '    int carry = 0;' },
+  { id: 'while', text: '    while (l1 != null || l2 != null || carry != 0) {' },
+  { id: 'sum', text: '      int sum = carry;' },
+  { id: 'move-l1', text: '      if (l1 != null) { sum += l1.val; l1 = l1.next; }' },
+  { id: 'move-l2', text: '      if (l2 != null) { sum += l2.val; l2 = l2.next; }' },
+  { id: 'node', text: '      cur = cur.next = new ListNode(sum % 10);' },
+  { id: 'next-carry', text: '      carry = sum / 10;' },
+  { id: 'close', text: '    }' },
+  { id: 'return', text: '    return dummy.next;' },
+  { id: 'end', text: '  }' },
+  { id: 'class-end', text: '}' },
 ]
 export const addNumbersSteps: AddNumbersStep[] = [
   { index: 0, a: 2, b: 5, carryIn: 0, carryOut: 0, digit: 0, output: [], phase: 'start', lineId: 'carry', message: '从最低位开始，carry 初始化为 0' },

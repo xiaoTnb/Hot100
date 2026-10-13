@@ -3,7 +3,7 @@ import type { ProblemDefinition } from '../types'
 
 export const sortingAlgorithmsProblem = {
   slug: 'sorting-algorithms',
-  number: '44',
+  number: '45',
   leetcodeId: '排序专题',
   title: '八种常见排序',
   difficulty: 'medium',

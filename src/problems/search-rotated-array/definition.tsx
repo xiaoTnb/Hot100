@@ -3,7 +3,7 @@ import type { ProblemDefinition } from '../types'
 
 export const searchRotatedArrayProblem = {
   slug: 'search-rotated-array',
-  number: '31',
+  number: '36',
   leetcodeId: 'LeetCode #33',
   title: '搜索旋转排序数组',
   difficulty: 'medium',
