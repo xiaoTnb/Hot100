@@ -5,31 +5,30 @@ import { intersectionCode, intersectionMethods, intersectionSteps, type PointerP
 import styles from './visualizer.module.css'
 
 const positions: Record<PointerPosition, [number, number]> = {
-  a0: [120, 65], a1: [270, 65],
-  b0: [70, 235], b1: [190, 235], b2: [310, 235],
-  c0: [480, 150], c1: [640, 150], c2: [800, 150],
-  'null-a': [878, 76], 'null-b': [878, 224],
+  a0: [130, 65], a1: [280, 65],
+  b0: [130, 235], b1: [255, 235], b2: [380, 235],
+  c0: [520, 150], c1: [680, 150], c2: [840, 150],
+  // 逻辑上分别是 p/q 走到 null；图上都落在同一个真实尾端。
+  'null-a': [918, 150], 'null-b': [918, 150],
 }
 
 const nodes = [
-  { id: 'a0', value: 4, label: 'a₁', x: 120, y: 65, kind: 'a' },
-  { id: 'a1', value: 1, label: 'a₂', x: 270, y: 65, kind: 'a' },
-  { id: 'b0', value: 5, label: 'b₁', x: 70, y: 235, kind: 'b' },
-  { id: 'b1', value: 6, label: 'b₂', x: 190, y: 235, kind: 'b' },
-  { id: 'b2', value: 1, label: 'b₃', x: 310, y: 235, kind: 'b' },
-  { id: 'c0', value: 8, label: 'c₁', x: 480, y: 150, kind: 'shared' },
-  { id: 'c1', value: 4, label: 'c₂', x: 640, y: 150, kind: 'shared' },
-  { id: 'c2', value: 5, label: 'c₃', x: 800, y: 150, kind: 'shared' },
+  { id: 'a0', value: 4, label: 'a₁', x: 130, y: 65, kind: 'a' },
+  { id: 'a1', value: 1, label: 'a₂', x: 280, y: 65, kind: 'a' },
+  { id: 'b0', value: 5, label: 'b₁', x: 130, y: 235, kind: 'b' },
+  { id: 'b1', value: 6, label: 'b₂', x: 255, y: 235, kind: 'b' },
+  { id: 'b2', value: 1, label: 'b₃', x: 380, y: 235, kind: 'b' },
+  { id: 'c0', value: 8, label: 'c₁', x: 520, y: 150, kind: 'shared' },
+  { id: 'c1', value: 4, label: 'c₂', x: 680, y: 150, kind: 'shared' },
+  { id: 'c2', value: 5, label: 'c₃', x: 840, y: 150, kind: 'shared' },
 ] as const
 
 function Pointer({ name, position, offset }: { name: 'p' | 'q'; position: PointerPosition; offset: number }) {
   const [x, y] = positions[position]
-  const atNull = position.startsWith('null')
   return (
     <g className={`${styles.pointer} ${styles[name]}`} style={{ transform: `translate(${x}px, ${y + offset}px)` }} aria-label={`${name} 位于 ${position}`}>
       <circle r="17" />
       <text textAnchor="middle" dy="4">{name}</text>
-      {atNull && <text className={styles.nullText} textAnchor="middle" y={offset < 0 ? -24 : 31}>null</text>}
     </g>
   )
 }
@@ -60,21 +59,21 @@ export function IntersectionLinkedListVisualizer() {
         </div>
 
         <div className={styles.scene}>
-          <svg viewBox="0 0 930 310" role="img" aria-label="链表 A 和链表 B 在值为 8 的节点开始相交">
+          <svg viewBox="0 0 970 340" role="img" aria-label="链表 A 和链表 B 在值为 8 的节点开始相交">
             <defs><marker id="intersection-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs>
-            <text className={styles.rowLabel} x="12" y="70">headA</text>
-            <text className={styles.rowLabel} x="12" y="240">headB</text>
+            <text className={styles.rowLabel} x="18" y="70">headA</text>
+            <text className={styles.rowLabel} x="18" y="240">headB</text>
             <g className={styles.edges}>
-              <path d="M 157 65 H 233" />
-              <path d="M 307 65 L 443 139" />
-              <path d="M 107 235 H 153" />
-              <path d="M 227 235 H 273" />
-              <path d="M 347 235 L 443 165" />
-              <path d="M 517 150 H 603" />
-              <path d="M 677 150 H 763" />
-              <path d="M 837 150 H 890" />
+              <path d="M 167 65 H 243" />
+              <path d="M 317 65 L 483 139" />
+              <path d="M 167 235 H 218" />
+              <path d="M 292 235 H 343" />
+              <path d="M 417 235 L 483 165" />
+              <path d="M 557 150 H 643" />
+              <path d="M 717 150 H 803" />
+              <path d="M 877 150 H 910" />
             </g>
-            <text className={styles.nullEnd} x="898" y="154">null</text>
+            <text className={styles.nullEnd} x="918" y="154">null</text>
             {nodes.map((node) => {
               const active = step.p === node.id || step.q === node.id
               const found = step.phase === 'found' && node.id === 'c0'
@@ -84,8 +83,8 @@ export function IntersectionLinkedListVisualizer() {
                 <text className={styles.nodeLabel} textAnchor="middle" y="52">{node.label}</text>
               </g>
             })}
-            <Pointer name="p" position={step.p} offset={-57} />
-            <Pointer name="q" position={step.q} offset={57} />
+            <Pointer name="p" position={step.p} offset={-58} />
+            <Pointer name="q" position={step.q} offset={78} />
           </svg>
         </div>
 

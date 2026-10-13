@@ -1,10 +1,10 @@
 import type { CodeLine, PlayerMethod } from '../../components/player/types'
 
 export type ZeroMethod = 'arrays' | 'inplace'
-export type ZeroPhase = 'scan' | 'mark' | 'apply' | 'first-col' | 'first-row' | 'done'
+export type ZeroPhase = 'init' | 'edge-scan' | 'scan' | 'mark' | 'apply' | 'first-col' | 'first-row' | 'done'
 export interface ZeroStep { phase: ZeroPhase; matrix: number[][]; rowMarks: boolean[]; colMarks: boolean[]; row: number; col: number; firstRow: boolean; firstCol: boolean; lineId: string; message: string }
 
-export const zeroInput = [[0, 1, 2, 0], [3, 4, 0, 2], [1, 3, 1, 5]]
+export const zeroInput = [[1, 1, 2, 0], [3, 4, 0, 2], [1, 3, 1, 5]]
 export const zeroMethods: PlayerMethod[] = [
   { id: 'inplace', label: '复用首行首列', complexity: 'O(MN) · O(1)', languages: ['java'] },
   { id: 'arrays', label: '行列标记数组', complexity: 'O(MN) · O(M+N)', languages: ['java'] },
@@ -69,11 +69,13 @@ const inplaceCode: CodeLine[] = [
 
 export const getZeroCode = (method: ZeroMethod) => method === 'arrays' ? arraysCode : inplaceCode
 const copy = (m: number[][]) => m.map((row) => [...row])
-const make = (values: Partial<ZeroStep>): ZeroStep => ({ phase: 'scan', matrix: copy(zeroInput), rowMarks: Array(zeroInput.length).fill(false), colMarks: Array(zeroInput[0].length).fill(false), row: -1, col: -1, firstRow: false, firstCol: false, lineId: '', message: '', ...values })
+const make = (values: Partial<ZeroStep>): ZeroStep => ({ phase: 'init', matrix: copy(zeroInput), rowMarks: Array(zeroInput.length).fill(false), colMarks: Array(zeroInput[0].length).fill(false), row: -1, col: -1, firstRow: false, firstCol: false, lineId: '', message: '', ...values })
 
 function arraysSteps() {
   const matrix = copy(zeroInput), rowMarks = Array(matrix.length).fill(false) as boolean[], colMarks = Array(matrix[0].length).fill(false) as boolean[], steps: ZeroStep[] = []
+  steps.push(make({ phase: 'init', matrix: copy(matrix), rowMarks: [...rowMarks], colMarks: [...colMarks], lineId: 'a-col', message: '创建 rowHasZero[3] 和 colHasZero[4]，每一格默认都是 false' }))
   for (let i = 0; i < matrix.length; i++) for (let j = 0; j < matrix[0].length; j++) {
+    steps.push(make({ phase: 'scan', matrix: copy(matrix), rowMarks: [...rowMarks], colMarks: [...colMarks], row: i, col: j, lineId: 'a-if-zero', message: '按行扫描 matrix[' + i + '][' + j + '] = ' + matrix[i][j] + (matrix[i][j] === 0 ? '，发现原始 0' : '，不是 0，标记数组保持不变') }))
     if (matrix[i][j] === 0) { rowMarks[i] = true; colMarks[j] = true; steps.push(make({ phase: 'mark', matrix: copy(matrix), rowMarks: [...rowMarks], colMarks: [...colMarks], row: i, col: j, lineId: 'a-mark', message: '发现 matrix[' + i + '][' + j + '] = 0：标记第 ' + i + ' 行和第 ' + j + ' 列' })) }
   }
   for (let i = 0; i < matrix.length; i++) for (let j = 0; j < matrix[0].length; j++) if (rowMarks[i] || colMarks[j]) {
@@ -86,11 +88,22 @@ function arraysSteps() {
 
 function inplaceSteps() {
   const matrix = copy(zeroInput), m = matrix.length, n = matrix[0].length, steps: ZeroStep[] = []
-  const firstRow = matrix[0].some((x) => x === 0), firstCol = matrix.some((row) => row[0] === 0)
-  steps.push(make({ matrix: copy(matrix), firstRow, firstCol, lineId: 'i-col-if', message: '先保存原始状态：第一行含 0 = ' + firstRow + '，第一列含 0 = ' + firstCol }))
-  for (let i = 1; i < m; i++) for (let j = 1; j < n; j++) if (matrix[i][j] === 0) {
-    matrix[i][0] = 0; matrix[0][j] = 0
-    steps.push(make({ phase: 'mark', matrix: copy(matrix), row: i, col: j, firstRow, firstCol, lineId: 'i-mark-col', message: '内部 0 在 [' + i + ', ' + j + ']：把 matrix[' + i + '][0] 和 matrix[0][' + j + '] 当作标记' }))
+  let firstRow = false, firstCol = false
+  steps.push(make({ phase: 'init', matrix: copy(matrix), firstRow, firstCol, lineId: 'i-first-row', message: '先创建两个布尔变量，初始都是 false；它们专门保存第一行、第一列原本是否含 0' }))
+  for (let j = 0; j < n; j++) {
+    steps.push(make({ phase: 'edge-scan', matrix: copy(matrix), row: 0, col: j, firstRow, firstCol, lineId: 'i-row-if', message: '扫描第一行：matrix[0][' + j + '] = ' + matrix[0][j] }))
+    if (matrix[0][j] === 0) { firstRow = true; steps.push(make({ phase: 'edge-scan', matrix: copy(matrix), row: 0, col: j, firstRow, firstCol, lineId: 'i-row-if', message: '第一行发现原始 0，保存 firstRowHasZero = true，然后结束第一行扫描' })); break }
+  }
+  for (let i = 0; i < m; i++) {
+    steps.push(make({ phase: 'edge-scan', matrix: copy(matrix), row: i, col: 0, firstRow, firstCol, lineId: 'i-col-if', message: '扫描第一列：matrix[' + i + '][0] = ' + matrix[i][0] }))
+    if (matrix[i][0] === 0) { firstCol = true; steps.push(make({ phase: 'edge-scan', matrix: copy(matrix), row: i, col: 0, firstRow, firstCol, lineId: 'i-col-if', message: '第一列发现原始 0，保存 firstColHasZero = true，然后结束第一列扫描' })); break }
+  }
+  for (let i = 1; i < m; i++) for (let j = 1; j < n; j++) {
+    steps.push(make({ phase: 'scan', matrix: copy(matrix), row: i, col: j, firstRow, firstCol, lineId: 'i-mark-if', message: '按行扫描内部格 matrix[' + i + '][' + j + '] = ' + matrix[i][j] + (matrix[i][j] === 0 ? '，需要记录它的行和列' : '，不是 0，继续向右') }))
+    if (matrix[i][j] === 0) {
+      matrix[i][0] = 0; matrix[0][j] = 0
+      steps.push(make({ phase: 'mark', matrix: copy(matrix), row: i, col: j, firstRow, firstCol, lineId: 'i-mark-col', message: '原始 0 位于 [' + i + ', ' + j + ']：matrix[' + i + '][0] = 0 标记第 ' + i + ' 行，matrix[0][' + j + '] = 0 标记第 ' + j + ' 列' }))
+    }
   }
   for (let i = 1; i < m; i++) for (let j = 1; j < n; j++) if (matrix[i][0] === 0 || matrix[0][j] === 0) {
     matrix[i][j] = 0

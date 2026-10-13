@@ -53,7 +53,6 @@
 .pointer text { fill: white; font: 700 12px var(--mono); }
 .pointer.p circle { fill: var(--blue); }
 .pointer.q circle { fill: var(--orange); }
-.pointer .nullText { fill: var(--muted); font-size: 9px; }
 
 .distanceTrack { height: 35px; margin-top: 10px; display: flex; align-items: center; gap: 9px; color: var(--muted); font: 9px var(--mono); }
 .distanceTrack i { height: 3px; flex: 1; overflow: hidden; border-radius: 3px; background: var(--line); }

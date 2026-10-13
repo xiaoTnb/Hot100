@@ -1,5 +1,5 @@
 import { ArrowRight, Search, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { CodeLanguage } from '../player/types'
 import type { ProblemDefinition } from '../../problems/types'
 
@@ -19,6 +19,7 @@ const supportedLanguages = (problem: ProblemDefinition) => problem.languages ?? 
 export function ProblemPicker({ problems, activeSlug, preferredLanguage, onSelect, onClose }: ProblemPickerProps) {
   const [query, setQuery] = useState('')
   const [languageFilter, setLanguageFilter] = useState<LanguageFilter>(preferredLanguage)
+  const activeProblemRef = useRef<HTMLButtonElement>(null)
   const normalizedQuery = query.trim().toLowerCase()
   const filteredProblems = problems.filter((problem) => {
     const searchable = [problem.number, problem.leetcodeId, problem.title, problem.difficultyLabel, ...problem.tags].join(' ').toLowerCase()
@@ -36,6 +37,10 @@ export function ProblemPicker({ problems, activeSlug, preferredLanguage, onSelec
     return () => window.removeEventListener('keydown', closeOnEscape)
   }, [onClose])
 
+  useEffect(() => {
+    activeProblemRef.current?.scrollIntoView({ block: 'center', behavior: 'auto' })
+  }, [activeSlug, languageFilter])
+
   return (
     <div className="problem-list-overlay" onMouseDown={onClose}>
       <section className="problem-list-dialog" role="dialog" aria-modal="true" aria-labelledby="problem-list-title" onMouseDown={(event) => event.stopPropagation()}>
@@ -48,7 +53,7 @@ export function ProblemPicker({ problems, activeSlug, preferredLanguage, onSelec
         <label className="problem-search"><Search size={17} /><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索题号、标题或标签" aria-label="搜索题目" /></label>
         <div className="problem-list-results">
           {filteredProblems.map((problem) => (
-            <button className={problem.slug === activeSlug ? 'active' : ''} onClick={() => onSelect(problem.slug)} key={problem.slug} aria-current={problem.slug === activeSlug ? 'page' : undefined}>
+            <button ref={problem.slug === activeSlug ? activeProblemRef : undefined} className={problem.slug === activeSlug ? 'active' : ''} onClick={() => onSelect(problem.slug)} key={problem.slug} aria-current={problem.slug === activeSlug ? 'page' : undefined}>
               <b>{problem.number}</b><span><strong>{problem.title}</strong><small>{problem.difficultyLabel} / {problem.tags.join(' / ')}</small></span>
               <span className="problem-language-support" aria-label={`支持 ${supportedLanguages(problem).map((language) => languageLabels[language]).join('、')}`}>
                 {supportedLanguages(problem).map((language) => <i key={language}>{languageLabels[language]}</i>)}

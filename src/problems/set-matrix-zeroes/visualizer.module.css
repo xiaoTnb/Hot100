@@ -1,18 +1,39 @@
 .canvas { padding-bottom: 24px; }
 .board { display: grid; grid-template-columns: 72px repeat(4, minmax(56px, 1fr)); gap: 6px; align-items: stretch; }
-.corner, .colMark, .rowMark { min-height: 36px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--soft); color: var(--muted); font: 8px var(--mono); }
-.colMark[data-marked='true'], .rowMark[data-marked='true'] { border-color: var(--orange); background: var(--orange-soft); color: #b55d19; font-weight: 700; }
+.corner, .axisLabel { min-height: 36px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--soft); color: var(--muted); font: 8px var(--mono); }
+.corner { color: var(--ink); font-weight: 800; }
 .row { grid-column: 1 / -1; display: grid; grid-template-columns: 72px repeat(4, minmax(56px, 1fr)); gap: 6px; }
 .row span { min-height: 66px; display: grid; place-items: center; align-content: center; gap: 4px; border: 1px solid var(--line); background: var(--surface); transition: 220ms ease; }
 .row span b { font: 800 17px var(--mono); }
 .row span small { color: var(--muted); font: 7px var(--mono); }
+.row span em { color: var(--orange); font: 700 7px var(--mono); font-style: normal; }
 .row span[data-axis='true'] { box-shadow: inset 0 -3px var(--blue); }
-.row span[data-zero='true'] { color: var(--orange); background: var(--orange-soft); }
+.row span[data-origin-zero='true'] { color: var(--orange); background: var(--orange-soft); }
+.row span[data-marker='true'] { color: var(--blue); background: var(--blue-soft); }
+.row span[data-zero='true']:not([data-origin-zero='true']):not([data-marker='true']) { color: var(--green); background: var(--green-soft); }
 .row span[data-active='true'] { outline: 2px solid var(--blue); outline-offset: 2px; transform: translateY(-2px); }
+.row span[data-marker-active='true'] { outline: 2px solid var(--orange); outline-offset: 2px; transform: translateY(-2px); }
+.markerArrays, .edgeFlags { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.markerArrays section, .edgeFlags section { padding: 9px 11px; border: 1px solid var(--line); background: var(--surface); }
+.markerArrays header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.markerArrays header b { color: var(--ink); font: 700 10px var(--mono); }
+.markerArrays header span { color: var(--muted); font-size: 7px; }
+.markerArrays section > div { margin-top: 7px; display: flex; gap: 5px; }
+.markerArrays i { min-width: 48px; padding: 6px; display: grid; gap: 3px; border: 1px solid var(--line); background: var(--soft); font-style: normal; text-align: center; }
+.markerArrays i small { color: var(--muted); font-size: 7px; }
+.markerArrays i strong { color: var(--muted); font: 700 9px var(--mono); }
+.markerArrays i[data-marked='true'] { border-color: var(--orange); background: var(--orange-soft); }
+.markerArrays i[data-marked='true'] strong { color: var(--orange); }
+.edgeFlags section { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; }
+.edgeFlags small { color: var(--muted); font: 7px var(--mono); }
+.edgeFlags b { color: var(--muted); font: 800 11px var(--mono); }
+.edgeFlags span { grid-column: 1 / -1; color: var(--muted); font-size: 8px; }
+.edgeFlags section[data-on='true'] { border-color: var(--orange); background: var(--orange-soft); }
+.edgeFlags section[data-on='true'] b { color: var(--orange); }
 .key { margin-top: 10px; padding: 10px 12px; display: flex; gap: 14px; border-left: 3px solid var(--blue); background: var(--blue-soft); }
 .key b { font-size: 9px; white-space: nowrap; }
 .key span { color: var(--muted); font-size: 8px; }
 .flow { margin-top: 9px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
 .flow span { padding: 7px 5px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 8px; text-align: center; }
 .flow span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 700; }
-@media (max-width: 620px) { .board, .row { grid-template-columns: 54px repeat(4, minmax(44px, 1fr)); } .flow { grid-template-columns: 1fr 1fr; } .key { display: block; } .key span { margin-top: 4px; display: block; } }
+@media (max-width: 620px) { .board, .row { grid-template-columns: 54px repeat(4, minmax(44px, 1fr)); } .flow, .markerArrays, .edgeFlags { grid-template-columns: 1fr 1fr; } .markerArrays { grid-template-columns: 1fr; } .markerArrays section > div { flex-wrap: wrap; } .key { display: block; } .key span { margin-top: 4px; display: block; } }

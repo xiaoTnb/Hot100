@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, List, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
-import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { LanguageProvider } from './components/player/LanguageProvider'
 import type { CodeLanguage } from './components/player/types'
 import { ProblemPicker } from './components/problem/ProblemPicker'
@@ -46,6 +46,10 @@ function App() {
     window.addEventListener('popstate', syncFromHistory)
     return () => window.removeEventListener('popstate', syncFromHistory)
   }, [switchProblem])
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [problemSlug])
 
   useEffect(() => {
     try {
