@@ -12,6 +12,14 @@
 .callStack span { padding: 5px 7px; border: 1px solid var(--orange); background: var(--orange-soft); color: #b55d19; font: 7px var(--mono); }
 .callStack em { color: var(--muted); font: 8px var(--mono); font-style: normal; }
 
+.reverseWorkspace { min-height: 260px; margin-top: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.74); }
+.reverseHeader { min-height: 42px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.reverseHeader b { font: 700 10px var(--mono); }.reverseHeader span { color: var(--blue); font: 700 9px var(--mono); }
+.reverseLanes { min-height: 164px; padding: 13px; display: grid; grid-template-columns: 1fr 126px 1fr; gap: 8px; }
+.reverseChain { min-width: 0; border: 1px solid var(--line); background: var(--surface); }.reverseChain header { padding: 8px 9px; display: flex; justify-content: space-between; gap: 5px; border-bottom: 1px solid var(--line); }.reverseChain header b { font-size: 8px; }.reverseChain header small { color: var(--muted); font-size: 7px; white-space: nowrap; }.reverseChain > div { min-height: 104px; padding: 9px 6px; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 2px; }.reverseChain span { position: relative; padding-bottom: 15px; display: flex; align-items: center; }.reverseChain span > b { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--soft); font: 700 12px var(--mono); }.reverseChain span > small { position: absolute; left: 0; right: 0; bottom: 1px; color: var(--muted); font: 7px var(--mono); white-space: nowrap; text-align: center; }.reverseChain[data-kind='done'] span > b { border-color: var(--green); background: var(--green-soft); color: var(--green); }.reverseChain i { margin: 0 2px; color: var(--muted); font-style: normal; }.reverseChain em { color: var(--muted); font: 9px var(--mono); font-style: normal; }
+.reverseBridge { display: grid; place-content: center; gap: 7px; border: 1px dashed var(--line); background: var(--soft); text-align: center; }.reverseBridge b { color: var(--blue); font-size: 10px; }.reverseBridge span { color: var(--muted); font: 7px/1.6 var(--mono); }
+.reverseRule { padding: 0 13px 13px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }.reverseRule span { padding: 7px 4px; border: 1px solid var(--line); color: var(--muted); font-size: 8px; text-align: center; }.reverseRule span[data-active='true'] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 700; }
+
 .board { min-height: 260px; margin-top: 14px; padding: 20px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--line); background: rgba(255,255,255,.74); }
 .laneLabel { margin-bottom: 17px; color: var(--muted); font: 700 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .list { position: relative; height: 120px; display: flex; align-items: flex-start; padding-top: 10px; }
@@ -48,6 +56,7 @@
   .phaseRail span { min-height: 42px; gap: 4px; font-size: 9px; }
   .phaseRail i { width: 18px; height: 18px; }
   .board { min-height: 225px; padding: 14px 10px; }
+  .reverseLanes { grid-template-columns: 1fr; }.reverseBridge { min-height: 56px; }.reverseChain > div { min-height: 70px; }.reverseRule { grid-template-columns: repeat(2, 1fr); }
   .nodeWrap { flex-basis: 20%; }
   .node { width: 49px; height: 49px; font-size: 19px; }
   .arrow { top: 60px; }
