@@ -1,5 +1,6 @@
 import { groupAnagramsProblem } from './group-anagrams/definition'
 import { addTwoNumbersProblem } from './add-two-numbers/definition'
+import { binaryTreeInorderTraversalProblem } from './binary-tree-inorder-traversal/definition'
 import { copyRandomListProblem } from './copy-random-list/definition'
 import { decodeStringProblem } from './decode-string/definition'
 import { dailyTemperaturesProblem } from './daily-temperatures/definition'
@@ -16,6 +17,7 @@ import { linkedListCycleProblem } from './linked-list-cycle/definition'
 import { linkedListCycleIIProblem } from './linked-list-cycle-ii/definition'
 import { maximumSubarrayProblem } from './maximum-subarray/definition'
 import { mergeIntervalsProblem } from './merge-intervals/definition'
+import { mergeKSortedListsProblem } from './merge-k-sorted-lists/definition'
 import { mergeTwoSortedListsProblem } from './merge-two-sorted-lists/definition'
 import { minStackProblem } from './min-stack/definition'
 import { maxWaterProblem } from './max-water/definition'
@@ -78,13 +80,15 @@ export const problems: ProblemDefinition[] = [
   swapNodesInPairsProblem,
   reverseNodesKGroupProblem,
   copyRandomListProblem,
+  sortListProblem,
+  mergeKSortedListsProblem,
+  lruCacheProblem,
+  binaryTreeInorderTraversalProblem,
   searchInsertPositionProblem,
   search2dMatrixProblem,
   findFirstLastPositionProblem,
   searchRotatedArrayProblem,
   findMinimumRotatedArrayProblem,
-  sortListProblem,
-  lruCacheProblem,
   minStackProblem,
   decodeStringProblem,
   dailyTemperaturesProblem,
