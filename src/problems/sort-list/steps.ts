@@ -10,6 +10,7 @@ export interface SortListStep {
   active: number[]
   comparison?: [number, number]
   stepSize?: number
+  pointers?: { pre: number | null; slow: number | null; fast: number | null }
   lineId: string
   message: string
 }
@@ -99,8 +100,10 @@ const bottomUpCode: CodeLine[] = [
 ]
 
 const topDownSteps: SortListStep[] = [
-  { groups: [[4, 2, 1, 3]], level: 0, direction: 'down', active: [4, 2, 1, 3], lineId: 'td-sort', message: '从完整链表开始：自顶向下先找中点，再递归排序左右两半' },
-  { groups: [[4, 2], [1, 3]], level: 1, direction: 'down', active: [2, 1], lineId: 'td-cut', message: 'middleNode 用快慢指针定位中点，并用 pre.next = null 真正断开链表' },
+  { groups: [[4, 2, 1, 3]], level: 0, direction: 'down', active: [4], pointers: { pre: 4, slow: 4, fast: 4 }, lineId: 'td-mid-init', message: '进入 middleNode：pre、slow、fast 都从头节点 4 出发' },
+  { groups: [[4, 2, 1, 3]], level: 0, direction: 'down', active: [4, 2, 1], pointers: { pre: 4, slow: 2, fast: 1 }, lineId: 'td-mid-move', message: '第一轮：pre 跟到 4，slow 走一步到 2，fast 走两步到 1' },
+  { groups: [[4, 2, 1, 3]], level: 0, direction: 'down', active: [2, 1], pointers: { pre: 2, slow: 1, fast: null }, lineId: 'td-mid-move', message: '第二轮：pre 到 2，slow 到 1，fast 越过链尾变为 null，循环结束' },
+  { groups: [[4, 2], [1, 3]], level: 1, direction: 'down', active: [2, 1], pointers: { pre: 2, slow: 1, fast: null }, lineId: 'td-cut', message: '执行 pre.next = null：在 2 和 1 之间断开，得到 [4,2] 与 [1,3]' },
   { groups: [[4], [2], [1], [3]], level: 2, direction: 'down', active: [4, 2, 1, 3], lineId: 'td-base', message: '继续递归拆分；单节点满足递归边界，本身已经有序' },
   { groups: [[2, 4], [1], [3]], level: 2, direction: 'up', active: [2, 4], comparison: [4, 2], lineId: 'td-pick-right', message: '归并 [4] 与 [2]：比较头节点，先接较小的 2，再接 4' },
   { groups: [[2, 4], [1, 3]], level: 2, direction: 'up', active: [1, 3], comparison: [1, 3], lineId: 'td-compare', message: '归并另一半 [1] 与 [3]，得到有序子链 [1, 3]' },

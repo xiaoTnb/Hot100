@@ -10,16 +10,30 @@
 .board header small { color: var(--muted); font: 9px var(--mono); }
 .board[data-direction='up'] header span { color: var(--orange); }
 .board[data-direction='done'] header span { color: var(--green); }
+.pointerState { min-height: 38px; padding: 7px 14px; display: flex; align-items: center; justify-content: center; gap: 8px; border-bottom: 1px solid var(--line); background: rgba(247,250,249,.76); }
+.pointerState span { padding: 5px 8px; border: 1px solid var(--line); background: white; color: var(--muted); font: 8px var(--mono); }
+.pointerState span[data-pointer='pre'] { border-color: var(--green); color: var(--green); }
+.pointerState span[data-pointer='slow'] { border-color: var(--blue); color: var(--blue); }
+.pointerState span[data-pointer='fast'] { border-color: var(--orange); color: var(--orange); }
+.pointerState b { font: 700 9px var(--mono); }
 .groups { min-height: 220px; padding: 30px 20px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+.groups[data-pointers='true'] { padding-top: 43px; }
+.groups[data-cut='true'] .group + .group { position: relative; margin-left: 28px; }
+.groups[data-cut='true'] .group + .group::before { content: '断开'; position: absolute; left: -37px; top: 50%; padding: 3px 2px; border-top: 1px dashed var(--orange); border-bottom: 1px dashed var(--orange); color: var(--orange); font: 7px var(--mono); transform: translateY(-50%) rotate(-90deg); }
 .group { padding: 14px 13px 18px; border: 1px solid var(--line); background: white; animation: groupIn 420ms both; }
 .group > small { display: block; margin-bottom: 15px; color: var(--muted); text-align: center; font: 8px var(--mono); }
 .group > div { display: flex; align-items: center; }
-.group span { display: flex; align-items: center; }
+.node { position: relative; display: flex; align-items: center; }
 .group b { width: 47px; height: 47px; display: grid; place-items: center; border: 1px solid #91a099; border-radius: 50%; font: 700 17px var(--display); transition: all 300ms; }
-.group span[data-active='true'] b { border: 2px solid var(--blue); background: var(--blue-soft); color: var(--blue); }
-.board[data-direction='up'] .group span[data-active='true'] b { border-color: var(--orange); background: var(--orange-soft); color: var(--orange); }
+.node[data-active='true'] b { border: 2px solid var(--blue); background: var(--blue-soft); color: var(--blue); }
+.board[data-direction='up'] .node[data-active='true'] b { border-color: var(--orange); background: var(--orange-soft); color: var(--orange); }
 .board[data-direction='done'] .group b { border-color: var(--green); background: var(--green-soft); color: var(--green); }
-.group i { margin: 0 5px; color: #98a49f; font-style: normal; }
+.pointerTags { position: absolute; left: 24px; bottom: calc(100% + 5px); z-index: 2; display: flex; justify-content: center; gap: 3px; transform: translateX(-50%); }
+.pointerTags i { min-width: 25px; padding: 4px 5px; border-radius: 9px; color: white; text-align: center; font: 700 7px var(--mono); font-style: normal; }
+.pointerTags i[data-pointer='pre'] { background: var(--green); }
+.pointerTags i[data-pointer='slow'] { background: var(--blue); }
+.pointerTags i[data-pointer='fast'] { background: var(--orange); }
+.arrow { margin: 0 5px; color: #98a49f; font-style: normal; }
 .explain { min-height: 68px; padding: 10px 16px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 1px solid var(--line); color: var(--muted); }
 .explain span, .explain strong { font-size: 10px; }
 .explain b { width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid var(--line); background: white; color: var(--orange); font: 700 15px var(--mono); }
@@ -32,4 +46,8 @@
   .groups { min-height: 205px; padding-inline: 8px; gap: 6px; overflow-x: auto; justify-content: flex-start; }
   .group { flex: 0 0 auto; padding-inline: 8px; }
   .group b { width: 40px; height: 40px; }
+  .pointerState { justify-content: flex-start; overflow-x: auto; }
+  .pointerState span { flex: 0 0 auto; padding-inline: 6px; }
+  .pointerTags { left: 20px; gap: 2px; }
+  .pointerTags i { min-width: 21px; padding: 3px; font-size: 6px; }
 }
