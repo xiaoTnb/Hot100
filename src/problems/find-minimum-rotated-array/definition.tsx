@@ -3,7 +3,7 @@ import type { ProblemDefinition } from '../types'
 
 export const findMinimumRotatedArrayProblem = {
   slug: 'find-minimum-rotated-array',
-  number: '41',
+  number: '47',
   leetcodeId: 'LeetCode #153',
   title: '寻找旋转排序数组中的最小值',
   difficulty: 'medium',

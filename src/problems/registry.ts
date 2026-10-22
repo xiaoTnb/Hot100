@@ -1,6 +1,12 @@
 import { groupAnagramsProblem } from './group-anagrams/definition'
 import { addTwoNumbersProblem } from './add-two-numbers/definition'
 import { binaryTreeInorderTraversalProblem } from './binary-tree-inorder-traversal/definition'
+import { invertBinaryTreeProblem } from './invert-binary-tree/definition'
+import { symmetricTreeProblem } from './symmetric-tree/definition'
+import { diameterBinaryTreeProblem } from './diameter-binary-tree/definition'
+import { binaryTreeLevelOrderProblem } from './binary-tree-level-order/definition'
+import { sortedArrayToBSTProblem } from './sorted-array-to-bst/definition'
+import { validateBSTProblem } from './validate-bst/definition'
 import { copyRandomListProblem } from './copy-random-list/definition'
 import { decodeStringProblem } from './decode-string/definition'
 import { dailyTemperaturesProblem } from './daily-temperatures/definition'
@@ -84,6 +90,12 @@ export const problems: ProblemDefinition[] = [
   mergeKSortedListsProblem,
   lruCacheProblem,
   binaryTreeInorderTraversalProblem,
+  invertBinaryTreeProblem,
+  symmetricTreeProblem,
+  diameterBinaryTreeProblem,
+  binaryTreeLevelOrderProblem,
+  sortedArrayToBSTProblem,
+  validateBSTProblem,
   searchInsertPositionProblem,
   search2dMatrixProblem,
   findFirstLastPositionProblem,
