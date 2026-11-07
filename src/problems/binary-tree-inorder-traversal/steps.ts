@@ -53,14 +53,14 @@ const morrisCode:CodeLine[]=[
 ]
 
 const recursiveSteps:InorderStep[]=[
- {phase:'enter',active:1,visited:[],stack:[1],thread:false,lineId:'r-call',message:'调用 dfs(1)，调用栈记住遍历完左子树后还要回到节点 1'},
+ {phase:'enter',active:1,visited:[],stack:[1],thread:false,lineId:'r-call',message:'调用 dfs(1)，从节点 1 开始递归；程序自动保存这一层的执行位置'},
  {phase:'left',active:1,visited:[],stack:[1],thread:false,lineId:'r-left',message:'先递归 node.left；节点 1 的左子树为空，立即返回'},
  {phase:'visit',active:1,visited:[1],stack:[1],thread:false,lineId:'r-add',message:'左子树处理完，记录根节点 1；ans = [1]'},
- {phase:'enter',active:2,visited:[1],stack:[1,2],thread:false,lineId:'r-right',message:'再进入节点 1 的右子树，调用栈变为 [1, 2]'},
+ {phase:'enter',active:2,visited:[1],stack:[1,2],thread:false,lineId:'r-right',message:'dfs(1) 调用 dfs(2) 遍历右子树；dfs(1) 暂停等待，当前执行 dfs(2)'},
  {phase:'left',active:3,visited:[1],stack:[1,2,3],thread:false,lineId:'r-left',message:'节点 2 有左孩子 3，继续向左递归到节点 3'},
  {phase:'visit',active:3,visited:[1,3],stack:[1,2,3],thread:false,lineId:'r-add',message:'节点 3 没有左孩子，记录 3；ans = [1, 3]'},
  {phase:'visit',active:2,visited:[1,3,2],stack:[1,2],thread:false,lineId:'r-add',message:'节点 3 返回后记录节点 2；顺序始终是左 → 根 → 右'},
- {phase:'done',active:null,visited:[1,3,2],stack:[],thread:false,lineId:'r-return',message:'递归完成，返回 [1, 3, 2]；最坏调用栈空间 O(N)'},
+ {phase:'done',active:null,visited:[1,3,2],stack:[],thread:false,lineId:'r-return',message:'所有递归调用逐层返回，结果为 [1, 3, 2]。程序保存的递归记录最多有 H 层，因此额外空间为 O(H)'},
 ]
 
 const morrisSteps:InorderStep[]=[
