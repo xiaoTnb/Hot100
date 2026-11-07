@@ -108,6 +108,17 @@ for (const [folder,exportName,javaMethod] of entries) {
       assert.ok(html.includes(method.execution === 'iterative' ? '迭代处理过程' : '递归调用过程'),`${label}: incorrect execution explanation`)
       assert.ok(!html.includes('调用栈 / 当前任务'),`${label}: outdated stack presentation`)
       assert.ok(frames.length>0,label)
+      if (folder === 'maximum-depth-binary-tree') {
+        const emptyCalls = frames.filter(frame => frame.lineId === 'base' && !frame.done)
+        for (const emptyCall of emptyCalls) {
+          const source = emptyCall.variables.find(([name]) => name === '本次调用来源')?.[1]
+          assert.ok(source, `${label}: empty call needs its parent/side`)
+          assert.ok(emptyCall.stack.at(-1).includes(`${source}：null`), `${label}: ambiguous null invocation`)
+        }
+        if (scenario.id === 'sample') {
+          for (const side of ['左', '右']) assert.ok(emptyCalls.some(frame => frame.title.includes(`9 的${side}孩子：null`)), `${label}: missing leaf 9 ${side} call`)
+        }
+      }
       for (const frame of frames) {
         assert.ok(ids.includes(frame.lineId),`${label}: unknown line ${frame.lineId}`)
         assert.equal(new Set(frame.nodes.map(n=>n.id)).size,frame.nodes.length,`${label}: duplicate node ID`)

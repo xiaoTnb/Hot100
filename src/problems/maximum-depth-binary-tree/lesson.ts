@@ -45,20 +45,22 @@ export const maximumDepthLesson: TreeLesson = {
     const results: string[] = []
     let answer = 0
     let deepest: number[] = []
+    const origin = (parent: number | null, side?: 'left' | 'right') => parent === null ? '根节点' : `${r.name(parent)} 的${side === 'left' ? '左' : '右'}孩子`
     if (method === 'bottom-up') {
-      const dfs = (id: number | null): { depth: number; chain: number[] } => {
-        r.stack.push(`maxDepth(${r.name(id)})`)
+      const dfs = (id: number | null, parent: number | null = null, side?: 'left' | 'right'): { depth: number; chain: number[] } => {
+        const source = origin(parent, side)
+        r.stack.push(id === null ? `maxDepth(null) · ${source}：null` : `maxDepth(${r.name(id)})`)
         if (id === null) {
-          r.push('base', '空子树返回 0', 'root == null，没有节点，返回深度 0；上一层用这个结果继续计算。', { variables: [['root', 'null'], ['返回深度', '0']] })
+          r.push('base', `${source}：null，返回 0`, `${source}是 null，这次递归返回 0${parent === null ? '，空树深度为 0。' : `，回到节点 ${r.name(parent)} 后赋给 ${side === 'left' ? 'lDepth' : 'rDepth'}。`}`, { active: parent === null ? [] : [parent], variables: [['本次调用来源', source], ['root', 'null'], ['返回深度', '0']] })
           r.stack.pop()
           return { depth: 0, chain: [] }
         }
         const node = r.nodes[id]
         r.push('left', `求节点 ${node.value} 的左子树深度`, `当前调用先等待 maxDepth(${r.name(node.left)}) 的返回结果。`, { active: [id], variables: [['root', r.name(id)]] })
-        const left = dfs(node.left)
+        const left = dfs(node.left, id, 'left')
         r.push('left', `左子树返回 ${left.depth}`, `lDepth = ${left.depth}；它是左子树自己的深度，还没有算当前节点 ${node.value}。`, { active: [id], variables: [['lDepth', String(left.depth)]] })
         r.push('right', '继续求右子树深度', `保存 lDepth=${left.depth}，递归调用 maxDepth(${r.name(node.right)})。`, { active: [id], variables: [['lDepth', String(left.depth)]] })
-        const right = dfs(node.right)
+        const right = dfs(node.right, id, 'right')
         r.push('right', `右子树返回 ${right.depth}`, `rDepth = ${right.depth}；左右两侧的结果现在都已得到。`, { active: [id], variables: [['lDepth', String(left.depth)], ['rDepth', String(right.depth)]] })
         const depth = Math.max(left.depth,right.depth) + 1
         const chain = [id, ...(left.depth >= right.depth ? left.chain : right.chain)]
@@ -73,10 +75,11 @@ export const maximumDepthLesson: TreeLesson = {
       deepest = result.chain
     } else {
       r.push('init', '初始化最大深度', 'ans = 0；从根节点开始调用 dfs(root, 0)，还没有计入任何节点。', { variables: [['ans', '0']] })
-      const dfs = (id: number | null, depth: number, ancestors: number[]) => {
-        r.stack.push(`dfs(${r.name(id)}, depth=${depth})`)
+      const dfs = (id: number | null, depth: number, ancestors: number[], parent: number | null = null, side?: 'left' | 'right') => {
+        const source = origin(parent, side)
+        r.stack.push(id === null ? `dfs(null, depth=${depth}) · ${source}：null` : `dfs(${r.name(id)}, depth=${depth})`)
         if (id === null) {
-          r.push('base', '遇到空节点，返回上一层', `node == null，不执行 depth++；当前最大深度仍为 ${answer}。`, { path: [...deepest], variables: [['node', 'null'], ['传入 depth', String(depth)], ['ans', String(answer)]] })
+          r.push('base', `${source}：null，结束本次调用`, `${source}是 null，不执行 depth++${parent === null ? '，直接回到入口方法' : `，回到节点 ${r.name(parent)} 继续执行`}；ans 仍为 ${answer}。`, { active: parent === null ? [] : [parent], path: [...deepest], variables: [['本次调用来源', source], ['node', 'null'], ['传入 depth', String(depth)], ['ans', String(answer)]] })
           r.stack.pop()
           return
         }
@@ -89,9 +92,9 @@ export const maximumDepthLesson: TreeLesson = {
         if (depth > answer) { answer = depth; deepest = [...chain] }
         r.push('update', '更新目前最深的层数', `ans = max(${old}, ${depth}) = ${answer}。dfs 不返回深度，而是把最深值保存在 ans 中。`, { active: [id], path: [...deepest], variables: [['depth', String(depth)], ['ans', String(answer)]] })
         r.push('left', '把当前深度传给左孩子', `调用 dfs(${r.name(node.left)}, ${depth})；孩子会在自己的调用中再执行 depth++。`, { active: [id], variables: [['本层 depth', String(depth)], ['ans', String(answer)]] })
-        dfs(node.left,depth,chain)
+        dfs(node.left,depth,chain,id,'left')
         r.push('right', '回到本层，再进入右孩子', `左子调用返回，本层 depth 仍为 ${depth}。调用 dfs(${r.name(node.right)}, ${depth})；左侧的 depth++ 不会改变本层的整数变量。`, { active: [id], path: [...deepest], variables: [['本层 depth', String(depth)], ['ans', String(answer)]] })
-        dfs(node.right,depth,chain)
+        dfs(node.right,depth,chain,id,'right')
         r.completed.push(id)
         r.stack.pop()
       }
