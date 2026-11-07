@@ -48,7 +48,7 @@ export const invertLesson: TreeLesson = {
       r.push('base', `进入节点 ${node.value}`, `检查 root=${node.value}，不是空节点，继续翻转这棵子树。`, { active: [id], variables: [['root', String(node.value)]] })
       const swap = (left: number | null, right: number | null) => {
         const variables: [string, string][] = [['root', r.name(id)], [method === 'after' ? 'left' : 'tmp', r.name(left)], ['right', r.name(right)]]
-        r.push('set-left', '准备交换：先查看暂存引用', `即将执行 root.left = ${r.name(right)}；${method === 'after' ? 'left' : 'tmp'} 保存了原左子树 ${r.name(left)}。树图保留交换前状态，下一步展示两次赋值后的连线。`, { active: [id], variables, rows: [{ label: '接下来两次赋值', items: [`root.left → ${r.name(right)}`, `root.right → ${r.name(left)}`], tone: 'orange' }] })
+        r.push('set-left', '把右子树接到左边', `先把右子树 ${r.name(right)} 接到节点 ${node.value} 的左边；原左子树 ${r.name(left)} 已保存在 ${method === 'after' ? 'left' : 'tmp'} 中，接下来把它接到右边。`, { active: [id], variables, rows: [{ label: '交换孩子', items: [`root.left → ${r.name(right)}`, `root.right → ${r.name(left)}`], tone: 'orange' }] })
         node.left = right
         node.right = left
         r.push('set-right', '左右孩子交换完成', `root.right = ${r.name(left)}；节点 ${node.value} 现在左接 ${r.name(right)}、右接 ${r.name(left)}。`, { active: [id], variables })

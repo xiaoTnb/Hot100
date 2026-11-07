@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import type { ProblemDefinition } from '../types'
 export const sortedArrayToBSTProblem = {
-  slug: 'convert-sorted-array-to-binary-search-tree', number: '41', leetcodeId: 'LeetCode #108', title: '将有序数组转换为二叉搜索树',
+  slug: 'convert-sorted-array-to-binary-search-tree', number: '42', leetcodeId: 'LeetCode #108', title: '将有序数组转换为二叉搜索树',
   difficulty: 'easy', difficultyLabel: '简单', tags: ['二叉树', '分治', '递归'], languages: ['java'],
   url: 'https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/',
   lead: <>将严格递增的数组 <code>nums</code> 转换成一棵高度平衡的二叉搜索树。</>,

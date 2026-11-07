@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import type { ProblemDefinition } from '../types'
 export const validateBSTProblem = {
-  slug: 'validate-binary-search-tree', number: '42', leetcodeId: 'LeetCode #98', title: '验证二叉搜索树',
+  slug: 'validate-binary-search-tree', number: '43', leetcodeId: 'LeetCode #98', title: '验证二叉搜索树',
   difficulty: 'medium', difficultyLabel: '中等', tags: ['二叉树', '递归', '二叉搜索树'], languages: ['java'],
   url: 'https://leetcode.cn/problems/validate-binary-search-tree/',
   lead: <>判断每个节点是否满足：整个左子树的值严格小于它，整个右子树的值严格大于它。</>,

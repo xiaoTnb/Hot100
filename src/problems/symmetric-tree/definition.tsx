@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import type { ProblemDefinition } from '../types'
 export const symmetricTreeProblem = {
-  slug: 'symmetric-tree', number: '38', leetcodeId: 'LeetCode #101', title: '对称二叉树',
+  slug: 'symmetric-tree', number: '39', leetcodeId: 'LeetCode #101', title: '对称二叉树',
   difficulty: 'easy', difficultyLabel: '简单', tags: ['二叉树', '递归', '镜像'], languages: ['java'],
   url: 'https://leetcode.cn/problems/symmetric-tree/',
   lead: <>判断二叉树是否轴对称。节点值相同还不够，它们所在的位置也必须互为镜像。</>,

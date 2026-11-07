@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import type { ProblemDefinition } from '../types'
 export const diameterBinaryTreeProblem = {
-  slug: 'diameter-of-binary-tree', number: '39', leetcodeId: 'LeetCode #543', title: '二叉树的直径',
+  slug: 'diameter-of-binary-tree', number: '40', leetcodeId: 'LeetCode #543', title: '二叉树的直径',
   difficulty: 'easy', difficultyLabel: '简单', tags: ['二叉树', '树形 DP', '递归'], languages: ['java'],
   url: 'https://leetcode.cn/problems/diameter-of-binary-tree/',
   lead: <>返回任意两个节点之间最长路径的长度。长度按<em>边数</em>计算，路径可以不经过根节点。</>,

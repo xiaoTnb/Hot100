@@ -31,6 +31,7 @@ const { treeFromLevelOrder } = load('src/problems/tree-lessons/model.ts')
 const { TreeLessonPlayer } = load('src/problems/tree-lessons/TreeLessonPlayer.tsx')
 const { LanguageProvider } = load('src/components/player/LanguageProvider.tsx')
 const entries = [
+  ['maximum-depth-binary-tree', 'maximumDepthLesson', 'maxDepth'],
   ['invert-binary-tree', 'invertLesson', 'invertTree'],
   ['symmetric-tree', 'symmetricLesson', 'isSymmetric'],
   ['diameter-binary-tree', 'diameterLesson', 'diameterOfBinaryTree'],
@@ -59,6 +60,10 @@ function height(nodes, id) {
 function expected(folder, input) {
   const tree = treeFromLevelOrder(input)
   const get = id => tree.nodes[id]
+  if (folder === 'maximum-depth-binary-tree') {
+    const depth = id => id === null ? 0 : 1 + Math.max(depth(get(id).left),depth(get(id).right))
+    return String(depth(tree.root))
+  }
   if (folder === 'invert-binary-tree') {
     for (const node of tree.nodes) [node.left,node.right] = [node.right,node.left]
     return encode(tree.nodes,tree.root)
@@ -113,7 +118,7 @@ for (const [folder,exportName,javaMethod] of entries) {
       assert.equal(last.done,true,`${label}: missing completion`)
       let result
       if (folder === 'invert-binary-tree' || folder === 'sorted-array-to-bst') result=encode(last.nodes,last.root)
-      else if (folder === 'symmetric-tree' || folder === 'validate-bst') result=last.variables.find(([name])=>name==='答案')[1]
+      else if (folder === 'symmetric-tree' || folder === 'validate-bst' || folder === 'maximum-depth-binary-tree') result=last.variables.find(([name])=>name==='答案')[1]
       else if (folder === 'diameter-binary-tree') result=last.variables.find(([name])=>name==='ans（边数）')[1]
       else result=JSON.stringify(last.rows.find(row=>row.label==='ans：已完成的层'||row.label==='ans').items.map(value=>JSON.parse(value)))
       if (folder === 'sorted-array-to-bst') {
@@ -169,11 +174,11 @@ for(const entry of fs.readdirSync(path.join(root,'src/problems'),{withFileTypes:
   const source=fs.readFileSync(file,'utf8')
   defs.set(source.match(/export const (\w+)/)[1],Number(source.match(/number:\s*'(\d+)'/)[1]))
 }
-assert.equal(order.length,53)
-assert.equal(new Set(order).size,53)
+assert.equal(order.length,54)
+assert.equal(new Set(order).size,54)
 order.forEach((name,index)=>assert.equal(defs.get(name),index+1,`registry position for ${name}`))
 const previousRegistry=execFileSync('git',['show','HEAD:src/problems/registry.ts'],{cwd:root,encoding:'utf8'})
 const previousOrder=previousRegistry.match(/export const problems:[\s\S]*?=\s*\[([\s\S]*?)\]/)[1].match(/\w+Problem/g)
 assert.deepEqual(order.slice(0,36),previousOrder.slice(0,36),'first 36 entries must not change')
 if(process.argv.includes('--java-json'))console.log(JSON.stringify(javaFiles))
-else console.log(`PASS: ${entries.length} lessons, ${javaFiles.length} Java methods, ${cases} scenarios, ${framesChecked} frames; registry 1–53 contiguous, first 36 unchanged`)
+else console.log(`PASS: ${entries.length} lessons, ${javaFiles.length} Java methods, ${cases} scenarios, ${framesChecked} frames; registry 1–54 contiguous, first 36 unchanged`)

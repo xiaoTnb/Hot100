@@ -2,7 +2,7 @@ import { lazy } from 'react'
 import type { ProblemDefinition } from '../types'
 
 export const invertBinaryTreeProblem = {
-  slug: 'invert-binary-tree', number: '37', leetcodeId: 'LeetCode #226', title: '翻转二叉树',
+  slug: 'invert-binary-tree', number: '38', leetcodeId: 'LeetCode #226', title: '翻转二叉树',
   difficulty: 'easy', difficultyLabel: '简单', tags: ['二叉树', '递归'], languages: ['java'],
   url: 'https://leetcode.cn/problems/invert-binary-tree/',
   lead: <>翻转二叉树的每一个节点的左右子树，并返回根节点 <code>root</code>。</>,

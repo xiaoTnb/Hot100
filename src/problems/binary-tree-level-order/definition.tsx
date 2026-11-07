@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import type { ProblemDefinition } from '../types'
 export const binaryTreeLevelOrderProblem = {
-  slug: 'binary-tree-level-order-traversal', number: '40', leetcodeId: 'LeetCode #102', title: '二叉树的层序遍历',
+  slug: 'binary-tree-level-order-traversal', number: '41', leetcodeId: 'LeetCode #102', title: '二叉树的层序遍历',
   difficulty: 'medium', difficultyLabel: '中等', tags: ['二叉树', 'BFS', '队列'], languages: ['java'],
   url: 'https://leetcode.cn/problems/binary-tree-level-order-traversal/',
   lead: <>逐层、从左到右遍历二叉树，返回每一层的节点值列表。</>,

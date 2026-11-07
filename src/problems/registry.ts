@@ -2,6 +2,7 @@ import { groupAnagramsProblem } from './group-anagrams/definition'
 import { addTwoNumbersProblem } from './add-two-numbers/definition'
 import { binaryTreeInorderTraversalProblem } from './binary-tree-inorder-traversal/definition'
 import { invertBinaryTreeProblem } from './invert-binary-tree/definition'
+import { maximumDepthBinaryTreeProblem } from './maximum-depth-binary-tree/definition'
 import { symmetricTreeProblem } from './symmetric-tree/definition'
 import { diameterBinaryTreeProblem } from './diameter-binary-tree/definition'
 import { binaryTreeLevelOrderProblem } from './binary-tree-level-order/definition'
@@ -90,6 +91,7 @@ export const problems: ProblemDefinition[] = [
   mergeKSortedListsProblem,
   lruCacheProblem,
   binaryTreeInorderTraversalProblem,
+  maximumDepthBinaryTreeProblem,
   invertBinaryTreeProblem,
   symmetricTreeProblem,
   diameterBinaryTreeProblem,
