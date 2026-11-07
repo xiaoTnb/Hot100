@@ -46,8 +46,8 @@ class Solution {
 
 export const levelOrderLesson: TreeLesson = {
   methods: [
-    { id: 'arrays', label: '两个数组分层', complexity: 'O(N) · O(N)', languages: ['java'], code: arrayCode },
-    { id: 'queue', label: '一个队列分层', complexity: 'O(N) · O(N)', languages: ['java'], code: queueCode },
+    { id: 'arrays', label: '两个数组分层', complexity: 'O(N) · O(N)', languages: ['java'], execution: 'iterative', code: arrayCode },
+    { id: 'queue', label: '一个队列分层', complexity: 'O(N) · O(N)', languages: ['java'], execution: 'iterative', code: queueCode },
   ],
   scenarios: [
     { id: 'sample', label: '示例 [3,9,20,null,null,15,7]', input: [3,9,20,null,null,15,7] },

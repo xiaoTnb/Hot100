@@ -25,11 +25,23 @@
 .inspector dl > div { display: grid; grid-template-columns: minmax(65px, .8fr) minmax(0, 1fr); gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
 .inspector dt { color: var(--muted); font: 9px/1.6 var(--mono); }
 .inspector dd { margin: 0; color: var(--blue); font: 700 10px/1.6 var(--mono); overflow-wrap: anywhere; }
-.stack { padding: 10px 12px 14px; display: grid; gap: 5px; }
-.stack small { margin-bottom: 5px; color: var(--muted); font: 9px var(--mono); }
-.stack span { padding: 7px; border: 1px solid var(--line); background: white; color: var(--muted); font: 9px/1.5 var(--mono); overflow-wrap: anywhere; }
-.stack span:last-child { border-left: 3px solid var(--blue); color: var(--blue); background: var(--blue-soft); }
-.stack em, .row em { color: var(--muted); font: normal 10px var(--mono); }
+.execution { min-width: 0; padding: 10px 12px 14px; }
+.execution h3 { margin: 0 0 7px; color: var(--ink); font-size: 11px; }
+.execution > p { margin: 0 0 10px; color: var(--muted); font-size: 10px; line-height: 1.7; }
+.executionStatus { margin-bottom: 10px; padding: 7px 8px; color: var(--blue); background: var(--blue-soft); font-size: 10px; line-height: 1.6; }
+.executionStatus[data-returning='true'] { color: var(--orange); background: var(--orange-soft); }
+.calls { display: grid; gap: 8px; }
+.call { min-width: 0; padding: 8px; display: grid; gap: 5px; border-left: 2px solid var(--line); background: white; overflow-wrap: anywhere; }
+.call > small { color: var(--muted); font: 8px var(--mono); }
+.call > b { color: var(--muted); font: 700 9px/1.6 var(--mono); }
+.call > span { color: var(--muted); font: 9px/1.6 var(--mono); }
+.call[data-current='true'] { border-left-color: var(--blue); background: var(--blue-soft); }
+.call[data-current='true'] > b, .call[data-current='true'] > span { color: var(--blue); }
+.returnTo { padding: 9px 0; color: var(--orange); font: 9px/1.7 var(--mono); overflow-wrap: anywhere; }
+.currentCode { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 9px; }
+.currentCode small { display: block; color: var(--muted); font-size: 9px; margin-bottom: 6px; }
+.currentCode code { color: var(--blue); font: 9px/1.7 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+.calls > em, .row em { color: var(--muted); font: normal 10px var(--mono); }
 .rows { display: grid; gap: 7px; margin-top: 10px; }
 .row { display: grid; grid-template-columns: minmax(80px, auto) minmax(0, 1fr); align-items: center; gap: 12px; min-height: 51px; padding: 10px 12px; border: 1px solid var(--line); background: rgba(255,255,255,.8); }
 .row small { color: var(--muted); font: 9px/1.5 var(--mono); max-width: 150px; }

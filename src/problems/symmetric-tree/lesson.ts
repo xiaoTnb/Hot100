@@ -37,7 +37,7 @@ class Solution {
 export const symmetricLesson: TreeLesson = {
   methods: [
     { id: 'recursive', label: '递归镜像比较', complexity: 'O(N) · O(H)', languages: ['java'], code: recursive },
-    { id: 'queue', label: '迭代成对比较', complexity: 'O(N) · O(N)', languages: ['java'], code: iterative },
+    { id: 'queue', label: '迭代成对比较', complexity: 'O(N) · O(N)', languages: ['java'], execution: 'iterative', code: iterative },
   ],
   scenarios: [
     { id: 'yes', label: '对称：重复值但不同节点', input: [1,2,2,3,4,4,3] },

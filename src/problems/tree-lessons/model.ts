@@ -37,6 +37,7 @@ export interface TreeScenario {
 
 export interface TreeLessonMethod extends PlayerMethod {
   code: CodeLine[]
+  execution?: 'recursive' | 'iterative'
 }
 
 export interface TreeLesson {

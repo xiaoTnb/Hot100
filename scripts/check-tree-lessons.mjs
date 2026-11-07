@@ -100,6 +100,8 @@ for (const [folder,exportName,javaMethod] of entries) {
       const html = renderToStaticMarkup(React.createElement(LanguageProvider, { value: { language: 'java', setLanguage() {} } }, React.createElement(TreeLessonPlayer, { lesson: { ...lesson, methods: [method], scenarios: [scenario] } })))
       assert.ok(html.includes('animation-canvas'),`${label}: rendered animation missing`)
       assert.ok(!html.includes('NaN'),`${label}: invalid rendered coordinates`)
+      assert.ok(html.includes(method.execution === 'iterative' ? '迭代处理过程' : '递归调用过程'),`${label}: incorrect execution explanation`)
+      assert.ok(!html.includes('调用栈 / 当前任务'),`${label}: outdated stack presentation`)
       assert.ok(frames.length>0,label)
       for (const frame of frames) {
         assert.ok(ids.includes(frame.lineId),`${label}: unknown line ${frame.lineId}`)

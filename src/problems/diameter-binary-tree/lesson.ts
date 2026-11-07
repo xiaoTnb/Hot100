@@ -45,7 +45,7 @@ export const diameterLesson: TreeLesson = {
         return { length: edges ? -1 : 0, chain: [] }
       }
       const node = r.nodes[id]
-      r.push('left', `节点 ${node.value}：先算左链`, `递归计算 ${node.value} 的左子树；当前调用留在栈中等待结果。`, { active: [id], path: [...bestPath] })
+      r.push('left', `节点 ${node.value}：先算左链`, `递归计算 ${node.value} 的左子树；当前这一层暂停，等左子调用返回后再继续。`, { active: [id], path: [...bestPath] })
       const left = dfs(node.left)
       const lLen = left.length + (edges ? 1 : 0)
       r.push('left', '左侧返回并得到 lLen', edges ? `lLen = dfs(left) + 1 = ${left.length} + 1 = ${lLen}。` : `左子树高度为 ${left.length}，从当前节点向左的最长链有 ${lLen} 条边。`, { active: [id], path: [...bestPath], variables: [['lLen', String(lLen)], ['ans', String(ans)]] })
