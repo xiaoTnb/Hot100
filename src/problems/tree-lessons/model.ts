@@ -41,6 +41,7 @@ export interface TreeLessonMethod extends PlayerMethod {
 }
 
 export interface TreeLesson {
+  showCurrentStatement?: boolean
   methods: TreeLessonMethod[]
   scenarios: TreeScenario[]
   makeFrames: (method: string, scenario: TreeScenario) => TreeFrame[]

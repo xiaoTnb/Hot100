@@ -28,6 +28,7 @@ class Solution {
 }`)
 
 export const maximumDepthLesson: TreeLesson = {
+  showCurrentStatement: false,
   methods: [
     { id: 'bottom-up', label: '自底向上 · 返回子树深度', complexity: 'O(N) · O(H)', languages: ['java'], code: bottomUp },
     { id: 'top-down', label: '自顶向下 · 传递当前深度', complexity: 'O(N) · O(H)', languages: ['java'], code: topDown },

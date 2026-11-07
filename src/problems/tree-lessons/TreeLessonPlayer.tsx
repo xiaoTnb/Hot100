@@ -81,7 +81,7 @@ export function TreeLessonPlayer({ lesson }: { lesson: TreeLesson }) {
               <span>{index < frame.stack.length - 1 ? `等待 ${frame.stack[index + 1]} 返回` : recursive ? returning ? '本层即将返回' : resumed ? '子调用已返回，继续执行' : '正在执行' : '正在处理'}</span>
             </div>) : <em>{frame.done ? '执行结束' : recursive ? '即将调用递归函数' : '准备下一项任务'}</em>}</div>
             {returning && <div className={styles.returnTo}>{currentCall} 返回后，{parentCall ? `${parentCall} 继续执行` : '回到入口方法，得到最终结果'}。</div>}
-            {currentCall && activeCode && <div className={styles.currentCode}><small>{recursive ? '当前层对应的 Java 语句' : '当前 Java 语句'}</small><code>{activeCode}</code></div>}
+            {lesson.showCurrentStatement !== false && currentCall && activeCode && <div className={styles.currentCode}><small>{recursive ? '当前层对应的 Java 语句' : '当前 Java 语句'}</small><code>{activeCode}</code></div>}
           </div>
         </section>
       </div>
